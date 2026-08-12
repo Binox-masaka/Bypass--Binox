@@ -47,9 +47,31 @@
       animation: floatBg 10s ease-in-out infinite alternate;
     }
 
-    .bg-glow-1 { width: 320px; height: 320px; background: var(--neon-cyan); top: 5%; left: 10%; }
-    .bg-glow-2 { width: 350px; height: 350px; background: var(--neon-pink); bottom: 5%; right: 10%; animation-delay: -3s; }
-    .bg-glow-3 { width: 280px; height: 280px; background: var(--neon-green); top: 40%; right: 30%; animation-delay: -6s; }
+    .bg-glow-1 {
+      width: 320px;
+      height: 320px;
+      background: var(--neon-cyan);
+      top: 5%;
+      left: 10%;
+    }
+
+    .bg-glow-2 {
+      width: 350px;
+      height: 350px;
+      background: var(--neon-pink);
+      bottom: 5%;
+      right: 10%;
+      animation-delay: -3s;
+    }
+
+    .bg-glow-3 {
+      width: 280px;
+      height: 280px;
+      background: var(--neon-green);
+      top: 40%;
+      right: 30%;
+      animation-delay: -6s;
+    }
 
     @keyframes floatBg {
       0% { transform: translate(0, 0) scale(1); }
@@ -163,8 +185,17 @@
       50% { transform: translateY(-8px); }
     }
 
-    .drop-title { font-weight: 600; font-size: 0.95rem; color: var(--text-main); }
-    .drop-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+    .drop-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .drop-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
 
     .progress-wrapper {
       display: none;
@@ -277,15 +308,16 @@
   <div class="bg-glow-3"></div>
 
   <div class="container">
+    
     <div class="header">
       <h1 class="title">BINOX METHOD</h1>
-      <p class="subtitle">Bypass de compresión para TikTok Studio (Desktop Mode)</p>
+      <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
     </div>
 
     <div class="info-box">
       <div class="info-title">¿Cómo funciona?</div>
       <div class="info-desc">
-        Pre-acondiciona tu edit aplicando matriz BT.709, VBV Buffer y estructura de Keyframe exacta de 1s para obligar a TikTok a procesar la versión móvil en 1080p 60FPS con máxima tasa de bits.
+        Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para engañar al algoritmo de TikTok.
       </div>
     </div>
 
@@ -298,7 +330,7 @@
 
     <div class="progress-wrapper" id="progressWrapper">
       <div class="progress-info">
-        <span id="progressState">Conectando con Railway...</span>
+        <span id="progressState">Analizando archivo...</span>
         <span id="progressPct">0%</span>
       </div>
       <div class="progress-bar">
@@ -307,18 +339,19 @@
     </div>
 
     <button class="btn btn-optimize" id="btnOptimize" onclick="processVideo()" disabled>
-      OPTIMIZAR PARA TIKTOK
+      OPTIMIZAR EDIT
     </button>
 
     <a class="btn btn-download" id="btnDownload">
-      ⚡ DESCARGAR VIDEO MASTER HD
+      ⚡ DESCARGAR VIDEO OPTIMIZADO
     </a>
 
     <div class="status-text" id="statusText"></div>
+
   </div>
 
   <script>
-    const API_URL = 'https://bypass-binox-production.up.railway.app/process-video';
+    const API_URL = 'https://binox-backend-production.up.railway.app/process-video';
     const SECRET_TOKEN = 'BinoxMethodSecret2026_SecureToken!';
     let selectedFile = null;
     let originalName = 'edit';
@@ -331,7 +364,7 @@
 
         document.getElementById('iconBox').innerText = '✅';
         document.getElementById('dropTitle').innerText = file.name;
-        document.getElementById('dropSub').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB - Listo para optimizar`;
+        document.getElementById('dropSub').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB - Listo para procesar`;
         document.getElementById('btnOptimize').disabled = false;
         document.getElementById('statusText').innerText = '';
         document.getElementById('btnDownload').style.display = 'none';
@@ -357,19 +390,19 @@
       let progress = 10;
       progressFill.style.width = progress + '%';
       progressPct.innerText = progress + '%';
-      progressState.innerText = 'Enviando video al servidor Railway...';
+      progressState.innerText = 'Iniciando conexión segura...';
 
       const interval = setInterval(() => {
         if (progress < 90) {
-          progress += 8;
+          progress += 10;
           progressFill.style.width = progress + '%';
           progressPct.innerText = progress + '%';
           
-          if (progress >= 30 && progress < 60) progressState.innerText = 'Aplicando matriz BT.709 y sharpening BINOX...';
-          if (progress >= 60 && progress < 80) progressState.innerText = 'Ajustando GOP e intervalos de fotogramas clave...';
-          if (progress >= 80) progressState.innerText = 'Empaquetando MP4 compatible...';
+          if (progress === 30) progressState.innerText = 'Aplicando parámetros BINOX...';
+          if (progress === 60) progressState.innerText = 'Optimizando calidad HD...';
+          if (progress === 80) progressState.innerText = 'Finalizando empaquetado...';
         }
-      }, 1000);
+      }, 1200);
 
       const formData = new FormData();
       formData.append('video', selectedFile);
@@ -385,28 +418,28 @@
 
         clearInterval(interval);
 
-        if (!response.ok) throw new Error('Error al procesar el video en Railway');
+        if (!response.ok) throw new Error('Error al procesar en servidor');
 
         const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);
 
         progressFill.style.width = '100%';
         progressPct.innerText = '100%';
-        progressState.innerText = '¡Proceso BINOX completado!';
+        progressState.innerText = '¡Proceso completado!';
 
-        btnDownload.download = `Binox_Master_${originalName}.mp4`;
+        btnDownload.download = `Binox_Bypass_${originalName}.mp4`;
         btnDownload.href = downloadUrl;
         btnDownload.setAttribute('target', '_blank');
         btnDownload.style.display = 'block';
         statusText.className = 'status-text success';
-        statusText.innerText = '¡Video optimizado! Súbelo usando TikTok Studio en Navegador.';
+        statusText.innerText = '¡Tu video está listo para TikTok!';
 
       } catch (err) {
         clearInterval(interval);
         console.error(err);
         progressWrapper.style.display = 'none';
         statusText.className = 'status-text error';
-        statusText.innerText = '❌ Error de comunicación con Railway. Revisa el backend.';
+        statusText.innerText = '❌ Error en el servidor. Inténtalo de nuevo.';
       } finally {
         btnOptimize.disabled = false;
       }
