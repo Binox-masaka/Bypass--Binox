@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BINOX METHOD | TikTok Quality Bypass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #05070d;
+      --card-bg: rgba(13, 18, 30, 0.85);
+      --neon-cyan: #00f2fe;
+      --neon-green: #00ff87;
+      --neon-pink: #ff007f;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-glow-1, .bg-glow-2, .bg-glow-3 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      z-index: 0;
+      animation: floatBg 10s ease-in-out infinite alternate;
+    }
+
+    .bg-glow-1 {
+      width: 320px;
+      height: 320px;
+      background: var(--neon-cyan);
+      top: 5%;
+      left: 10%;
+    }
+
+    .bg-glow-2 {
+      width: 350px;
+      height: 350px;
+      background: var(--neon-pink);
+      bottom: 5%;
+      right: 10%;
+      animation-delay: -3s;
+    }
+
+    .bg-glow-3 {
+      width: 280px;
+      height: 280px;
+      background: var(--neon-green);
+      top: 40%;
+      right: 30%;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatBg {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 40px) scale(1.15); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 32px 28px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-green));
+      animation: rainbowBorder 4s linear infinite;
+    }
+
+    @keyframes rainbowBorder {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .header { text-align: center; }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan), var(--neon-pink));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 5s ease infinite;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .info-box {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 3px solid var(--neon-cyan);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-title {
+      color: var(--neon-cyan);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .info-desc {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .drop-zone {
+      border: 2px dashed rgba(0, 242, 254, 0.4);
+      background: rgba(10, 15, 28, 0.6);
+      border-radius: 18px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .drop-zone:hover {
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 135, 0.05);
+      box-shadow: 0 0 30px rgba(0, 255, 135, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .icon-box {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      animation: floatIcon 2.5s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .drop-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .drop-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .progress-wrapper {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--neon-cyan);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-green));
+      box-shadow: 0 0 15px var(--neon-cyan);
+      transition: width 0.4s ease;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+    }
+
+    .btn-optimize {
+      background: linear-gradient(135deg, var(--neon-green), #00c853);
+      color: #000;
+      box-shadow: 0 0 25px rgba(0, 255, 135, 0.4);
+    }
+
+    .btn-optimize:hover:not(:disabled) {
+      box-shadow: 0 0 35px rgba(0, 255, 135, 0.8);
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .btn-optimize:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.2);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .btn-download {
+      display: none;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+      color: #ffffff;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+    }
+
+    .btn-download:hover {
+      box-shadow: 0 0 35px rgba(255, 0, 127, 0.8);
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .status-text {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-text.error { color: #ff4d4d; }
+    .status-text.success { color: var(--neon-green); }
+
+    input[type="file"] { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+  <div class="bg-glow-3"></div>
+
+  <div class="container">
+    
+    <div class="header">
+      <h1 class="title">BINOX METHOD</h1>
+      <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
+    </div>
+
+    <div class="info-box">
+      <div class="info-title">¿Cómo funciona?</div>
+      <div class="info-desc">
+        Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para engañar al algoritmo de TikTok.
+      </div>
+    </div>
+
+    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+      <div class="icon-box" id="iconBox">🎬</div>
+      <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
+      <div class="drop-sub" id="dropSub">o haz clic para buscar en tus archivos</div>
+      <input type="file" id="fileInput" accept="video/*" onchange="fileSelected(event)">
+    </div>
+
+    <div class="progress-wrapper" id="progressWrapper">
+      <div class="progress-info">
+        <span id="progressState">Analizando archivo...</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-optimize" id="btnOptimize" onclick="processVideo()" disabled>
+      OPTIMIZAR EDIT
+    </button>
+
+    <a class="btn btn-download" id="btnDownload">
+      ⚡ DESCARGAR VIDEO OPTIMIZADO
+    </a>
+
+    <div class="status-text" id="statusText"></div>
+
+  </div>
+
+  <script>
+    const API_URL = 'https://bypass-binox-production.up.railway.app/process-video';
+    let selectedFile = null;
+    let originalName = 'edit';
+
+    function fileSelected(e) {
+      const file = e.target.files[0];
+      if (file) {
+        selectedFile = file;
+        originalName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+
+        document.getElementById('iconBox').innerText = '✨';
+        document.getElementById('dropTitle').innerText = file.name;
+        document.getElementById('dropSub').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB - Listo para procesar`;
+        document.getElementById('btnOptimize').disabled = false;
+        document.getElementById('statusText').innerText = '';
+        document.getElementById('btnDownload').style.display = 'none';
+        document.getElementById('progressWrapper').style.display = 'none';
+      }
+    }
+
+    async function processVideo() {
+      if (!selectedFile) return;
+
+      const btnOptimize = document.getElementById('btnOptimize');
+      const btnDownload = document.getElementById('btnDownload');
+      const progressWrapper = document.getElementById('progressWrapper');
+      const progressFill = document.getElementById('progressFill');
+      const progressPct = document.getElementById('progressPct');
+      const progressState = document.getElementById('progressState');
+      const statusText = document.getElementById('statusText');
+
+      btnOptimize.disabled = true;
+      progressWrapper.style.display = 'flex';
+      statusText.innerText = '';
+
+      let progress = 10;
+      progressFill.style.width = progress + '%';
+      progressPct.innerText = progress + '%';
+      progressState.innerText = 'Iniciando conexión segura...';
+
+      const interval = setInterval(() => {
+        if (progress < 90) {
+          progress += 10;
+          progressFill.style.width = progress + '%';
+          progressPct.innerText = progress + '%';
+          
+          if (progress === 30) progressState.innerText = 'Aplicando parámetros BINOX...';
+          if (progress === 60) progressState.innerText = 'Optimizando calidad HD...';
+          if (progress === 80) progressState.innerText = 'Finalizando empaquetado...';
+        }
+      }, 1200);
+
+      const formData = new FormData();
+      formData.append('video', selectedFile);
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: formData
+        });
+
+        clearInterval(interval);
+
+        if (!response.ok) throw new Error('Error al procesar en servidor');
+
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+
+        progressFill.style.width = '100%';
+        progressPct.innerText = '100%';
+        progressState.innerText = '¡Proceso completado!';
+
+        btnDownload.download = `Binox_Bypass_${originalName}.mp4`;
+        btnDownload.href = downloadUrl;
+        btnDownload.setAttribute('target', '_blank');
+        btnDownload.style.display = 'block';
+        statusText.className = 'status-text success';
+        statusText.innerText = '¡Tu video está listo para TikTok!';
+
+      } catch (err) {
+        clearInterval(interval);
+        console.error(err);
+        progressWrapper.style.display = 'none';
+        statusText.className = 'status-text error';
+        statusText.innerText = '❌ Error en el servidor. Inténtalo de nuevo.';
+      } finally {
+        btnOptimize.disabled = false;
+      }
+    }
+  </script>
+</body>
+  </html>
+  
