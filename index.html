@@ -3,168 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX METHOD - Bypass TikTok</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>BINOX | TikTok Quality Bypass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        :root {
+            --bg-color: #08090d;
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff0055;
+            --neon-purple: #9d00ff;
+            --glass-bg: rgba(18, 20, 29, 0.65);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
         body {
-            background-color: #05080c;
-            background-image: radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.08) 0%, transparent 50%), radial-gradient(circle at 50% 90%, rgba(0, 255, 170, 0.05) 0%, transparent 50%);
-            color: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px 16px;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(255, 0, 85, 0.08) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow-x: hidden;
         }
-        .card {
-            background: linear-gradient(180deg, #0d131d 0%, #080d14 100%);
-            border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 28px; padding: 36px 28px;
-            width: 100%; max-width: 440px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            display: flex; flex-direction: column; gap: 22px; position: relative; overflow: hidden;
+
+        /* Contenedor principal con efecto Glassmorphism */
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 520px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.02);
+            text-align: center;
+            position: relative;
         }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.4), transparent); }
-        .header { text-align: center; display: flex; flex-direction: column; gap: 8px; }
-        .title { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #00f2fe 0%, #00ffaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
-        .subtitle { font-size: 14px; color: #94a3b8; font-weight: 500; }
-        .info-box { background: rgba(13, 22, 34, 0.7); border-left: 3px solid #00f2fe; border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
-        .info-title { font-size: 16px; font-weight: 700; color: #38bdf8; }
-        .info-text { font-size: 13.5px; color: #94a3b8; line-height: 1.55; }
-        .dropzone { border: 2px dashed #10b981; border-radius: 18px; padding: 32px 20px; text-align: center; background: rgba(6, 18, 25, 0.4); cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .dropzone:hover, .dropzone.dragover { border-color: #00f2fe; background: rgba(0, 242, 254, 0.05); }
-        .icon-container { font-size: 38px; }
-        .dropzone-title { font-size: 16px; font-weight: 700; }
-        .dropzone-subtext { font-size: 12.5px; color: #64748b; }
-        .file-input { display: none; }
-        .selected-file-info { display: none; font-size: 13px; color: #00ffaa; font-weight: 600; background: rgba(0, 255, 170, 0.1); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 255, 170, 0.2); word-break: break-all; }
-        .btn { width: 100%; padding: 16px; background: linear-gradient(180deg, #16222f 0%, #0d1622 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; color: #475569; font-size: 15px; font-weight: 800; text-transform: uppercase; cursor: not-allowed; transition: all 0.3s ease; }
-        .btn.active { background: linear-gradient(135deg, #00f2fe 0%, #00c6ff 100%); border: none; color: #05080c; cursor: pointer; box-shadow: 0 8px 25px rgba(0, 242, 254, 0.35); }
-        .progress-container { display: none; flex-direction: column; gap: 8px; text-align: center; }
-        .progress-bar-bg { width: 100%; height: 8px; background: #1e293b; border-radius: 10px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00f2fe, #00ffaa); border-radius: 10px; transition: width 0.3s ease; }
-        .progress-text { font-size: 12px; color: #94a3b8; font-weight: 600; }
+
+        /* Título con Neón Animado */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #a0a5c0;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* Zona Drop / Seleccionar archivo */
+        .file-dropzone {
+            border: 2px dashed rgba(0, 243, 255, 0.4);
+            border-radius: 12px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .file-dropzone:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            background: rgba(0, 243, 255, 0.03);
+        }
+
+        .file-dropzone input {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .icon-upload {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .file-name {
+            font-size: 1rem;
+            color: var(--neon-cyan);
+            margin-top: 8px;
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        /* Botón de Procesar */
+        .btn-submit {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            border: none;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 15px 30px;
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.8), 0 0 15px rgba(255, 0, 85, 0.5);
+            color: #fff;
+        }
+
+        .btn-submit:disabled {
+            background: #222533;
+            color: #555870;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Barra de Progreso */
+        .progress-box {
+            display: none;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .progress-status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #a0a5c0;
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            box-shadow: 0 0 10px var(--neon-cyan);
+            border-radius: 8px;
+            transition: width 0.2s ease;
+        }
+
+        /* Estado del Procesamiento */
+        .processing-pulse {
+            animation: pulseText 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.4)); }
+            to { filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.6)); }
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="header">
-            <h1 class="title">BINOX METHOD</h1>
-            <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
-        </div>
+    <div class="container">
+        <h1>BINOX</h1>
+        <p class="subtitle">TIKTOK QUALITY BYPASS ENGINE</p>
 
-        <div class="info-box">
-            <h2 class="info-title">¿Cómo funciona?</h2>
-            <p class="info-text">
-                Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para engañar al algoritmo de TikTok.
-            </p>
-        </div>
-
-        <div class="dropzone" id="dropzone">
-            <div class="icon-container">🎬</div>
-            <div class="dropzone-title">Arrastra tu edit aquí</div>
-            <div class="dropzone-subtext">o haz clic para buscar en tus archivos</div>
-            <div class="selected-file-info" id="fileInfo"></div>
-            <input type="file" id="fileInput" class="file-input" accept="video/*">
-        </div>
-
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressFill"></div>
+        <form id="uploadForm">
+            <div class="file-dropzone">
+                <span class="icon-upload">⚡</span>
+                <span id="labelSelect">Haz clic o arrastra tu video aquí</span>
+                <div class="file-name" id="fileName"></div>
+                <input type="file" id="videoInput" accept="video/*" required>
             </div>
-            <div class="progress-text" id="progressText">Conectando con el servidor...</div>
-        </div>
 
-        <button class="btn" id="optimizeBtn" disabled>OPTIMIZAR EDIT</button>
+            <button type="submit" class="btn-submit" id="btnSubmit">Procesar Video</button>
+        </form>
+
+        <div class="progress-box" id="progressBox">
+            <div class="progress-status">
+                <span id="statusText">Subiendo archivo...</span>
+                <span id="percentText">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Dominio oficial en Railway conectado al backend privado
-        const RAILWAY_URL = 'https://binox-backend-production.up.railway.app/bypass';
+        const videoInput = document.getElementById('videoInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        const labelSelect = document.getElementById('labelSelect');
+        const uploadForm = document.getElementById('uploadForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const progressBox = document.getElementById('progressBox');
+        const progressBar = document.getElementById('progressBar');
+        const percentText = document.getElementById('percentText');
+        const statusText = document.getElementById('statusText');
 
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const optimizeBtn = document.getElementById('optimizeBtn');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-
-        let selectedFile = null;
-
-        dropzone.addEventListener('click', () => fileInput.click());
-        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) handleFile(e.target.files[0]);
-        });
-
-        function handleFile(file) {
-            if (!file.type.startsWith('video/')) {
-                alert('Por favor, selecciona un archivo de video válido.');
-                return;
+        // Mostrar el nombre del archivo seleccionado
+        videoInput.addEventListener('change', () => {
+            if (videoInput.files.length > 0) {
+                fileNameDisplay.textContent = "🎬 " + videoInput.files[0].name;
+                labelSelect.style.display = "none";
             }
-            selectedFile = file;
-            fileInfo.textContent = `📹 ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
-            fileInfo.style.display = 'inline-block';
-            optimizeBtn.classList.add('active');
-            optimizeBtn.removeAttribute('disabled');
-        }
+        });
 
-        optimizeBtn.addEventListener('click', async () => {
-            if (!selectedFile) return;
+        // Manejo del formulario y carga
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-            optimizeBtn.style.display = 'none';
-            progressContainer.style.display = 'flex';
-            progressFill.style.width = '30%';
-            progressText.textContent = 'Enviando video al servidor...';
+            if (!videoInput.files[0]) return;
 
             const formData = new FormData();
-            formData.append('file', selectedFile);
+            formData.append('file', videoInput.files[0]);
 
-            try {
-                progressFill.style.width = '60%';
-                progressText.textContent = 'Aplicando parche FFmpeg en servidor...';
+            btnSubmit.disabled = true;
+            progressBox.style.display = 'block';
+            progressBar.style.width = '0%';
+            percentText.textContent = '0%';
+            statusText.textContent = 'Subiendo al servidor...';
+            statusText.classList.add('processing-pulse');
 
-                const response = await fetch(RAILWAY_URL, {
-                    method: 'POST',
-                    body: formData
-                });
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/bypass', true);
 
-                if (!response.ok) throw new Error('Error al procesar en servidor');
+            // Barra de progreso de subida en tiempo real
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percent = Math.round((event.loaded / event.total) * 100);
+                    progressBar.style.width = percent + '%';
+                    percentText.textContent = percent + '%';
+                    
+                    if (percent === 100) {
+                        statusText.textContent = 'Aplicando Parche BINOX (FFmpeg)...';
+                    }
+                }
+            };
 
-                progressFill.style.width = '90%';
-                progressText.textContent = 'Descargando video optimizado...';
+            // Respuesta recibida
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    statusText.textContent = '¡Bypass Completado! Descargando...';
+                    statusText.classList.remove('processing-pulse');
+                    
+                    // Convertir la respuesta binaria en archivo descargable
+                    const blob = xhr.response;
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = 'binox_' + videoInput.files[0].name;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
 
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
+                    setTimeout(() => {
+                        btnSubmit.disabled = false;
+                        statusText.textContent = '¡Listo!';
+                    }, 2000);
+                } else {
+                    alert('Ocurrió un error al procesar el video.');
+                    btnSubmit.disabled = false;
+                    statusText.textContent = 'Error';
+                }
+            };
 
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `binox_bypass_${selectedFile.name}`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+            xhr.onerror = () => {
+                alert('Error de conexión con el servidor.');
+                btnSubmit.disabled = false;
+            };
 
-                progressFill.style.width = '100%';
-                progressText.textContent = '¡Video parcheado con éxito!';
-
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                    optimizeBtn.style.display = 'block';
-                    optimizeBtn.textContent = '¡DESCARGADO! OPTIMIZAR OTRO';
-                    progressFill.style.width = '0%';
-                }, 1500);
-
-            } catch (error) {
-                console.error(error);
-                alert('Ocurrió un error al procesar el video en el servidor.');
-                progressContainer.style.display = 'none';
-                optimizeBtn.style.display = 'block';
-            }
+            xhr.responseType = 'blob';
+            xhr.send(formData);
         });
     </script>
 </body>
