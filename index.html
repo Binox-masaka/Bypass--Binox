@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX METHOD (Local Engine)</title>
-    <!-- Carga del Motor FFmpeg.wasm para procesamiento $100\%$ Local -->
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <title>BINOX METHOD</title>
     <style>
         * {
             box-sizing: border-box;
@@ -152,12 +150,9 @@
             word-break: break-all;
         }
 
-        .action-area {
-            margin-top: 24px;
-        }
-
         .btn-main {
             width: 100%;
+            margin-top: 24px;
             padding: 15px;
             border: none;
             border-radius: 12px;
@@ -231,12 +226,12 @@
 
 <div class="card">
     <h1>BINOX METHOD</h1>
-    <p class="subtitle">Procesamiento Local $100\%$ Privado en Dispositivo</p>
+    <p class="subtitle">Bypass de compresión para TikTok Ultra Rápido</p>
 
     <div class="info-box">
         <div class="info-title">¿Cómo funciona?</div>
         <div class="info-desc">
-            Sube tu edit directo desde tu render. La herramienta procesa el video en la memoria RAM de tu dispositivo, re-codifica los metadatos y aplica enfoque fino sin depender de ningún servidor.
+            Sube tu edit directo. La herramienta ajusta tasa de bits, conserva resolución/FPS originales y re-codifica metadatos en alta velocidad para evitar la pérdida de calidad en TikTok.
         </div>
     </div>
 
@@ -254,10 +249,10 @@
     <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this.files[0])">
 
     <div class="action-area">
-        <button id="startBtn" class="btn-main" onclick="processVideoLocal()" disabled>OPTIMIZAR EDIT LOCALMENTE</button>
+        <button id="startBtn" class="btn-main" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
 
         <div id="progressBox" class="progress-box">
-            <div id="statusText" class="status-text">Inicializando motor de procesamiento...</div>
+            <div id="statusText" class="status-text">Procesando... 0%</div>
             <div class="progress-bar-bg">
                 <div id="progressBar" class="progress-bar-fill"></div>
             </div>
@@ -268,16 +263,15 @@
 </div>
 
 <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    let ffmpeg = null;
+    const BACKEND_URL = "https://binox-backend-production.up.railway.app/bypass";
     let selectedFile = null;
-    let outputBlobUrl = null;
+    let preparedBlobUrl = null;
     let outputName = "";
 
     function handleFile(file) {
         if (!file) return;
         selectedFile = file;
-        document.getElementById('dropTitle').innerText = "Archivo cargado en memoria";
+        document.getElementById('dropTitle').innerText = "Archivo listo";
         document.getElementById('dropSub').innerText = "Haz clic si deseas cambiarlo";
         document.getElementById('fileName').innerText = file.name;
         document.getElementById('startBtn').disabled = false;
@@ -286,7 +280,7 @@
         document.getElementById('downloadBtn').style.display = 'none';
     }
 
-    async function processVideoLocal() {
+    function processVideo() {
         if (!selectedFile) return;
 
         const startBtn = document.getElementById('startBtn');
@@ -299,68 +293,57 @@
         downloadBtn.style.display = 'none';
         progressBox.style.display = 'block';
         progressBar.style.width = '0%';
+        statusText.innerText = "Enviando al servidor... 0%";
 
-        // 1. Inicializar FFmpeg.wasm en la memoria RAM del navegador
-        if (!ffmpeg) {
-            statusText.innerText = "Cargando motor FFmpeg en el dispositivo...";
-            ffmpeg = createFFmpeg({ log: true });
-            
-            ffmpeg.setProgress(({ ratio }) => {
-                const percent = Math.round(ratio * 100);
-                if (percent >= 0 && percent <= 100) {
-                    progressBar.style.width = percent + "%";
-                    statusText.innerText = "Procesando edit localmente... " + percent + "%";
-                }
-            });
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
-            await ffmpeg.load();
-        }
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", BACKEND_URL, true);
+        xhr.responseType = "blob";
 
-        statusText.innerText = "Escribiendo archivo en memoria virtual...";
-        const inputName = "input_" + selectedFile.name;
-        outputName = "binox_" + selectedFile.name;
+        xhr.upload.onprogress = function(e) {
+            if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 50);
+                progressBar.style.width = percent + "%";
+                statusText.innerText = "Subiendo archivo... " + percent + "%";
+            }
+        };
 
-        // Cargar el archivo en el sistema de archivos en memoria del navegador
-        ffmpeg.FS('writeFile', inputName, await fetchFile(selectedFile));
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                progressBar.style.width = "100%";
+                statusText.innerText = "¡Procesamiento finalizado!";
 
-        statusText.innerText = "Ejecutando re-codificación de alta fidelidad...";
+                const blob = xhr.response;
+                if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
+                preparedBlobUrl = window.URL.createObjectURL(blob);
+                outputName = "binox_" + selectedFile.name;
 
-        // Comando FFmpeg ejecutado en la GPU/CPU de tu dispositivo (Mantiene resolución y FPS de origen)
-        await ffmpeg.run(
-            '-i', inputName,
-            '-vf', 'unsharp=3:3:0.6',
-            '-c:v', 'libx264',
-            '-preset', 'ultrafast',
-            '-crf', '17',
-            '-pix_fmt', 'yuv420p',
-            '-c:a', 'copy',
-            outputName
-        );
+                setTimeout(() => {
+                    downloadBtn.style.display = 'block';
+                    startBtn.disabled = false;
+                }, 300);
+            } else {
+                startBtn.disabled = false;
+                statusText.innerText = "Error en el servidor (" + xhr.status + ")";
+                alert("Error al procesar el video en el servidor.");
+            }
+        };
 
-        statusText.innerText = "¡Completado con éxito!";
-        progressBar.style.width = "100%";
-
-        // Obtener el archivo resultante de la memoria
-        const data = ffmpeg.FS('readFile', outputName);
-
-        if (outputBlobUrl) URL.revokeObjectURL(outputBlobUrl);
-        const blob = new Blob([data.buffer], { type: 'video/mp4' });
-        outputBlobUrl = URL.createObjectURL(blob);
-
-        // Limpiar memoria interna
-        ffmpeg.FS('unlink', inputName);
-        ffmpeg.FS('unlink', outputName);
-
-        setTimeout(() => {
-            downloadBtn.style.display = 'block';
+        xhr.onerror = function() {
             startBtn.disabled = false;
-        }, 300);
+            statusText.innerText = "Error de conexión";
+            alert("No se pudo conectar con el servidor.");
+        };
+
+        xhr.send(formData);
     }
 
     function downloadResult() {
-        if (!outputBlobUrl) return;
+        if (!preparedBlobUrl) return;
         const a = document.createElement("a");
-        a.href = outputBlobUrl;
+        a.href = preparedBlobUrl;
         a.download = outputName;
         document.body.appendChild(a);
         a.click();
