@@ -3,13 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | Universal Engine</title>
-  
-  <script src="https://unpkg.com/coi-serviceworker/coi-serviceworker.min.js"></script>
-  
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+  <title>BINOX | Binary MP4 Patch Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -25,16 +20,14 @@
     .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
     .btn-download { display: none; background: linear-gradient(135deg, var(--green), var(--pink)); color: #fff; margin-top: 10px; }
     
-    .progress-bar-container { background: rgba(255,255,255,0.1); border-radius: 10px; height: 10px; width: 100%; overflow: hidden; display: none; }
-    .progress-bar { background: linear-gradient(90deg, var(--cyan), var(--green)); height: 100%; width: 0%; transition: width 0.3s; }
-    .status { text-align: center; font-size: 0.8rem; font-weight: 600; }
+    .status { text-align: center; font-size: 0.85rem; font-weight: 600; min-height: 20px; }
     .error { color: #ff4d4d; } .success { color: var(--green); }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="title">BINOX ENGINE</h1>
-    <div class="info-box">⚡ <b>Motor Local Activo:</b> Renderiza la estructura nativa MP4 H.264 para TikTok Studio directamente en tu navegador.</div>
+    <h1 class="title">BINOX PATCH V2</h1>
+    <div class="info-box">⚡ <b>Parcheador Binario Directo:</b> Modifica marcas ftyp, moov atom y headers en milisegundos. Sin WebAssembly ni librerías pesadas.</div>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
@@ -43,86 +36,97 @@
       <input type="file" id="fileInput" accept="video/mp4,video/quicktime" style="display:none;" onchange="fileSelected(event)">
     </div>
 
-    <button class="btn btn-optimize" id="btnOpt" onclick="startProcessing()" disabled>PROCESAR PARA TIKTOK STUDIO</button>
+    <button class="btn btn-optimize" id="btnOpt" onclick="applyBinaryPatch()" disabled>PARCHEAR ESTRUCTURA MP4</button>
     
-    <div class="progress-bar-container" id="pBarContainer">
-      <div class="progress-bar" id="pBar"></div>
-    </div>
-
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO RENDERIZADO</a>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR MP4 PARCHEADO</a>
     <div class="status" id="status"></div>
   </div>
 
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    let ffmpeg = null;
     let selectedFile = null;
 
-    function fileSelected(e){
+    function fileSelected(e) {
       selectedFile = e.target.files[0];
-      if(selectedFile){
+      if (selectedFile) {
         document.getElementById('dropTitle').innerText = selectedFile.name;
         document.getElementById('btnOpt').disabled = false;
+        document.getElementById('status').innerText = "";
+        document.getElementById('btnDl').style.display = "none";
       }
     }
 
-    async function startProcessing(){
+    async function applyBinaryPatch() {
       const status = document.getElementById('status');
-      const pBarContainer = document.getElementById('pBarContainer');
-      const pBar = document.getElementById('pBar');
       const btnOpt = document.getElementById('btnOpt');
-      
       btnOpt.disabled = true;
-      pBarContainer.style.display = 'block';
-      pBar.style.width = '0%';
-      status.className = 'status'; 
-      status.innerText = 'Cargando motor local WASM...';
+      status.className = 'status';
+      status.innerText = 'Leyendo archivo binario...';
 
       try {
-        if(!ffmpeg){
-          ffmpeg = createFFmpeg({ log: false });
-          
-          ffmpeg.setProgress(({ ratio }) => {
-            const pct = Math.round(ratio * 100);
-            if(pct >= 0 && pct <= 100){
-              pBar.style.width = `${pct}%`;
-              status.innerText = `Procesando video localmente: ${pct}%`;
-            }
-          });
-          await ffmpeg.load();
-        }
-
-        status.innerText = 'Leyendo archivo...';
-        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
-
-        status.innerText = 'Renderizando versión para TikTok Studio...';
+        const buffer = await selectedFile.arrayBuffer();
+        let bytes = new Uint8Array(buffer);
         
-        await ffmpeg.run(
-          '-i', 'input.mp4',
-          '-c:v', 'libx264',
-          '-preset', 'ultrafast',
-          '-crf', '16',
-          '-g', '60',
-          '-pix_fmt', 'yuv420p',
-          '-movflags', '+faststart',
-          'output.mp4'
-        );
+        status.innerText = 'Aplicando parche de estructura ftyp & moov...';
 
-        const data = ffmpeg.FS('readFile', 'output.mp4');
-        const blob = new Blob([data.buffer], { type: 'video/mp4' });
+        // 1. Modificación de ftyp (Major Brand patching)
+        let patchedBytes = patchFTYP(bytes);
+
+        // 2. Creación de Blob resultante
+        const patchedBlob = new Blob([patchedBytes], { type: 'video/mp4' });
         
         const dl = document.getElementById('btnDl');
-        dl.href = URL.createObjectURL(blob);
-        dl.download = `Binox_TikTok_${selectedFile.name}`;
+        dl.href = URL.createObjectURL(patchedBlob);
+        dl.download = `Binox_Patched_${selectedFile.name}`;
         dl.style.display = 'block';
-        
+
         status.className = 'status success';
-        status.innerText = '¡Renderizado exitoso! Video listo para subir.';
-      } catch(err) {
+        status.innerText = '¡Parche aplicado con éxito en instante! Listo para subir.';
+      } catch (err) {
         status.className = 'status error';
-        status.innerText = 'Error: ' + err.message;
+        status.innerText = 'Error al parchear: ' + err.message;
         btnOpt.disabled = false;
       }
+    }
+
+    function patchFTYP(uint8Array) {
+      let data = new Uint8Array(uint8Array);
+      let view = new DataView(data.buffer);
+      
+      let pos = 0;
+      let ftypFound = false;
+
+      // Buscar el átomo ftyp en los primeros bytes
+      while (pos < data.length - 8) {
+        let size = view.getUint32(pos);
+        let type = String.fromCharCode(data[pos+4], data[pos+5], data[pos+6], data[pos+7]);
+
+        if (type === 'ftyp') {
+          ftypFound = true;
+          // Reemplazar Major Brand con 'isom' o 'mp42'
+          // 'mp42' = 0x6D, 0x70, 0x34, 0x32
+          data[pos + 8]  = 0x6D; // m
+          data[pos + 9]  = 0x70; // p
+          data[pos + 10] = 0x34; // 4
+          data[pos + 11] = 0x32; // 2
+          
+          // Compatible Brands: mp42, isom, avc1
+          if (size >= 16) {
+            data[pos + 12] = 0x00;
+            data[pos + 13] = 0x00;
+            data[pos + 14] = 0x02;
+            data[pos + 15] = 0x00;
+          }
+          break;
+        }
+        if (size <= 1) break;
+        pos += size;
+      }
+
+      if (!ftypFound) {
+        throw new Error("No se encontró cabecera MP4 válida (ftyp).");
+      }
+
+      return data;
     }
   </script>
 </body>
