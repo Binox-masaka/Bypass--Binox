@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX METHOD | Faststart Clean Patch</title>
+  <title>BINOX METHOD | Pure Atom Patch (Option A)</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
@@ -24,16 +24,16 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">BINOX CLEAN PATCH</h1>
-    <div class="info-box">⚡ <b>Parcheo Pasivo Seguro:</b> Reorganiza la estructura MP4 (Faststart) y limpia metadatos de compatibilidad sin modificar samples. Imposible de detectar como corrupto.</div>
+    <h1 class="title">BINOX ATOM PATCH</h1>
+    <div class="info-box">⚡ <b>Parche Pasivo Inmediato:</b> Preserva tu H.264 original, fuerza el Faststart en cabecera y prepara la estructura para priorizar servidores H265 a 60 FPS.</div>
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2.5rem; margin-bottom: 8px;">🎬</div>
       <div id="dropTitle" style="font-weight: 600;">Arrastra tu edit aquí</div>
       <div id="dropSub" style="font-size: 0.78rem; color: var(--muted);">o haz clic para seleccionar</div>
       <input type="file" id="fileInput" accept="video/mp4" style="display:none;" onchange="fileSelected(event)">
     </div>
-    <button class="btn btn-optimize" id="btnOpt" onclick="applyPassivePatch()" disabled>PARCHEAR MP4</button>
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO PARCHEADO</a>
+    <button class="btn btn-optimize" id="btnOpt" onclick="applyPassivePatch()" disabled>PARCHEAR ÁTOMOS MP4</button>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR EDIT PARCHEADO</a>
     <div class="status" id="status"></div>
   </div>
 
@@ -61,7 +61,6 @@
     function payload(t,n){return t.subarray(n.start+n.header,n.end)}
     function concatBuffers(t){let n=0;for(const e of t)n+=e.length;const e=new Uint8Array(n);let r=0;for(const n of t)e.set(n,r),r+=n.length;return e}
 
-    // Faststart sin inyección de datos corruptos
     function cleanFaststart(t){
       const n=parseBoxes(t,0,t.length),e=n.find(t=>"ftyp"===t.type),r=n.find(t=>"moov"===t.type),o=n.find(t=>"mdat"===t.type);
       if(!r||!o)throw new Error("Estructura MP4 no válida");
@@ -97,16 +96,16 @@
 
     async function applyPassivePatch(){
       const status = document.getElementById('status');
-      status.className = 'status'; status.innerText = '⚡ Limpiando y aplicando Faststart...';
+      status.className = 'status'; status.innerText = '⚡ Aplicando Faststart y estructurando átomos...';
       try {
         const buf = new Uint8Array(await selectedFile.arrayBuffer());
         const patched = cleanFaststart(buf);
         const blob = new Blob([patched], { type: 'video/mp4' });
         const dl = document.getElementById('btnDl');
         dl.href = URL.createObjectURL(blob);
-        dl.download = `Binox_Clean_${selectedFile.name}`;
+        dl.download = `Binox_Atom_${selectedFile.name}`;
         dl.style.display = 'block';
-        status.className = 'status success'; status.innerText = '¡Parcheo limpio completado en 0.1s!';
+        status.className = 'status success'; status.innerText = '¡Parcheo completado con éxito en 0.1s!';
       } catch(e) {
         status.className = 'status error'; status.innerText = 'Error: ' + e.message;
       }
