@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | FastRemux Engine</title>
+  <title>BINOX | Pure JS FastStart Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  
-  <!-- Carga FFmpeg v0.10.1 (Single-Thread Instantáneo) -->
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
-  
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -31,7 +27,7 @@
 <body>
   <div class="container">
     <h1 class="title">BINOX ENGINE</h1>
-    <div class="info-box">⚡ <b>Remux Inmediato:</b> Inyecta faststart (moov atom) y restructura el encabezado a <code>IsStreamable: Yes</code> sin perder calidad.</div>
+    <div class="info-box">⚡ <b>FastStart Nativo:</b> Reordena el átomo <code>moov</code> en JS puro a <code>IsStreamable: Yes</code> sin servidores ni descargas WASM.</div>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
@@ -40,20 +36,18 @@
       <input type="file" id="fileInput" accept="video/mp4,video/quicktime" style="display:none;" onchange="fileSelected(event)">
     </div>
 
-    <button class="btn btn-optimize" id="btnOpt" onclick="startFastRemux()" disabled>PARCHEAR PARA TIKTOK STUDIO</button>
+    <button class="btn btn-optimize" id="btnOpt" onclick="processVideo()" disabled>PARCHEAR PARA TIKTOK STUDIO</button>
     
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO RESTRUCTURADO</a>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR MP4 OPTIMIZADO</a>
     <div class="status" id="status"></div>
   </div>
 
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    let ffmpeg = null;
     let selectedFile = null;
 
-    function fileSelected(e){
+    function fileSelected(e) {
       selectedFile = e.target.files[0];
-      if(selectedFile){
+      if (selectedFile) {
         document.getElementById('dropTitle').innerText = selectedFile.name;
         document.getElementById('btnOpt').disabled = false;
         document.getElementById('status').innerText = "";
@@ -61,53 +55,113 @@
       }
     }
 
-    async function startFastRemux(){
+    async function processVideo() {
       const status = document.getElementById('status');
       const btnOpt = document.getElementById('btnOpt');
-      
       btnOpt.disabled = true;
-      status.className = 'status'; 
-      status.innerText = 'Inicializando motor ultrarrápido...';
+      status.className = 'status';
+      status.innerText = 'Analizando estructura de átomos MP4...';
 
       try {
-        if(!ffmpeg){
-          ffmpeg = createFFmpeg({ 
-            log: false,
-            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
-          });
-          await ffmpeg.load();
-        }
-
-        status.innerText = 'Leyendo archivo...';
-        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
-
-        status.innerText = 'Restructurando átomos (FastStart & Remux)...';
+        const buffer = await selectedFile.arrayBuffer();
+        status.innerText = 'Reorganizando moov atom a FastStart (IsStreamable)...';
         
-        // REPLICACIÓN EXACTA DE COMPRESSBASE:
-        // Copy de streams de video y audio + reorganización de moov atom (+faststart)
-        await ffmpeg.run(
-          '-i', 'input.mp4',
-          '-c', 'copy',
-          '-movflags', '+faststart',
-          '-metadata', 'comment=Patched by BinoxEngine',
-          'output.mp4'
-        );
+        const patchedBlob = makeFastStart(buffer);
 
-        const data = ffmpeg.FS('readFile', 'output.mp4');
-        const blob = new Blob([data.buffer], { type: 'video/mp4' });
-        
         const dl = document.getElementById('btnDl');
-        dl.href = URL.createObjectURL(blob);
-        dl.download = `Binox_${selectedFile.name}`;
+        dl.href = URL.createObjectURL(patchedBlob);
+        dl.download = `Binox_FastStart_${selectedFile.name}`;
         dl.style.display = 'block';
-        
+
         status.className = 'status success';
-        status.innerText = '¡Parche aplicado en segundos! Listo para TikTok Studio.';
-      } catch(err) {
+        status.innerText = '¡Video optimizado en instantes! Listo para TikTok Studio.';
+      } catch (err) {
         status.className = 'status error';
         status.innerText = 'Error: ' + err.message;
         btnOpt.disabled = false;
       }
+    }
+
+    // Algoritmo Pure JS para mover 'moov' al inicio y recalcular punteros stco/co64
+    function makeFastStart(buffer) {
+      const view = new DataView(buffer);
+      let pos = 0;
+      let ftyp = null, moov = null, mdat = null;
+      let beforeMdat = [];
+
+      while (pos < buffer.byteLength) {
+        if (pos + 8 > buffer.byteLength) break;
+        let size = view.getUint32(pos);
+        const type = String.fromCharCode(view.getUint8(pos+4), view.getUint8(pos+5), view.getUint8(pos+6), view.getUint8(pos+7));
+
+        let headerSize = 8;
+        if (size === 1) {
+          size = Number(view.getBigUint64(pos + 8));
+          headerSize = 16;
+        } else if (size === 0) {
+          size = buffer.byteLength - pos;
+        }
+
+        const box = { type, pos, size, headerSize, data: buffer.slice(pos, pos + size) };
+
+        if (type === 'ftyp') ftyp = box;
+        else if (type === 'moov') moov = box;
+        else if (type === 'mdat') mdat = box;
+        else if (!mdat) beforeMdat.push(box);
+
+        pos += size;
+      }
+
+      if (!moov || !mdat) {
+        throw new Error("No se encontraron los bloques válidos moov o mdat.");
+      }
+
+      // Si moov ya está antes que mdat, el archivo ya es FastStart
+      if (moov.pos < mdat.pos) {
+        return new Blob([buffer], { type: 'video/mp4' });
+      }
+
+      // moov está después de mdat. Necesitamos recolocarlo antes e incrementar offsets en stco/co64
+      const shiftSize = moov.size;
+      const moovBuffer = moov.data.slice(0);
+      const moovView = new DataView(moovBuffer);
+
+      function patchOffsets(offset, length) {
+        let p = offset;
+        const end = offset + length;
+        while (p < end - 8) {
+          const boxSize = moovView.getUint32(p);
+          if (boxSize < 8 || p + boxSize > end) break;
+          const boxType = String.fromCharCode(moovView.getUint8(p+4), moovView.getUint8(p+5), moovView.getUint8(p+6), moovView.getUint8(p+7));
+
+          if (boxType === 'stco') {
+            const entryCount = moovView.getUint32(p + 12);
+            for (let i = 0; i < entryCount; i++) {
+              const currentOffset = moovView.getUint32(p + 16 + i * 4);
+              moovView.setUint32(p + 16 + i * 4, currentOffset + shiftSize);
+            }
+          } else if (boxType === 'co64') {
+            const entryCount = moovView.getUint32(p + 12);
+            for (let i = 0; i < entryCount; i++) {
+              const currentOffset = moovView.getBigUint64(p + 16 + i * 8);
+              moovView.setBigUint64(p + 16 + i * 8, currentOffset + BigInt(shiftSize));
+            }
+          } else if (['trak', 'mdia', 'minf', 'stbl'].includes(boxType)) {
+            patchOffsets(p + 8, boxSize - 8);
+          }
+          p += boxSize;
+        }
+      }
+
+      patchOffsets(8, shiftSize - 8);
+
+      const parts = [];
+      if (ftyp) parts.push(ftyp.data);
+      for (const b of beforeMdat) parts.push(b.data);
+      parts.push(moovBuffer);
+      parts.push(mdat.data);
+
+      return new Blob(parts, { type: 'video/mp4' });
     }
   </script>
 </body>
