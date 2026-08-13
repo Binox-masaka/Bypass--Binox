@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | Binary MP4 Patch Engine</title>
+  <title>BINOX | FastRemux Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Carga FFmpeg v0.10.1 (Single-Thread Instantáneo) -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
+  
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -26,8 +30,8 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">BINOX PATCH V2</h1>
-    <div class="info-box">⚡ <b>Parcheador Binario Directo:</b> Modifica marcas ftyp, moov atom y headers en milisegundos. Sin WebAssembly ni librerías pesadas.</div>
+    <h1 class="title">BINOX ENGINE</h1>
+    <div class="info-box">⚡ <b>Remux Inmediato:</b> Inyecta faststart (moov atom) y restructura el encabezado a <code>IsStreamable: Yes</code> sin perder calidad.</div>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
@@ -36,18 +40,20 @@
       <input type="file" id="fileInput" accept="video/mp4,video/quicktime" style="display:none;" onchange="fileSelected(event)">
     </div>
 
-    <button class="btn btn-optimize" id="btnOpt" onclick="applyBinaryPatch()" disabled>PARCHEAR ESTRUCTURA MP4</button>
+    <button class="btn btn-optimize" id="btnOpt" onclick="startFastRemux()" disabled>PARCHEAR PARA TIKTOK STUDIO</button>
     
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR MP4 PARCHEADO</a>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO RESTRUCTURADO</a>
     <div class="status" id="status"></div>
   </div>
 
   <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    let ffmpeg = null;
     let selectedFile = null;
 
-    function fileSelected(e) {
+    function fileSelected(e){
       selectedFile = e.target.files[0];
-      if (selectedFile) {
+      if(selectedFile){
         document.getElementById('dropTitle').innerText = selectedFile.name;
         document.getElementById('btnOpt').disabled = false;
         document.getElementById('status').innerText = "";
@@ -55,78 +61,53 @@
       }
     }
 
-    async function applyBinaryPatch() {
+    async function startFastRemux(){
       const status = document.getElementById('status');
       const btnOpt = document.getElementById('btnOpt');
+      
       btnOpt.disabled = true;
-      status.className = 'status';
-      status.innerText = 'Leyendo archivo binario...';
+      status.className = 'status'; 
+      status.innerText = 'Inicializando motor ultrarrápido...';
 
       try {
-        const buffer = await selectedFile.arrayBuffer();
-        let bytes = new Uint8Array(buffer);
+        if(!ffmpeg){
+          ffmpeg = createFFmpeg({ 
+            log: false,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+          });
+          await ffmpeg.load();
+        }
+
+        status.innerText = 'Leyendo archivo...';
+        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
+
+        status.innerText = 'Restructurando átomos (FastStart & Remux)...';
         
-        status.innerText = 'Aplicando parche de estructura ftyp & moov...';
+        // REPLICACIÓN EXACTA DE COMPRESSBASE:
+        // Copy de streams de video y audio + reorganización de moov atom (+faststart)
+        await ffmpeg.run(
+          '-i', 'input.mp4',
+          '-c', 'copy',
+          '-movflags', '+faststart',
+          '-metadata', 'comment=Patched by BinoxEngine',
+          'output.mp4'
+        );
 
-        // 1. Modificación de ftyp (Major Brand patching)
-        let patchedBytes = patchFTYP(bytes);
-
-        // 2. Creación de Blob resultante
-        const patchedBlob = new Blob([patchedBytes], { type: 'video/mp4' });
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        const blob = new Blob([data.buffer], { type: 'video/mp4' });
         
         const dl = document.getElementById('btnDl');
-        dl.href = URL.createObjectURL(patchedBlob);
-        dl.download = `Binox_Patched_${selectedFile.name}`;
+        dl.href = URL.createObjectURL(blob);
+        dl.download = `Binox_${selectedFile.name}`;
         dl.style.display = 'block';
-
+        
         status.className = 'status success';
-        status.innerText = '¡Parche aplicado con éxito en instante! Listo para subir.';
-      } catch (err) {
+        status.innerText = '¡Parche aplicado en segundos! Listo para TikTok Studio.';
+      } catch(err) {
         status.className = 'status error';
-        status.innerText = 'Error al parchear: ' + err.message;
+        status.innerText = 'Error: ' + err.message;
         btnOpt.disabled = false;
       }
-    }
-
-    function patchFTYP(uint8Array) {
-      let data = new Uint8Array(uint8Array);
-      let view = new DataView(data.buffer);
-      
-      let pos = 0;
-      let ftypFound = false;
-
-      // Buscar el átomo ftyp en los primeros bytes
-      while (pos < data.length - 8) {
-        let size = view.getUint32(pos);
-        let type = String.fromCharCode(data[pos+4], data[pos+5], data[pos+6], data[pos+7]);
-
-        if (type === 'ftyp') {
-          ftypFound = true;
-          // Reemplazar Major Brand con 'isom' o 'mp42'
-          // 'mp42' = 0x6D, 0x70, 0x34, 0x32
-          data[pos + 8]  = 0x6D; // m
-          data[pos + 9]  = 0x70; // p
-          data[pos + 10] = 0x34; // 4
-          data[pos + 11] = 0x32; // 2
-          
-          // Compatible Brands: mp42, isom, avc1
-          if (size >= 16) {
-            data[pos + 12] = 0x00;
-            data[pos + 13] = 0x00;
-            data[pos + 14] = 0x02;
-            data[pos + 15] = 0x00;
-          }
-          break;
-        }
-        if (size <= 1) break;
-        pos += size;
-      }
-
-      if (!ftypFound) {
-        throw new Error("No se encontró cabecera MP4 válida (ftyp).");
-      }
-
-      return data;
     }
   </script>
 </body>
