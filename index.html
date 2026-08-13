@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | Hybrid Local Engine</title>
+  <title>BINOX | Universal Hybrid Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- Cargamos la librería FFmpeg WASM oficial -->
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
     .container { width: 100%; max-width: 480px; background: var(--card); backdrop-filter: blur(20px); border-radius: 24px; padding: 32px 28px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 0 40px rgba(0, 242, 254, 0.15); display: flex; flex-direction: column; gap: 20px; }
     .title { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
-    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--cyan); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
-    .drop-zone { border: 2px dashed rgba(0, 242, 254, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 28px 20px; text-align: center; cursor: pointer; }
-    .drop-zone:hover { border-color: var(--green); background: rgba(0, 255, 135, 0.05); }
+    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--green); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
+    .drop-zone { border: 2px dashed rgba(0, 255, 135, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 28px 20px; text-align: center; cursor: pointer; }
+    .drop-zone:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.05); }
     
-    .methods { display: flex; flex-direction: column; gap: 10px; }
-    .method-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-    .method-card.active { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
-    .method-title { font-size: 0.9rem; font-weight: 600; color: #fff; }
-    .method-sub { font-size: 0.75rem; color: var(--muted); }
-
     .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; text-decoration: none; text-align: center; display: block; }
     .btn-optimize { background: linear-gradient(135deg, var(--cyan), var(--green)); color: #000; }
     .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
@@ -36,8 +29,8 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">BINOX HYBRID ENGINE</h1>
-    <div class="info-box">⚡ <b>Procesamiento Local (WASM):</b> Reconstruye la estructura gráfica nativa sin enviar videos a ningún servidor externo.</div>
+    <h1 class="title">BINOX ENGINE</h1>
+    <div class="info-box">⚡ <b>Compatible Universal:</b> Motor local optimizado sin bloqueos de navegador. Renderiza estructura nativa para TikTok Studio.</div>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
@@ -46,24 +39,7 @@
       <input type="file" id="fileInput" accept="video/mp4,video/quicktime" style="display:none;" onchange="fileSelected(event)">
     </div>
 
-    <div class="methods">
-      <div class="method-card active" onclick="selectMethod('hybrid', this)">
-        <div>
-          <div class="method-title">Hybrid Method (Recomendado)</div>
-          <div class="method-sub">Hasta 1080p + 60fps | Máxima nitidez y Faststart</div>
-        </div>
-        <input type="radio" name="method" checked>
-      </div>
-      <div class="method-card" onclick="selectMethod('fps', this)">
-        <div>
-          <div class="method-title">FPS Boost Method</div>
-          <div class="method-sub">Sincronización fija de fotogramas (GOP 60)</div>
-        </div>
-        <input type="radio" name="method">
-      </div>
-    </div>
-
-    <button class="btn btn-optimize" id="btnOpt" onclick="startProcessing()" disabled>Renderizar con Hybrid Engine</button>
+    <button class="btn btn-optimize" id="btnOpt" onclick="startProcessing()" disabled>PROCESAR PARA TIKTOK STUDIO</button>
     
     <div class="progress-bar-container" id="pBarContainer">
       <div class="progress-bar" id="pBar"></div>
@@ -77,15 +53,6 @@
     const { createFFmpeg, fetchFile } = FFmpeg;
     let ffmpeg = null;
     let selectedFile = null;
-    let currentMethod = 'hybrid';
-
-    function selectMethod(method, element){
-      currentMethod = method;
-      document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-      element.classList.add('active');
-      element.querySelector('input').checked = true;
-    }
 
     function fileSelected(e){
       selectedFile = e.target.files[0];
@@ -109,7 +76,11 @@
 
       try {
         if(!ffmpeg){
-          ffmpeg = createFFmpeg({ log: false });
+          ffmpeg = createFFmpeg({ 
+            log: false,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+          });
+          
           ffmpeg.setProgress(({ ratio }) => {
             const pct = Math.round(ratio * 100);
             if(pct >= 0 && pct <= 100){
@@ -123,51 +94,36 @@
         status.innerText = 'Leyendo archivo de entrada...';
         ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
 
-        status.innerText = 'Renderizando estructura para TikTok...';
+        status.innerText = 'Reconstruyendo estructura nativa H.264...';
         
-        // Comandos de FFmpeg según el método seleccionado
-        if(currentMethod === 'hybrid'){
-          // Preset Ultra-limpio con Faststart y GOP de 60 frames
-          await ffmpeg.run(
-            '-i', 'input.mp4',
-            '-c:v', 'libx264',
-            '-preset', 'ultrafast',
-            '-crf', '16',
-            '-g', '60',
-            '-pix_fmt', 'yuv420p',
-            '-movflags', '+faststart',
-            'output.mp4'
-          );
-        } else {
-          // Preset centrado en flujo de FPS
-          await ffmpeg.run(
-            '-i', 'input.mp4',
-            '-c:v', 'libx264',
-            '-r', '60',
-            '-preset', 'ultrafast',
-            '-crf', '18',
-            '-movflags', '+faststart',
-            'output.mp4'
-          );
-        }
+        // Ejecución de comandos nativos
+        await ffmpeg.run(
+          '-i', 'input.mp4',
+          '-c:v', 'libx264',
+          '-preset', 'ultrafast',
+          '-crf', '16',
+          '-g', '60',
+          '-pix_fmt', 'yuv420p',
+          '-movflags', '+faststart',
+          'output.mp4'
+        );
 
         const data = ffmpeg.FS('readFile', 'output.mp4');
         const blob = new Blob([data.buffer], { type: 'video/mp4' });
         
         const dl = document.getElementById('btnDl');
         dl.href = URL.createObjectURL(blob);
-        dl.download = `Binox_Render_${selectedFile.name}`;
+        dl.download = `Binox_TikTok_${selectedFile.name}`;
         dl.style.display = 'block';
         
         status.className = 'status success';
-        status.innerText = '¡Renderizado exitoso! Video listo para TikTok Studio.';
+        status.innerText = '¡Procesamiento completo! Listo para subir a TikTok Studio.';
       } catch(err) {
         status.className = 'status error';
-        status.innerText = 'Error durante el renderizado: ' + err.message;
+        status.innerText = 'Error: ' + err.message;
         btnOpt.disabled = false;
       }
     }
   </script>
 </body>
-  </html>
-  
+</html>
