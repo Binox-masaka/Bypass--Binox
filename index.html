@@ -3,32 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX | Bypass Engine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>BINOX METHOD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-body: #0b0f17;
-            --card-bg: #131b2e;
-            --border-color: #1e293b;
-            --border-hover: #3b82f6;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-start: #4f46e5;
-            --accent-end: #7c3aed;
-            --accent-glow: rgba(79, 70, 229, 0.25);
-            --success-color: #10b981;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-primary);
+            background-color: #030712;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -36,14 +23,19 @@
             padding: 20px;
         }
 
+        /* Contenedor Principal */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px 28px;
+            background: #0b0f19;
+            border-radius: 28px;
+            padding: 36px 24px;
             width: 100%;
-            max-width: 440px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+            max-width: 380px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.05);
+            /* Borde superior multicolor */
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, #10b981, #06b6d4, #8b5cf6, #ec4899, #f59e0b) 1;
+            overflow: hidden;
         }
 
         .header {
@@ -52,48 +44,65 @@
         }
 
         .brand-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
-
-        .badge {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 9999px;
-            background: rgba(99, 102, 241, 0.15);
-            color: #818cf8;
-            margin-top: 6px;
-            letter-spacing: 0.05em;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #22d3ee 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
         .subtitle {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            font-weight: 400;
             line-height: 1.4;
+            padding: 0 10px;
         }
 
-        /* Zona Drop File */
+        /* Tarjeta de Información "¿Cómo funciona?" */
+        .info-box {
+            background: rgba(15, 23, 42, 0.7);
+            border-left: 3px solid #06b6d4;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .info-title {
+            color: #22d3ee;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            color: #94a3b8;
+            font-size: 0.825rem;
+            line-height: 1.55;
+            font-weight: 400;
+        }
+
+        /* Área para arrastrar o seleccionar video */
         .dropzone {
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 28px 20px;
+            border: 2px dashed #0891b2;
+            border-radius: 18px;
+            padding: 32px 16px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(8, 145, 178, 0.03);
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
         }
 
         .dropzone:hover {
-            border-color: var(--border-hover);
-            background: rgba(59, 130, 246, 0.04);
+            border-color: #22d3ee;
+            background: rgba(34, 211, 238, 0.06);
         }
 
         .dropzone input {
@@ -104,87 +113,80 @@
         }
 
         .drop-icon {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
             display: block;
         }
 
-        .drop-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-primary);
+        .drop-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
         }
 
-        .drop-hint {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
+        .drop-subtitle {
+            font-size: 0.78rem;
+            color: #64748b;
         }
 
-        .file-selected {
+        .file-name {
             font-size: 0.85rem;
+            color: #22d3ee;
             font-weight: 600;
-            color: #818cf8;
             margin-top: 8px;
             word-break: break-all;
         }
 
-        /* Botón Principal */
+        /* Botón de Acción */
         .btn-submit {
             width: 100%;
-            padding: 13px;
+            padding: 16px;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-            color: white;
+            border-radius: 14px;
+            background: #1e293b;
+            color: #475569;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px var(--accent-glow);
         }
 
-        .btn-submit:hover {
-            opacity: 0.92;
-            transform: translateY(-1px);
+        .btn-submit.active {
+            background: linear-gradient(135deg, #0284c7, #7c3aed);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
         }
 
         .btn-submit:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
-        /* Panel de Progreso */
-        .progress-panel {
+        /* Barra de Progreso Interna */
+        .progress-box {
             display: none;
-            margin-top: 20px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
+            margin-top: 18px;
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid #1e293b;
         }
 
-        .progress-info {
+        .progress-header {
             display: flex;
             justify-content: space-between;
-            font-size: 0.825rem;
-            font-weight: 500;
+            font-size: 0.8rem;
             margin-bottom: 8px;
         }
 
-        .status-text {
-            color: var(--text-secondary);
-        }
-
-        .percent-text {
-            color: #818cf8;
-            font-weight: 600;
-        }
+        .progress-status { color: #94a3b8; }
+        .progress-percent { color: #22d3ee; font-weight: 700; }
 
         .bar-bg {
-            height: 7px;
+            height: 6px;
             background: #1e293b;
             border-radius: 9999px;
             overflow: hidden;
@@ -193,7 +195,7 @@
         .bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(90deg, #22d3ee, #a855f7);
             border-radius: 9999px;
             transition: width 0.2s ease;
         }
@@ -203,27 +205,33 @@
 
     <div class="card">
         <div class="header">
-            <h1 class="brand-title">BINOX</h1>
-            <span class="badge">TikTok Quality Bypass v2</span>
-            <p class="subtitle">Corrige codificación y metadatos para evitar que TikTok comprima tus videos a 576p.</p>
+            <h1 class="brand-title">BINOX<br>METHOD</h1>
+            <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
+        </div>
+
+        <div class="info-box">
+            <div class="info-title">¿Cómo funciona?</div>
+            <div class="info-text">
+                Sube tu edit directo desde tu render. Nuestra herramienta ajusta la estructura visual, la nitidez y los contenedores de datos necesarios para garantizar la máxima resolución y evitar que el algoritmo degrade la calidad al publicar.
+            </div>
         </div>
 
         <form id="bypassForm">
             <div class="dropzone">
-                <span class="drop-icon">📁</span>
-                <span class="drop-text" id="dropLabel">Selecciona o arrastra tu video</span>
-                <p class="drop-hint" id="dropHint">Formatos soportados: .mp4, .mov (Max 60 FPS)</p>
-                <div class="file-selected" id="fileName"></div>
+                <span class="drop-icon">🎬</span>
+                <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
+                <div class="drop-subtitle" id="dropSubtitle">o haz clic para buscar en tus archivos</div>
+                <div class="file-name" id="fileName"></div>
                 <input type="file" id="videoInput" accept="video/*" required>
             </div>
 
-            <button type="submit" class="btn-submit" id="btnSubmit">Procesar Video</button>
+            <button type="submit" class="btn-submit" id="btnSubmit">OPTIMIZAR EDIT</button>
         </form>
 
-        <div class="progress-panel" id="progressPanel">
-            <div class="progress-info">
-                <span class="status-text" id="statusText">Preparando...</span>
-                <span class="percent-text" id="percentText">0%</span>
+        <div class="progress-box" id="progressBox">
+            <div class="progress-header">
+                <span class="progress-status" id="statusText">Procesando...</span>
+                <span class="progress-percent" id="percentText">0%</span>
             </div>
             <div class="bar-bg">
                 <div class="bar-fill" id="barFill"></div>
@@ -234,20 +242,22 @@
     <script>
         const videoInput = document.getElementById('videoInput');
         const fileName = document.getElementById('fileName');
-        const dropLabel = document.getElementById('dropLabel');
-        const dropHint = document.getElementById('dropHint');
+        const dropTitle = document.getElementById('dropTitle');
+        const dropSubtitle = document.getElementById('dropSubtitle');
         const bypassForm = document.getElementById('bypassForm');
         const btnSubmit = document.getElementById('btnSubmit');
-        const progressPanel = document.getElementById('progressPanel');
+        const progressBox = document.getElementById('progressBox');
         const barFill = document.getElementById('barFill');
         const percentText = document.getElementById('percentText');
         const statusText = document.getElementById('statusText');
 
+        // Activa el color del botón cuando seleccionas archivo
         videoInput.addEventListener('change', () => {
             if (videoInput.files.length > 0) {
-                fileName.textContent = "🎬 " + videoInput.files[0].name;
-                dropLabel.style.display = 'none';
-                dropHint.style.display = 'none';
+                fileName.textContent = videoInput.files[0].name;
+                dropTitle.style.display = 'none';
+                dropSubtitle.style.display = 'none';
+                btnSubmit.classList.add('active');
             }
         });
 
@@ -259,13 +269,15 @@
             formData.append('file', videoInput.files[0]);
 
             btnSubmit.disabled = true;
-            progressPanel.style.display = 'block';
+            progressBox.style.display = 'block';
             barFill.style.width = '0%';
             percentText.textContent = '0%';
-            statusText.textContent = 'Subiendo al servidor...';
+            statusText.textContent = 'Subiendo video...';
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/bypass', true);
+            
+            // Conexión con tu servidor Railway
+            xhr.open('POST', 'https://binox-backend-production.up.railway.app/bypass', true);
 
             xhr.upload.onprogress = (event) => {
                 if (event.lengthComputable) {
@@ -274,14 +286,14 @@
                     percentText.textContent = percent + '%';
                     
                     if (percent === 100) {
-                        statusText.textContent = 'Optimizando metadatos y FFmpeg...';
+                        statusText.textContent = 'Aplicando bypass...';
                     }
                 }
             };
 
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    statusText.textContent = '¡Completado! Descargando video...';
+                    statusText.textContent = '¡Listo! Descargando...';
                     
                     const blob = xhr.response;
                     const downloadUrl = window.URL.createObjectURL(blob);
@@ -294,18 +306,18 @@
 
                     setTimeout(() => {
                         btnSubmit.disabled = false;
-                        statusText.textContent = 'Listo para otro archivo';
+                        statusText.textContent = 'Completado';
                     }, 3000);
                 } else {
-                    statusText.textContent = 'Error en el servidor';
-                    alert('Error al procesar el video.');
+                    statusText.textContent = 'Error';
+                    alert('Error en el servidor (' + xhr.status + ')');
                     btnSubmit.disabled = false;
                 }
             };
 
             xhr.onerror = () => {
                 statusText.textContent = 'Error de conexión';
-                alert('No se pudo conectar con el servidor.');
+                alert('No se pudo conectar al servidor.');
                 btnSubmit.disabled = false;
             };
 
@@ -314,4 +326,5 @@
         });
     </script>
 </body>
-</html>
+            </html>
+            
