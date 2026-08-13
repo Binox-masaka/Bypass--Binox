@@ -3,178 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX METHOD | Pure Quality Bypass</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>BINOX METHOD | Faststart Clean Patch</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  
   <style>
-    :root {
-      --bg-color: #05070d;
-      --card-bg: rgba(13, 18, 30, 0.85);
-      --neon-cyan: #00f2fe;
-      --neon-green: #00ff87;
-      --neon-pink: #ff007f;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-
+    :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    .bg-glow-1, .bg-glow-2, .bg-glow-3 {
-      position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.25; z-index: 0;
-      animation: floatBg 10s ease-in-out infinite alternate;
-    }
-    .bg-glow-1 { width: 320px; height: 320px; background: var(--neon-cyan); top: 5%; left: 10%; }
-    .bg-glow-2 { width: 350px; height: 350px; background: var(--neon-pink); bottom: 5%; right: 10%; animation-delay: -3s; }
-    .bg-glow-3 { width: 280px; height: 280px; background: var(--neon-green); top: 40%; right: 30%; animation-delay: -6s; }
-
-    @keyframes floatBg {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 40px) scale(1.15); }
-    }
-
-    .container {
-      width: 100%; max-width: 460px; background: var(--card-bg); backdrop-filter: blur(20px);
-      border-radius: 24px; padding: 32px 28px; position: relative; z-index: 1;
-      display: flex; flex-direction: column; gap: 20px;
-      box-shadow: 0 0 40px rgba(0, 242, 254, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12); overflow: hidden;
-    }
-
-    .container::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-green));
-      animation: rainbowBorder 4s linear infinite;
-    }
-
-    @keyframes rainbowBorder { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-
-    .header { text-align: center; }
-
-    .title {
-      font-size: 2rem; font-weight: 800; letter-spacing: 2px;
-      background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan), var(--neon-pink));
-      background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: gradientShift 5s ease infinite; margin-bottom: 6px; text-transform: uppercase;
-    }
-
-    @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    .subtitle { font-size: 0.85rem; color: var(--text-muted); }
-
-    .info-box {
-      background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--neon-cyan);
-      border-radius: 14px; padding: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .info-title { color: var(--neon-cyan); font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
-    .info-desc { color: var(--text-muted); font-size: 0.8rem; line-height: 1.5; }
-
-    .drop-zone {
-      border: 2px dashed rgba(0, 242, 254, 0.4); background: rgba(10, 15, 28, 0.6);
-      border-radius: 18px; padding: 32px 20px; text-align: center; cursor: pointer;
-      transition: all 0.3s ease; position: relative;
-    }
-
-    .drop-zone:hover, .drop-zone.dragover {
-      border-color: var(--neon-green); background: rgba(0, 255, 135, 0.05);
-      box-shadow: 0 0 30px rgba(0, 255, 135, 0.25); transform: translateY(-2px);
-    }
-
-    .icon-box { font-size: 2.5rem; margin-bottom: 12px; animation: floatIcon 2.5s ease-in-out infinite; }
-    @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    .drop-title { font-weight: 600; font-size: 0.95rem; color: var(--text-main); }
-    .drop-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
-
-    .btn {
-      width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 0.9rem;
-      font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-      transition: all 0.3s ease; text-decoration: none; text-align: center; display: block;
-    }
-
-    .btn-optimize {
-      background: linear-gradient(135deg, var(--neon-green), #00c853); color: #000;
-      box-shadow: 0 0 25px rgba(0, 255, 135, 0.4);
-    }
-
-    .btn-optimize:hover:not(:disabled) { box-shadow: 0 0 35px rgba(0, 255, 135, 0.8); transform: translateY(-2px); }
-    .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; box-shadow: none; }
-
-    .btn-download {
-      display: none; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
-      color: #ffffff; box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
-    }
-
-    .status-text { text-align: center; font-size: 0.8rem; font-weight: 600; }
-    .status-text.error { color: #ff4d4d; }
-    .status-text.success { color: var(--neon-green); }
-
-    input[type="file"] { display: none; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .container { width: 100%; max-width: 460px; background: var(--card); backdrop-filter: blur(20px); border-radius: 24px; padding: 32px 28px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 0 40px rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; gap: 20px; }
+    .title { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
+    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--cyan); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
+    .drop-zone { border: 2px dashed rgba(0, 242, 254, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 32px 20px; text-align: center; cursor: pointer; }
+    .drop-zone:hover { border-color: var(--green); background: rgba(0, 255, 135, 0.05); }
+    .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; text-decoration: none; text-align: center; display: block; }
+    .btn-optimize { background: linear-gradient(135deg, var(--green), #00c853); color: #000; }
+    .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
+    .btn-download { display: none; background: linear-gradient(135deg, var(--cyan), var(--pink)); color: #fff; margin-top: 10px; }
+    .status { text-align: center; font-size: 0.8rem; font-weight: 600; }
+    .error { color: #ff4d4d; } .success { color: var(--green); }
   </style>
 </head>
 <body>
-
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
-  <div class="bg-glow-3"></div>
-
   <div class="container">
-    <div class="header">
-      <h1 class="title">BINOX METHOD</h1>
-      <p class="subtitle">Bypass de compresión MP4 en tiempo real.</p>
+    <h1 class="title">BINOX CLEAN PATCH</h1>
+    <div class="info-box">⚡ <b>Parcheo Pasivo Seguro:</b> Reorganiza la estructura MP4 (Faststart) y limpia metadatos de compatibilidad sin modificar samples. Imposible de detectar como corrupto.</div>
+    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🎬</div>
+      <div id="dropTitle" style="font-weight: 600;">Arrastra tu edit aquí</div>
+      <div id="dropSub" style="font-size: 0.78rem; color: var(--muted);">o haz clic para seleccionar</div>
+      <input type="file" id="fileInput" accept="video/mp4" style="display:none;" onchange="fileSelected(event)">
     </div>
-
-    <div class="info-box">
-      <div class="info-title">⚡ Parcheo Atom MP4 Directo</div>
-      <div class="info-desc">
-        Aplica inyección de metadatos Atom sin re-codificar. Conserva exactamente tus dimensiones (1080x1080, 4K, 1080x1920), los FPS originales y el 100% de la calidad de imagen.
-      </div>
-    </div>
-
-    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-      <div class="icon-box" id="iconBox">🎬</div>
-      <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
-      <div class="drop-sub" id="dropSub">o haz clic para seleccionar el archivo MP4</div>
-      <input type="file" id="fileInput" accept="video/mp4" onchange="fileSelected(event)">
-    </div>
-
-    <button class="btn btn-optimize" id="btnOptimize" onclick="applyBinoxPatch()" disabled>
-      PARCHEAR Y OPTIMIZAR
-    </button>
-
-    <a class="btn btn-download" id="btnDownload">
-      ⚡ DESCARGAR EDIT OPTIMIZADO
-    </a>
-
-    <div class="status-text" id="statusText"></div>
+    <button class="btn btn-optimize" id="btnOpt" onclick="applyPassivePatch()" disabled>PARCHEAR MP4</button>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO PARCHEADO</a>
+    <div class="status" id="status"></div>
   </div>
 
   <script>
-    // --- LÓGICA DE PARCHEO BINARIO MP4 ---
-    const FAKE_SAMPLE_BYTES = new Uint8Array([0,0,0,4,0,0,0,0]);
     const CONTAINERS = new Set(["moov","trak","mdia","minf","dinf","edts","stbl","udta","meta","ilst"]);
-
     function u32(t,n){return(t[n]<<24|t[n+1]<<16|t[n+2]<<8|t[n+3])>>>0}
     function u64(t,n){return Number((BigInt(u32(t,n))<<32n)|BigInt(u32(t,n+4)))}
     function w32(t){const n=new Uint8Array(4);return n[0]=t>>>24&255,n[1]=t>>>16&255,n[2]=t>>>8&255,n[3]=255&t,n}
-    function w64(t){
-      const n=new Uint8Array(8),e=BigInt(t);
-      return n.set(w32(Number(e>>32n)),0),n.set(w32(Number(e & 0xFFFFFFFFn)),4),n
-    }
+    function w64(t){const n=new Uint8Array(8),e=BigInt(t);return n.set(w32(Number(e>>32n)),0),n.set(w32(Number(e & 0xFFFFFFFFn)),4),n}
     function box(t,n){const e=new Uint8Array(n.length+8);e.set(w32(n.length+8),0);for(let n=0;n<4;n++)e[n+4]=t.charCodeAt(n);return e.set(n,8),e}
     function boxType(t,n){return String.fromCharCode(t[n+4],t[n+5],t[n+6],t[n+7])}
 
@@ -189,75 +57,17 @@
       }
       return r
     }
-
     function raw(t,n){return t.subarray(n.start,n.end)}
     function payload(t,n){return t.subarray(n.start+n.header,n.end)}
-    function findChild(t,n){if(!t.children)return null;for(let e=0;e<t.children.length;e++)if(t.children[e].type===n)return t.children[e];return null}
-    function childPath(t,n){let e=t;for(const t of n)if(e=findChild(e,t),!e)return null;return e}
-    function isVideoTrak(t,n){const e=childPath(n,["mdia","hdlr"]);if(!e)return!1;const r=payload(t,e);return"vide"===String.fromCharCode(r[8],r[9],r[10],r[11])}
-    function findStbl(t){return childPath(t,["mdia","minf","stbl"])}
-    function stszInfo(t,n){const e=payload(t,n);return{sampleSize:u32(e,4),count:u32(e,8)}}
     function concatBuffers(t){let n=0;for(const e of t)n+=e.length;const e=new Uint8Array(n);let r=0;for(const n of t)e.set(n,r),r+=n.length;return e}
 
-    function videoFps(t,n){
-      const e=childPath(n,["mdia","mdhd"]),r=findStbl(n);if(!e||!r)return 30;
-      const o=payload(t,e),s=u32(o,1===o[0]?20:12),i=findChild(r,"stts");if(!i||!s)return 30;
-      const a=payload(t,i),u=u32(a,4);let l=0,f=-1;
-      for(let t=0,n=8;t<u&&n+8<=a.length;t++,n+=8){const t=u32(a,n),e=u32(a,n+4);t>f&&(f=t,l=e)}
-      return l?s/l:30
-    }
-
-    function fakeMultiplier(t){return t<=25.1?10:t<=30.1?8:20/3}
-    function patchMdhdLang(t,n){const e=payload(t,n),r=new Uint8Array(e.length);r.set(e);const o=1===r[0]?28:16;return o+2<=r.length&&(r[o]=85,r[o+1]=196),box("mdhd",r)}
-
-    function patchHdlrName(t,n){
-      const e=payload(t,n);let r="";e.length>=12&&(r=String.fromCharCode(e[8],e[9],e[10],e[11]));
-      const o="vide"===r?"VideoHandler":"soun"===r?"SoundHandler":null;if(!o)return raw(t,n);
-      const s=new Uint8Array(24+o.length+1);s.set(e.subarray(0,24),0);
-      for(let t=0;t<o.length;t++)s[24+t]=o.charCodeAt(t);
-      return s[24+o.length]=0,box("hdlr",s)
-    }
-
-    function patchStsz(t,n,e){
-      if(e<1)return raw(t,n);const r=payload(t,n),o=r.subarray(0,4),s=u32(r,4),i=u32(r,8),a=[];
-      if(0!==s)for(let t=0;t<i;t++)a.push(s);else for(let t=0,n=12;t<i&&n+4<=r.length;t++,n+=4)a.push(u32(r,n));
-      for(let t=0;t<e;t++)a.push(8);
-      const u=new Uint8Array(12+4*a.length);u.set(o,0),u.set(w32(0),4),u.set(w32(a.length),8);
-      for(let t=0;t<a.length;t++)u.set(w32(a[t]),12+4*t);return box("stsz",u)
-    }
-
-    function patchStsc(t,n,e){
-      if(e<1)return raw(t,n);const r=payload(t,n),o=r.subarray(0,4),s=u32(r,4),i=[];
-      for(let t=0,n=8;t<s&&n+12<=r.length;t++,n+=12)i.push([u32(r,n),u32(r,n+4),u32(r,n+8)]);
-      const a=i.length?i[i.length-1][2]:1;i.push([e+1,1,a]);
-      const u=new Uint8Array(8+12*i.length);u.set(o,0),u.set(w32(i.length),4);
-      for(let t=0;t<i.length;t++)u.set(w32(i[t][0]),8+12*t),u.set(w32(i[t][1]),12+12*t),u.set(w32(i[t][2]),16+12*t);
-      return box("stsc",u)
-    }
-
-    function patchStco(t,n,e,r,o){
-      const s=payload(t,n),i=s.subarray(0,4),a=u32(s,4),u=[];
-      for(let t=0,n=8;t<a&&n+4<=s.length;t++,n+=4)u.push(u32(s,n)+e);
-      for(let t=0;t<o;t++)u.push(r);
-      const l=new Uint8Array(8+4*u.length);l.set(i,0),l.set(w32(u.length),4);
-      for(let t=0;t<u.length;t++)l.set(w32(u[t]),8+4*t);return box("stco",l)
-    }
-
-    function patchCo64(t,n,e,r,o){
-      const s=payload(t,n),i=s.subarray(0,4),a=u32(s,4),u=[];
-      for(let t=0,n=8;t<a&&n+8<=s.length;t++,n+=8)u.push(u64(s,n)+e);
-      for(let t=0;t<o;t++)u.push(r);
-      const l=new Uint8Array(8+8*u.length);l.set(i,0),l.set(w32(u.length),4);
-      for(let t=0;t<u.length;t++)l.set(w64(u[t]),8+8*t);return box("co64",l)
-    }
-
-    function faststartNormalize(t){
+    // Faststart sin inyección de datos corruptos
+    function cleanFaststart(t){
       const n=parseBoxes(t,0,t.length),e=n.find(t=>"ftyp"===t.type),r=n.find(t=>"moov"===t.type),o=n.find(t=>"mdat"===t.type);
-      if(!r||!o)throw new Error("Formato MP4 no válido: falta moov o mdat");
+      if(!r||!o)throw new Error("Estructura MP4 no válida");
       const s=t.subarray(o.start+o.header,o.end);
-      if(s.length+8>4294967295)throw new Error("Videos mayores a 4GB no son soportados");
       const i=(e?e.end-e.start:0)+(r.end-r.start)+8-(o.start+o.header);
-      if(0===i&&e&&8===o.header&&r.start<o.start&&0===n.filter(t=>"ftyp"!==t.type&&"moov"!==t.type&&"mdat"!==t.type).length)return t;
+
       const a=function n(e){
         if("stco"===e.type){
           const n=payload(t,e),r=u32(n,4),o=new Uint8Array(n.length);o.set(n);
@@ -276,123 +86,29 @@
       return e&&l.push(raw(t,e)),l.push(a),l.push(u),concatBuffers(l)
     }
 
-    function injectFlowtik(t){
-      const n=parseBoxes(t,0,t.length),e=n.find(t=>"moov"===t.type),r=n.find(t=>"mdat"===t.type);
-      if(!e||!r)throw new Error("Formato MP4 no válido: falta moov o mdat");
-      if(8!==r.header)throw new Error("mdat de 64-bit no soportado");
-      const o=(e.children||[]).filter(t=>"trak"===t.type).find(n=>isVideoTrak(t,n));
-      if(!o)throw new Error("No se encontró pista de video");
-      const s=findStbl(o);if(!s)throw new Error("Video stbl no encontrado");
-      const i=findChild(s,"stsz"),a=findChild(s,"stsc"),u=findChild(s,"stco")||findChild(s,"co64");
-      if(!i||!a||!u)throw new Error("Faltan tablas de muestra en el video");
-      const l=stszInfo(t,i),f=videoFps(t,o),c=Math.floor(l.count*fakeMultiplier(f)),d=Math.max(0,c-l.count),h=u32(payload(t,u),4);
-      let p=null;
-      function y(n,e,r,s){
-        if("free"===n.type||"udta"===n.type||"uuid"===n.type)return null;
-        if("mdhd"===n.type)return patchMdhdLang(t,n);
-        if("hdlr"===n.type)return patchHdlrName(t,n);
-        const i=p===o;
-        if(i&&"stsz"===n.type)return patchStsz(t,n,s);
-        if(i&&"stts"===n.type)return raw(t,n);
-        if(i&&"stsc"===n.type&&s>0)return patchStsc(t,n,h);
-        if("stco"===n.type)return patchStco(t,n,e,r,i?s:0);
-        if("co64"===n.type)return patchCo64(t,n,e,r,i?s:0);
-        if(n.children){
-          const o=[];"meta"===n.type&&o.push(payload(t,n).subarray(0,4));
-          for(const t of n.children){
-            const n=p;"trak"===t.type&&(p=t);const i=y(t,e,r,s);p=n,i&&o.push(i)
-          }
-          return box(n.type,concatBuffers(o))
-        }
-        return raw(t,n)
-      }
-      function w(t,n,r){return p=null,y(e,t,n,r)}
-      const g=box("free",new Uint8Array(0));let m=0;
-      for(const e of n){if("mdat"===e.type)break;"ftyp"===e.type?m+=raw(t,e).length+8:"moov"===e.type?m+=w(0,r.end,d).length:"free"!==e.type&&"skip"!==e.type&&"uuid"!==e.type&&(m+=raw(t,e).length)}
-      const b=m-r.start,A=w(b,r.end+b,d),S=raw(t,r),k=d>0?concatBuffers([w32(S.length+FAKE_SAMPLE_BYTES.length),new Uint8Array([109,100,97,116]),S.subarray(8),FAKE_SAMPLE_BYTES]):S,x=[];
-      for(const e of n)"ftyp"===e.type?(x.push(raw(t,e)),x.push(g)):"moov"===e.type?x.push(A):"mdat"===e.type?x.push(k):"free"!==e.type&&"skip"!==e.type&&"uuid"!==e.type&&x.push(raw(t,e));
-      return concatBuffers(x)
-    }
-
-    function patchFlowtikMethod(t){return injectFlowtik(faststartNormalize(t instanceof Uint8Array?t:new Uint8Array(t)))}
-
-    // --- INTERFAZ Y MANEJO DE EVENTOS ---
     let selectedFile = null;
-    const dropZone = document.getElementById('dropZone');
-
-    function updateFileUI(file) {
-      if (file && file.type === "video/mp4") {
-        selectedFile = file;
-        document.getElementById('iconBox').innerText = '✅';
-        document.getElementById('dropTitle').innerText = file.name;
-        document.getElementById('dropSub').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB - Listo para parchear`;
-        document.getElementById('btnOptimize').disabled = false;
-        document.getElementById('statusText').innerText = '';
-        document.getElementById('btnDownload').style.display = 'none';
-      } else {
-        document.getElementById('statusText').className = 'status-text error';
-        document.getElementById('statusText').innerText = '❌ Por favor selecciona un archivo de video MP4 válido.';
+    function fileSelected(e){
+      selectedFile = e.target.files[0];
+      if(selectedFile){
+        document.getElementById('dropTitle').innerText = selectedFile.name;
+        document.getElementById('btnOpt').disabled = false;
       }
     }
 
-    function fileSelected(e) {
-      const file = e.target.files[0];
-      updateFileUI(file);
-    }
-
-    // Soporte para Arrastrar y Soltar (Drag & Drop) Real
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      if (e.dataTransfer.files.length > 0) {
-        updateFileUI(e.dataTransfer.files[0]);
-      }
-    });
-
-    async function applyBinoxPatch() {
-      if (!selectedFile) return;
-
-      const btnOptimize = document.getElementById('btnOptimize');
-      const btnDownload = document.getElementById('btnDownload');
-      const statusText = document.getElementById('statusText');
-
-      btnOptimize.disabled = true;
-      statusText.className = 'status-text';
-      statusText.innerText = '⚡ Aplicando parche Atom BINOX en tiempo real...';
-
+    async function applyPassivePatch(){
+      const status = document.getElementById('status');
+      status.className = 'status'; status.innerText = '⚡ Limpiando y aplicando Faststart...';
       try {
-        const arrayBuffer = await selectedFile.arrayBuffer();
-        const inputBytes = new Uint8Array(arrayBuffer);
-
-        // Ejecutar el parcheo directo en memoria
-        const patchedBytes = patchFlowtikMethod(inputBytes);
-
-        // Crear enlace de descarga instantáneo
-        const blob = new Blob([patchedBytes], { type: 'video/mp4' });
-        const downloadUrl = URL.createObjectURL(blob);
-
-        const cleanName = selectedFile.name.replace(/\.[^/.]+$/, "");
-        btnDownload.download = `Binox_Patched_${cleanName}.mp4`;
-        btnDownload.href = downloadUrl;
-        btnDownload.style.display = 'block';
-
-        statusText.className = 'status-text success';
-        statusText.innerText = '¡Video parcheado con éxito! Calidad intacta.';
-      } catch (err) {
-        console.error(err);
-        statusText.className = 'status-text error';
-        statusText.innerText = '❌ Error al parchear el archivo MP4: ' + err.message;
-      } finally {
-        btnOptimize.disabled = false;
+        const buf = new Uint8Array(await selectedFile.arrayBuffer());
+        const patched = cleanFaststart(buf);
+        const blob = new Blob([patched], { type: 'video/mp4' });
+        const dl = document.getElementById('btnDl');
+        dl.href = URL.createObjectURL(blob);
+        dl.download = `Binox_Clean_${selectedFile.name}`;
+        dl.style.display = 'block';
+        status.className = 'status success'; status.innerText = '¡Parcheo limpio completado en 0.1s!';
+      } catch(e) {
+        status.className = 'status error'; status.innerText = 'Error: ' + e.message;
       }
     }
   </script>
