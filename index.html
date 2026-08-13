@@ -89,7 +89,7 @@
       transition: all 0.3s ease; position: relative;
     }
 
-    .drop-zone:hover {
+    .drop-zone:hover, .drop-zone.dragover {
       border-color: var(--neon-green); background: rgba(0, 255, 135, 0.05);
       box-shadow: 0 0 30px rgba(0, 255, 135, 0.25); transform: translateY(-2px);
     }
@@ -145,7 +145,7 @@
       </div>
     </div>
 
-    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div class="icon-box" id="iconBox">🎬</div>
       <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
       <div class="drop-sub" id="dropSub">o haz clic para seleccionar el archivo MP4</div>
@@ -164,14 +164,17 @@
   </div>
 
   <script>
-    // --- LÓGICA DE PARCHEO BINARIO MP4 (FLOWTIK METHOD) ---
+    // --- LÓGICA DE PARCHEO BINARIO MP4 ---
     const FAKE_SAMPLE_BYTES = new Uint8Array([0,0,0,4,0,0,0,0]);
     const CONTAINERS = new Set(["moov","trak","mdia","minf","dinf","edts","stbl","udta","meta","ilst"]);
 
     function u32(t,n){return(t[n]<<24|t[n+1]<<16|t[n+2]<<8|t[n+3])>>>0}
-    function u64(t,n){return Number(BigInt(u32(t,n))<<32n|BigInt(u32(t,n+4)))}
+    function u64(t,n){return Number((BigInt(u32(t,n))<<32n)|BigInt(u32(t,n+4)))}
     function w32(t){const n=new Uint8Array(4);return n[0]=t>>>24&255,n[1]=t>>>16&255,n[2]=t>>>8&255,n[3]=255&t,n}
-    function w64(t){const n=new Uint8Array(8),e=BigInt(t);return n.set(w32(Number(e>>32n)),0),n.set(w32(Number(0xFFFFFFFFn&e)),4),n}
+    function w64(t){
+      const n=new Uint8Array(8),e=BigInt(t);
+      return n.set(w32(Number(e>>32n)),0),n.set(w32(Number(e & 0xFFFFFFFFn)),4),n
+    }
     function box(t,n){const e=new Uint8Array(n.length+8);e.set(w32(n.length+8),0);for(let n=0;n<4;n++)e[n+4]=t.charCodeAt(n);return e.set(n,8),e}
     function boxType(t,n){return String.fromCharCode(t[n+4],t[n+5],t[n+6],t[n+7])}
 
@@ -250,9 +253,9 @@
 
     function faststartNormalize(t){
       const n=parseBoxes(t,0,t.length),e=n.find(t=>"ftyp"===t.type),r=n.find(t=>"moov"===t.type),o=n.find(t=>"mdat"===t.type);
-      if(!r||!o)throw new Error("Invalid MP4: missing moov or mdat");
+      if(!r||!o)throw new Error("Formato MP4 no válido: falta moov o mdat");
       const s=t.subarray(o.start+o.header,o.end);
-      if(s.length+8>4294967295)throw new Error("Video mayor a 4GB no soportado");
+      if(s.length+8>4294967295)throw new Error("Videos mayores a 4GB no son soportados");
       const i=(e?e.end-e.start:0)+(r.end-r.start)+8-(o.start+o.header);
       if(0===i&&e&&8===o.header&&r.start<o.start&&0===n.filter(t=>"ftyp"!==t.type&&"moov"!==t.type&&"mdat"!==t.type).length)return t;
       const a=function n(e){
@@ -275,13 +278,13 @@
 
     function injectFlowtik(t){
       const n=parseBoxes(t,0,t.length),e=n.find(t=>"moov"===t.type),r=n.find(t=>"mdat"===t.type);
-      if(!e||!r)throw new Error("Invalid MP4: missing moov or mdat");
-      if(8!==r.header)throw new Error("64-bit mdat not supported");
+      if(!e||!r)throw new Error("Formato MP4 no válido: falta moov o mdat");
+      if(8!==r.header)throw new Error("mdat de 64-bit no soportado");
       const o=(e.children||[]).filter(t=>"trak"===t.type).find(n=>isVideoTrak(t,n));
-      if(!o)throw new Error("No video track found");
-      const s=findStbl(o);if(!s)throw new Error("Video stbl not found");
+      if(!o)throw new Error("No se encontró pista de video");
+      const s=findStbl(o);if(!s)throw new Error("Video stbl no encontrado");
       const i=findChild(s,"stsz"),a=findChild(s,"stsc"),u=findChild(s,"stco")||findChild(s,"co64");
-      if(!i||!a||!u)throw new Error("Video sample tables missing");
+      if(!i||!a||!u)throw new Error("Faltan tablas de muestra en el video");
       const l=stszInfo(t,i),f=videoFps(t,o),c=Math.floor(l.count*fakeMultiplier(f)),d=Math.max(0,c-l.count),h=u32(payload(t,u),4);
       let p=null;
       function y(n,e,r,s){
@@ -313,12 +316,12 @@
 
     function patchFlowtikMethod(t){return injectFlowtik(faststartNormalize(t instanceof Uint8Array?t:new Uint8Array(t)))}
 
-    // --- INTERFAZ BINOX ---
+    // --- INTERFAZ Y MANEJO DE EVENTOS ---
     let selectedFile = null;
+    const dropZone = document.getElementById('dropZone');
 
-    function fileSelected(e) {
-      const file = e.target.files[0];
-      if (file) {
+    function updateFileUI(file) {
+      if (file && file.type === "video/mp4") {
         selectedFile = file;
         document.getElementById('iconBox').innerText = '✅';
         document.getElementById('dropTitle').innerText = file.name;
@@ -326,8 +329,34 @@
         document.getElementById('btnOptimize').disabled = false;
         document.getElementById('statusText').innerText = '';
         document.getElementById('btnDownload').style.display = 'none';
+      } else {
+        document.getElementById('statusText').className = 'status-text error';
+        document.getElementById('statusText').innerText = '❌ Por favor selecciona un archivo de video MP4 válido.';
       }
     }
+
+    function fileSelected(e) {
+      const file = e.target.files[0];
+      updateFileUI(file);
+    }
+
+    // Soporte para Arrastrar y Soltar (Drag & Drop) Real
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        updateFileUI(e.dataTransfer.files[0]);
+      }
+    });
 
     async function applyBinoxPatch() {
       if (!selectedFile) return;
@@ -344,7 +373,7 @@
         const arrayBuffer = await selectedFile.arrayBuffer();
         const inputBytes = new Uint8Array(arrayBuffer);
 
-        // Ejecutar el parcheo directo en memoria JS
+        // Ejecutar el parcheo directo en memoria
         const patchedBytes = patchFlowtikMethod(inputBytes);
 
         // Crear enlace de descarga instantáneo
@@ -357,7 +386,7 @@
         btnDownload.style.display = 'block';
 
         statusText.className = 'status-text success';
-        statusText.innerText = '¡Video parcheado con éxito en 0.1s! Calidad intacta.';
+        statusText.innerText = '¡Video parcheado con éxito! Calidad intacta.';
       } catch (err) {
         console.error(err);
         statusText.className = 'status-text error';
