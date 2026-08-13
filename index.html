@@ -9,175 +9,294 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #0b0b14;
+            background: #05050d;
             color: #ffffff;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
             padding: 20px;
+            position: relative;
         }
 
-        .container {
+        /* Luces de fondo dinámicas (Glow Orbs) */
+        .bg-glow-1 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.4) 0%, rgba(0,0,0,0) 70%);
+            top: -50px;
+            left: -50px;
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(0,0,0,0) 70%);
+            bottom: -100px;
+            right: -100px;
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse 10s infinite alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+            100% { transform: scale(1.2) translate(30px, 30px); opacity: 0.9; }
+        }
+
+        /* Tarjeta Principal */
+        .card {
+            position: relative;
+            z-index: 10;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            background: rgba(15, 16, 32, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(147, 51, 234, 0.2);
             text-align: center;
         }
 
+        /* Título con Neón Gradiente */
         h1 {
-            font-size: 2rem;
-            color: #4da6ff;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            margin-bottom: 8px;
         }
 
-        .info-card {
-            background-color: #121324;
-            border: 1px solid #1f223d;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: left;
-            margin-bottom: 20px;
+        .subtitle {
             font-size: 0.85rem;
-            color: #a0a5c0;
-            line-height: 1.4;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
         }
 
-        .info-card h3 {
-            color: #3b82f6;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
-
+        /* Zona de Arrastre Futurista */
         .drop-zone {
-            border: 2px dashed #2d325a;
-            border-radius: 12px;
-            padding: 30px 20px;
+            position: relative;
+            border: 2px dashed rgba(168, 85, 247, 0.4);
+            border-radius: 16px;
+            padding: 30px 15px;
+            background: rgba(20, 21, 45, 0.5);
             cursor: pointer;
-            background-color: #121324;
-            transition: border-color 0.3s;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .drop-zone:hover {
             border-color: #3b82f6;
+            background: rgba(30, 32, 68, 0.6);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
         }
 
-        .icon {
-            font-size: 2rem;
+        .icon-box {
+            font-size: 2.5rem;
             margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+            animation: float 3s ease-in-out infinite;
         }
 
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 25px;
-            background: linear-gradient(90deg, #4da6ff, #2563eb);
-            color: white;
-            font-weight: bold;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .drop-zone-text {
             font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .file-info {
+            font-size: 0.8rem;
+            color: #38bdf8;
+            margin-top: 6px;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        /* Botón de Acción Principal */
+        .btn-action {
+            width: 100%;
+            margin-top: 24px;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #a855f7, #2563eb);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: opacity 0.3s;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
         }
 
-        .btn:disabled {
-            opacity: 0.5;
+        .btn-action:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
-        .progress-container {
-            margin-top: 20px;
+        /* Sección de Progreso */
+        .progress-section {
+            margin-top: 24px;
             display: none;
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
         }
 
         .progress-bar-bg {
             width: 100%;
-            height: 8px;
-            background-color: #1f223d;
-            border-radius: 4px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
             overflow: hidden;
-            margin-top: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .progress-bar-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #4da6ff, #9333ea);
-            transition: width 0.2s;
+            background: linear-gradient(90deg, #a855f7, #3b82f6, #06b6d4);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            animation: gradientShift 2s linear infinite;
         }
 
-        .status-text {
-            font-size: 0.8rem;
-            color: #a0a5c0;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        input[type="file"] {
+        /* Botón de Descarga Neón (Oculto al inicio) */
+        .btn-download {
             display: none;
+            width: 100%;
+            margin-top: 20px;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+            animation: glowGreen 2s infinite alternate;
+            transition: all 0.3s ease;
         }
+
+        .btn-download:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.8);
+        }
+
+        @keyframes glowGreen {
+            0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
+        }
+
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>BINOX METHOD</h1>
+<div class="bg-glow-1"></div>
+<div class="bg-glow-2"></div>
 
-    <div class="info-card">
-        <h3>¿Cómo funciona?</h3>
-        Nuestra herramienta optimiza la estructura visual y los metadatos de tu archivo para mantener la máxima nitidez posible al publicarlo, garantizando que el algoritmo respete tu calidad original.
-    </div>
+<div class="card">
+    <h1>BINOX METHOD</h1>
+    <p class="subtitle">Next-Gen Media Enhancement Engine</p>
 
     <div class="drop-zone" onclick="document.getElementById('videoInput').click()">
-        <div class="icon">🎬</div>
-        <div id="selectText">Arrastra o toca para buscar</div>
+        <div class="icon-box">⚡</div>
+        <div id="selectText" class="drop-zone-text">Selecciona o arrastra tu archivo</div>
+        <div id="fileName" class="file-info"></div>
     </div>
 
     <input type="file" id="videoInput" accept="video/*" onchange="handleFileSelect(event)">
 
-    <button id="optimizeBtn" class="btn" onclick="startOptimization()" disabled>OPTIMIZAR EDIT</button>
+    <button id="optimizeBtn" class="btn-action" onclick="startProcess()" disabled>INICIAR OPTIMIZACIÓN</button>
 
-    <div id="progressContainer" class="progress-container">
+    <div id="progressSection" class="progress-section">
         <div id="statusText" class="status-text">Procesando... 0%</div>
         <div class="progress-bar-bg">
             <div id="progressBar" class="progress-bar-fill"></div>
         </div>
     </div>
+
+    <button id="downloadBtn" class="btn-download" onclick="triggerDownload()">⬇ DESCARGAR ARCHIVO OPTIMIZADO</button>
 </div>
 
 <script>
     const BACKEND_URL = "https://binox-backend-production.up.railway.app/bypass";
     let selectedFile = null;
+    let downloadedBlobUrl = null;
+    let outputFilename = "";
 
     function handleFileSelect(event) {
         const file = event.target.files[0];
         if (file) {
             selectedFile = file;
-            document.getElementById('selectText').innerText = "Seleccionado: " + file.name;
+            document.getElementById('selectText').innerText = "Archivo cargado correctamente";
+            document.getElementById('fileName').innerText = file.name;
             document.getElementById('optimizeBtn').disabled = false;
             
-            // Reiniciar estado visual de progreso
-            document.getElementById('progressContainer').style.display = 'none';
+            // Reiniciar componentes visuales
+            document.getElementById('progressSection').style.display = 'none';
+            document.getElementById('downloadBtn').style.display = 'none';
             document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('statusText').innerText = "Procesando... 0%";
         }
     }
 
-    function startOptimization() {
+    function startProcess() {
         if (!selectedFile) return;
 
         const btn = document.getElementById('optimizeBtn');
-        const progressContainer = document.getElementById('progressContainer');
+        const progressSection = document.getElementById('progressSection');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
+        const downloadBtn = document.getElementById('downloadBtn');
 
         btn.disabled = true;
-        progressContainer.style.display = 'block';
+        downloadBtn.style.display = 'none';
+        progressSection.style.display = 'block';
         progressBar.style.width = '0%';
-        statusText.innerText = "Enviando al servidor... 0%";
+        statusText.innerText = "Sincronizando con el servidor... 0%";
 
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -186,10 +305,9 @@
         xhr.open("POST", BACKEND_URL, true);
         xhr.responseType = "blob";
 
-        // Actualizar porcentaje de carga del cliente al servidor
         xhr.upload.onprogress = function(e) {
             if (e.lengthComputable) {
-                const percent = Math.round((e.loaded / e.total) * 50); // Subida es el 50% del proceso
+                const percent = Math.round((e.loaded / e.total) * 50);
                 progressBar.style.width = percent + "%";
                 statusText.innerText = "Subiendo archivo... " + percent + "%";
             }
@@ -198,36 +316,45 @@
         xhr.onload = function() {
             if (xhr.status === 200) {
                 progressBar.style.width = "100%";
-                statusText.innerText = "¡Completado! Descargando video...";
+                statusText.innerText = "¡Procesamiento finalizado con éxito!";
 
-                // Generar descarga del video devuelto
+                // Guardar el blob para la descarga manual posterior
                 const blob = xhr.response;
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = downloadUrl;
-                a.download = "binox_" + selectedFile.name;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(downloadUrl);
+                if (downloadedBlobUrl) {
+                    window.URL.revokeObjectURL(downloadedBlobUrl);
+                }
+                downloadedBlobUrl = window.URL.createObjectURL(blob);
+                outputFilename = "binox_" + selectedFile.name;
 
+                // Revelar el botón de descarga manual
                 setTimeout(() => {
+                    downloadBtn.style.display = 'block';
                     btn.disabled = false;
-                }, 2000);
+                }, 600);
             } else {
                 btn.disabled = false;
                 statusText.innerText = "Error en el servidor (" + xhr.status + ")";
-                alert("Ocurrió un error al procesar el video en el servidor.");
+                alert("Ocurrió un problema durante el procesamiento.");
             }
         };
 
         xhr.onerror = function() {
             btn.disabled = false;
             statusText.innerText = "Error de conexión";
-            alert("No se pudo conectar con el servidor de Railway.");
+            alert("No se pudo establecer conexión con la red de Binox.");
         };
 
         xhr.send(formData);
+    }
+
+    function triggerDownload() {
+        if (!downloadedBlobUrl) return;
+        const a = document.createElement("a");
+        a.href = downloadedBlobUrl;
+        a.download = outputFilename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
     }
 </script>
 
