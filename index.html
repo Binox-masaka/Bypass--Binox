@@ -9,225 +9,256 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
         body {
-            background: #05050d;
+            background: #060911;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
             padding: 20px;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Luces de fondo dinámicas (Glow Orbs) */
-        .bg-glow-1 {
+        /* Ambient Background Glow */
+        body::before {
+            content: '';
             position: absolute;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(147, 51, 234, 0.4) 0%, rgba(0,0,0,0) 70%);
-            top: -50px;
-            left: -50px;
-            border-radius: 50%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 255, 170, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 0;
-            animation: pulse 8s infinite alternate;
+            pointer-events: none;
+            animation: ambientPulse 6s ease-in-out infinite alternate;
         }
 
-        .bg-glow-2 {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(0,0,0,0) 70%);
-            bottom: -100px;
-            right: -100px;
-            border-radius: 50%;
-            z-index: 0;
-            animation: pulse 10s infinite alternate-reverse;
+        @keyframes ambientPulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
-            100% { transform: scale(1.2) translate(30px, 30px); opacity: 0.9; }
-        }
-
-        /* Tarjeta Principal */
+        /* Main Container Card (Coincide con la imagen + Neon Glow) */
         .card {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 420px;
-            background: rgba(15, 16, 32, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 32px 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
-                        0 0 30px rgba(147, 51, 234, 0.2);
+            max-width: 520px;
+            background: rgba(13, 17, 28, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 170, 0.2);
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: 0 0 40px rgba(0, 255, 170, 0.15),
+                        0 20px 40px rgba(0, 0, 0, 0.8);
             text-align: center;
         }
 
-        /* Título con Neón Gradiente */
+        /* Title */
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #06b6d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            color: #00ffaa;
+            text-shadow: 0 0 20px rgba(0, 255, 170, 0.6);
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
 
         .subtitle {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #94a3b8;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
+            margin-bottom: 28px;
+            font-weight: 400;
         }
 
-        /* Zona de Arrastre Futurista */
+        /* Feature Info Box (El recuadro con la barra lateral verde) */
+        .info-box {
+            background: rgba(20, 26, 41, 0.7);
+            border-left: 4px solid #00ffaa;
+            border-radius: 10px;
+            padding: 18px 20px;
+            text-align: left;
+            margin-bottom: 28px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-title {
+            color: #00ffaa;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-desc {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Drop Zone (Zona con borde punteado de la imagen) */
         .drop-zone {
-            position: relative;
-            border: 2px dashed rgba(168, 85, 247, 0.4);
+            border: 2px dashed rgba(0, 255, 170, 0.5);
             border-radius: 16px;
-            padding: 30px 15px;
-            background: rgba(20, 21, 45, 0.5);
+            padding: 35px 20px;
+            background: rgba(16, 22, 36, 0.5);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
             overflow: hidden;
         }
 
-        .drop-zone:hover {
-            border-color: #3b82f6;
-            background: rgba(30, 32, 68, 0.6);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #00ffaa;
+            background: rgba(22, 31, 50, 0.8);
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.25);
             transform: translateY(-2px);
         }
 
         .icon-box {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 14px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 170, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 170, 0.2);
             animation: float 3s ease-in-out infinite;
+        }
+
+        .icon-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #00ffaa;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 170, 0.8));
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-5px); }
         }
 
-        .drop-zone-text {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            font-weight: 500;
+        .drop-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
         }
 
-        .file-info {
+        .drop-sub {
             font-size: 0.8rem;
-            color: #38bdf8;
-            margin-top: 6px;
+            color: #64748b;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #00ffaa;
             font-weight: 600;
             word-break: break-all;
         }
 
-        /* Botón de Acción Principal */
-        .btn-action {
-            width: 100%;
+        /* Action & Progress Area */
+        .action-area {
             margin-top: 24px;
-            padding: 16px;
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 15px;
             border: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #a855f7, #2563eb);
-            color: #ffffff;
-            font-weight: 700;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00ffaa 0%, #00b894 100%);
+            color: #060911;
+            font-weight: 800;
             font-size: 0.95rem;
             letter-spacing: 1px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.4);
             transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .btn-action:hover:not(:disabled) {
+        .btn-main:hover:not(:disabled) {
             transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.7);
         }
 
-        .btn-action:disabled {
-            opacity: 0.4;
+        .btn-main:disabled {
+            opacity: 0.35;
             cursor: not-allowed;
             box-shadow: none;
         }
 
-        /* Sección de Progreso */
-        .progress-section {
-            margin-top: 24px;
+        /* Progress Bar */
+        .progress-box {
             display: none;
+            margin-top: 20px;
         }
 
         .status-text {
             font-size: 0.85rem;
-            color: #38bdf8;
+            color: #00ffaa;
             font-weight: 600;
             margin-bottom: 8px;
-            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+            text-align: left;
         }
 
         .progress-bar-bg {
             width: 100%;
-            height: 10px;
+            height: 8px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .progress-bar-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #a855f7, #3b82f6, #06b6d4);
-            background-size: 200% 100%;
+            background: #00ffaa;
+            box-shadow: 0 0 12px #00ffaa;
             border-radius: 10px;
             transition: width 0.3s ease;
-            animation: gradientShift 2s linear infinite;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        /* Botón de Descarga Neón (Oculto al inicio) */
+        /* Manual Download Button */
         .btn-download {
             display: none;
             width: 100%;
             margin-top: 20px;
             padding: 16px;
             border: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #ffffff;
-            font-weight: 800;
+            border-radius: 12px;
+            background: #00ffaa;
+            color: #060911;
+            font-weight: 900;
             font-size: 0.95rem;
             letter-spacing: 1px;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
-            animation: glowGreen 2s infinite alternate;
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.6);
             transition: all 0.3s ease;
+            animation: pulseBtn 2s infinite alternate;
+        }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
+            100% { box-shadow: 0 0 35px rgba(0, 255, 170, 0.8); }
         }
 
         .btn-download:hover {
             transform: scale(1.03);
-            box-shadow: 0 0 35px rgba(16, 185, 129, 0.8);
-        }
-
-        @keyframes glowGreen {
-            0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
-            100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
         }
 
         input[type="file"] { display: none; }
@@ -235,68 +266,103 @@
 </head>
 <body>
 
-<div class="bg-glow-1"></div>
-<div class="bg-glow-2"></div>
-
 <div class="card">
     <h1>BINOX METHOD</h1>
-    <p class="subtitle">Next-Gen Media Enhancement Engine</p>
+    <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
 
-    <div class="drop-zone" onclick="document.getElementById('videoInput').click()">
-        <div class="icon-box">⚡</div>
-        <div id="selectText" class="drop-zone-text">Selecciona o arrastra tu archivo</div>
-        <div id="fileName" class="file-info"></div>
-    </div>
-
-    <input type="file" id="videoInput" accept="video/*" onchange="handleFileSelect(event)">
-
-    <button id="optimizeBtn" class="btn-action" onclick="startProcess()" disabled>INICIAR OPTIMIZACIÓN</button>
-
-    <div id="progressSection" class="progress-section">
-        <div id="statusText" class="status-text">Procesando... 0%</div>
-        <div class="progress-bar-bg">
-            <div id="progressBar" class="progress-bar-fill"></div>
+    <!-- Info Box exacto a la imagen -->
+    <div class="info-box">
+        <div class="info-title">¿Cómo funciona?</div>
+        <div class="info-desc">
+            Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para optimizar la calidad final en TikTok.
         </div>
     </div>
 
-    <button id="downloadBtn" class="btn-download" onclick="triggerDownload()">⬇ DESCARGAR ARCHIVO OPTIMIZADO</button>
+    <!-- Drop Zone exacto a la imagen -->
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon-box">
+            <!-- Movie Clapper Icon -->
+            <svg viewBox="0 0 24 24">
+                <path d="M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V4H18M4,18V10H20V18H4Z"/>
+            </svg>
+        </div>
+        <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
+        <div class="drop-sub" id="dropSub">o haz clic para buscar en tus archivos</div>
+        <div class="file-name" id="fileName"></div>
+    </div>
+
+    <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this.files[0])">
+
+    <div class="action-area">
+        <button id="startBtn" class="btn-main" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
+
+        <div id="progressBox" class="progress-box">
+            <div id="statusText" class="status-text">Procesando... 0%</div>
+            <div class="progress-bar-bg">
+                <div id="progressBar" class="progress-bar-fill"></div>
+            </div>
+        </div>
+
+        <button id="downloadBtn" class="btn-download" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
+    </div>
 </div>
 
 <script>
     const BACKEND_URL = "https://binox-backend-production.up.railway.app/bypass";
     let selectedFile = null;
-    let downloadedBlobUrl = null;
-    let outputFilename = "";
+    let preparedBlobUrl = null;
+    let outputName = "";
 
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        if (file) {
-            selectedFile = file;
-            document.getElementById('selectText').innerText = "Archivo cargado correctamente";
-            document.getElementById('fileName').innerText = file.name;
-            document.getElementById('optimizeBtn').disabled = false;
-            
-            // Reiniciar componentes visuales
-            document.getElementById('progressSection').style.display = 'none';
-            document.getElementById('downloadBtn').style.display = 'none';
-            document.getElementById('progressBar').style.width = '0%';
-        }
+    const dropZone = document.getElementById('dropZone');
+
+    // Manejo de Drag and Drop
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        }, false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) handleFile(files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file) return;
+        selectedFile = file;
+        document.getElementById('dropTitle').innerText = "Archivo listo para procesar";
+        document.getElementById('dropSub').innerText = "Haz clic si deseas cambiarlo";
+        document.getElementById('fileName').innerText = file.name;
+        document.getElementById('startBtn').disabled = false;
+
+        // Reset interfaces
+        document.getElementById('progressBox').style.display = 'none';
+        document.getElementById('downloadBtn').style.display = 'none';
     }
 
-    function startProcess() {
+    function processVideo() {
         if (!selectedFile) return;
 
-        const btn = document.getElementById('optimizeBtn');
-        const progressSection = document.getElementById('progressSection');
+        const startBtn = document.getElementById('startBtn');
+        const progressBox = document.getElementById('progressBox');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        btn.disabled = true;
+        startBtn.disabled = true;
         downloadBtn.style.display = 'none';
-        progressSection.style.display = 'block';
+        progressBox.style.display = 'block';
         progressBar.style.width = '0%';
-        statusText.innerText = "Sincronizando con el servidor... 0%";
+        statusText.innerText = "Subiendo archivo al servidor... 0%";
 
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -309,7 +375,7 @@
             if (e.lengthComputable) {
                 const percent = Math.round((e.loaded / e.total) * 50);
                 progressBar.style.width = percent + "%";
-                statusText.innerText = "Subiendo archivo... " + percent + "%";
+                statusText.innerText = "Subiendo video... " + percent + "%";
             }
         };
 
@@ -318,40 +384,37 @@
                 progressBar.style.width = "100%";
                 statusText.innerText = "¡Procesamiento finalizado con éxito!";
 
-                // Guardar el blob para la descarga manual posterior
                 const blob = xhr.response;
-                if (downloadedBlobUrl) {
-                    window.URL.revokeObjectURL(downloadedBlobUrl);
-                }
-                downloadedBlobUrl = window.URL.createObjectURL(blob);
-                outputFilename = "binox_" + selectedFile.name;
+                if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
+                preparedBlobUrl = window.URL.createObjectURL(blob);
+                outputName = "binox_" + selectedFile.name;
 
                 // Revelar el botón de descarga manual
                 setTimeout(() => {
                     downloadBtn.style.display = 'block';
-                    btn.disabled = false;
-                }, 600);
+                    startBtn.disabled = false;
+                }, 500);
             } else {
-                btn.disabled = false;
+                startBtn.disabled = false;
                 statusText.innerText = "Error en el servidor (" + xhr.status + ")";
-                alert("Ocurrió un problema durante el procesamiento.");
+                alert("Ocurrió un error en el servidor al procesar el video.");
             }
         };
 
         xhr.onerror = function() {
-            btn.disabled = false;
+            startBtn.disabled = false;
             statusText.innerText = "Error de conexión";
-            alert("No se pudo establecer conexión con la red de Binox.");
+            alert("No se pudo conectar con el servidor.");
         };
 
         xhr.send(formData);
     }
 
-    function triggerDownload() {
-        if (!downloadedBlobUrl) return;
+    function downloadResult() {
+        if (!preparedBlobUrl) return;
         const a = document.createElement("a");
-        a.href = downloadedBlobUrl;
-        a.download = outputFilename;
+        a.href = preparedBlobUrl;
+        a.download = outputName;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -359,4 +422,5 @@
 </script>
 
 </body>
-</html>
+        </html>
+        
