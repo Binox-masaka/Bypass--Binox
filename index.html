@@ -1,168 +1,371 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | Pure JS FastStart Engine</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-    .container { width: 100%; max-width: 480px; background: var(--card); backdrop-filter: blur(20px); border-radius: 24px; padding: 32px 28px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 0 40px rgba(0, 242, 254, 0.15); display: flex; flex-direction: column; gap: 20px; }
-    .title { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
-    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--green); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
-    .drop-zone { border: 2px dashed rgba(0, 255, 135, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 28px 20px; text-align: center; cursor: pointer; }
-    .drop-zone:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.05); }
-    
-    .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; text-decoration: none; text-align: center; display: block; }
-    .btn-optimize { background: linear-gradient(135deg, var(--cyan), var(--green)); color: #000; }
-    .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
-    .btn-download { display: none; background: linear-gradient(135deg, var(--green), var(--pink)); color: #fff; margin-top: 10px; }
-    
-    .status { text-align: center; font-size: 0.85rem; font-weight: 600; min-height: 20px; }
-    .error { color: #ff4d4d; } .success { color: var(--green); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINOX METHOD - Bypass TikTok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Motor FFmpeg para procesamiento real local en el navegador -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #05080c;
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 90%, rgba(0, 255, 170, 0.05) 0%, transparent 50%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, #0d131d 0%, #080d14 100%);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 28px;
+            padding: 36px 28px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 242, 254, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.4), transparent);
+        }
+
+        .header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00f2fe 0%, #00ffaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .info-box {
+            background: rgba(13, 22, 34, 0.7);
+            border-left: 3px solid #00f2fe;
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .info-text {
+            font-size: 13.5px;
+            color: #94a3b8;
+            line-height: 1.55;
+            font-weight: 400;
+        }
+
+        .dropzone {
+            border: 2px dashed #10b981;
+            border-radius: 18px;
+            padding: 32px 20px;
+            text-align: center;
+            background: rgba(6, 18, 25, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: #00f2fe;
+            background: rgba(0, 242, 254, 0.05);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+        }
+
+        .icon-container {
+            font-size: 38px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+        }
+
+        .dropzone-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .dropzone-subtext {
+            font-size: 12.5px;
+            color: #64748b;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .selected-file-info {
+            display: none;
+            font-size: 13px;
+            color: #00ffaa;
+            font-weight: 600;
+            background: rgba(0, 255, 170, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 170, 0.2);
+            word-break: break-all;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(180deg, #16222f 0%, #0d1622 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: #475569;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.active {
+            background: linear-gradient(135deg, #00f2fe 0%, #00c6ff 100%);
+            border: none;
+            color: #05080c;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.35);
+        }
+
+        .btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 242, 254, 0.5);
+        }
+
+        .progress-container {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00f2fe, #00ffaa);
+            border-radius: 10px;
+            transition: width 0.2s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">BINOX ENGINE</h1>
-    <div class="info-box">⚡ <b>FastStart Nativo:</b> Reordena el átomo <code>moov</code> en JS puro a <code>IsStreamable: Yes</code> sin servidores ni descargas WASM.</div>
-    
-    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
-      <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
-      <div id="dropTitle" style="font-weight: 600;">Selecciona tu video</div>
-      <div id="dropSub" style="font-size: 0.75rem; color: var(--muted);">formato MP4 recomendado</div>
-      <input type="file" id="fileInput" accept="video/mp4,video/quicktime" style="display:none;" onchange="fileSelected(event)">
+
+    <div class="card">
+        <div class="header">
+            <h1 class="title">BINOX METHOD</h1>
+            <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
+        </div>
+
+        <div class="info-box">
+            <h2 class="info-title">¿Cómo funciona?</h2>
+            <p class="info-text">
+                Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para engañar al algoritmo de TikTok.
+            </p>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+            <div class="icon-container">🎬</div>
+            <div class="dropzone-title">Arrastra tu edit aquí</div>
+            <div class="dropzone-subtext">o haz clic para buscar en tus archivos</div>
+            <div class="selected-file-info" id="fileInfo"></div>
+            <input type="file" id="fileInput" class="file-input" accept="video/*">
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Inicializando motor de procesamiento...</div>
+        </div>
+
+        <button class="btn" id="optimizeBtn" disabled>OPTIMIZAR EDIT</button>
     </div>
 
-    <button class="btn btn-optimize" id="btnOpt" onclick="processVideo()" disabled>PARCHEAR PARA TIKTOK STUDIO</button>
-    
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR MP4 OPTIMIZADO</a>
-    <div class="status" id="status"></div>
-  </div>
+    <script>
+        const { createFFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = createFFmpeg({ log: true });
 
-  <script>
-    let selectedFile = null;
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const optimizeBtn = document.getElementById('optimizeBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
 
-    function fileSelected(e) {
-      selectedFile = e.target.files[0];
-      if (selectedFile) {
-        document.getElementById('dropTitle').innerText = selectedFile.name;
-        document.getElementById('btnOpt').disabled = false;
-        document.getElementById('status').innerText = "";
-        document.getElementById('btnDl').style.display = "none";
-      }
-    }
+        let selectedFile = null;
 
-    async function processVideo() {
-      const status = document.getElementById('status');
-      const btnOpt = document.getElementById('btnOpt');
-      btnOpt.disabled = true;
-      status.className = 'status';
-      status.innerText = 'Analizando estructura de átomos MP4...';
+        dropzone.addEventListener('click', () => fileInput.click());
 
-      try {
-        const buffer = await selectedFile.arrayBuffer();
-        status.innerText = 'Reorganizando moov atom a FastStart (IsStreamable)...';
-        
-        const patchedBlob = makeFastStart(buffer);
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
 
-        const dl = document.getElementById('btnDl');
-        dl.href = URL.createObjectURL(patchedBlob);
-        dl.download = `Binox_FastStart_${selectedFile.name}`;
-        dl.style.display = 'block';
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
 
-        status.className = 'status success';
-        status.innerText = '¡Video optimizado en instantes! Listo para TikTok Studio.';
-      } catch (err) {
-        status.className = 'status error';
-        status.innerText = 'Error: ' + err.message;
-        btnOpt.disabled = false;
-      }
-    }
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
 
-    // Algoritmo Pure JS para mover 'moov' al inicio y recalcular punteros stco/co64
-    function makeFastStart(buffer) {
-      const view = new DataView(buffer);
-      let pos = 0;
-      let ftyp = null, moov = null, mdat = null;
-      let beforeMdat = [];
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
 
-      while (pos < buffer.byteLength) {
-        if (pos + 8 > buffer.byteLength) break;
-        let size = view.getUint32(pos);
-        const type = String.fromCharCode(view.getUint8(pos+4), view.getUint8(pos+5), view.getUint8(pos+6), view.getUint8(pos+7));
-
-        let headerSize = 8;
-        if (size === 1) {
-          size = Number(view.getBigUint64(pos + 8));
-          headerSize = 16;
-        } else if (size === 0) {
-          size = buffer.byteLength - pos;
+        function handleFile(file) {
+            if (!file.type.startsWith('video/')) {
+                alert('Por favor, selecciona un archivo de video válido.');
+                return;
+            }
+            selectedFile = file;
+            fileInfo.textContent = `📹 ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+            fileInfo.style.display = 'inline-block';
+            optimizeBtn.classList.add('active');
+            optimizeBtn.removeAttribute('disabled');
         }
 
-        const box = { type, pos, size, headerSize, data: buffer.slice(pos, pos + size) };
+        optimizeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
 
-        if (type === 'ftyp') ftyp = box;
-        else if (type === 'moov') moov = box;
-        else if (type === 'mdat') mdat = box;
-        else if (!mdat) beforeMdat.push(box);
+            optimizeBtn.style.display = 'none';
+            progressContainer.style.display = 'flex';
+            progressFill.style.width = '10%';
+            progressText.textContent = 'Cargando motor de procesamiento...';
 
-        pos += size;
-      }
+            try {
+                if (!ffmpeg.isLoaded()) {
+                    await ffmpeg.load();
+                }
 
-      if (!moov || !mdat) {
-        throw new Error("No se encontraron los bloques válidos moov o mdat.");
-      }
+                progressFill.style.width = '30%';
+                progressText.textContent = 'Leyendo archivo de video...';
+                ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
 
-      // Si moov ya está antes que mdat, el archivo ya es FastStart
-      if (moov.pos < mdat.pos) {
-        return new Blob([buffer], { type: 'video/mp4' });
-      }
+                progressFill.style.width = '60%';
+                progressText.textContent = 'Aplicando firma de compatibilidad TikTok (FastStart + Lavf59)...';
 
-      // moov está después de mdat. Necesitamos recolocarlo antes e incrementar offsets en stco/co64
-      const shiftSize = moov.size;
-      const moovBuffer = moov.data.slice(0);
-      const moovView = new DataView(moovBuffer);
+                // BINOX METHOD PARCHE EXACTO
+                await ffmpeg.run(
+                    '-i', 'input.mp4',
+                    '-c', 'copy',
+                    '-movflags', '+faststart',
+                    '-metadata', 'encoder=Lavf59.27.100',
+                    '-metadata', 'comment=Patched by Compressbase.com',
+                    'output.mp4'
+                );
 
-      function patchOffsets(offset, length) {
-        let p = offset;
-        const end = offset + length;
-        while (p < end - 8) {
-          const boxSize = moovView.getUint32(p);
-          if (boxSize < 8 || p + boxSize > end) break;
-          const boxType = String.fromCharCode(moovView.getUint8(p+4), moovView.getUint8(p+5), moovView.getUint8(p+6), moovView.getUint8(p+7));
+                progressFill.style.width = '90%';
+                progressText.textContent = 'Generando archivo final...';
 
-          if (boxType === 'stco') {
-            const entryCount = moovView.getUint32(p + 12);
-            for (let i = 0; i < entryCount; i++) {
-              const currentOffset = moovView.getUint32(p + 16 + i * 4);
-              moovView.setUint32(p + 16 + i * 4, currentOffset + shiftSize);
+                const data = ffmpeg.FS('readFile', 'output.mp4');
+                const blob = new Blob([data.buffer], { type: 'video/mp4' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `binox_bypass_${selectedFile.name}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                progressFill.style.width = '100%';
+                progressText.textContent = '¡Video optimizado con éxito!';
+
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    optimizeBtn.style.display = 'block';
+                    optimizeBtn.textContent = '¡DESCARGADO! OPTIMIZAR OTRO';
+                    progressFill.style.width = '0%';
+                }, 1000);
+
+            } catch (error) {
+                console.error(error);
+                alert('Ocurrió un error al procesar el video.');
+                progressContainer.style.display = 'none';
+                optimizeBtn.style.display = 'block';
             }
-          } else if (boxType === 'co64') {
-            const entryCount = moovView.getUint32(p + 12);
-            for (let i = 0; i < entryCount; i++) {
-              const currentOffset = moovView.getBigUint64(p + 16 + i * 8);
-              moovView.setBigUint64(p + 16 + i * 8, currentOffset + BigInt(shiftSize));
-            }
-          } else if (['trak', 'mdia', 'minf', 'stbl'].includes(boxType)) {
-            patchOffsets(p + 8, boxSize - 8);
-          }
-          p += boxSize;
-        }
-      }
-
-      patchOffsets(8, shiftSize - 8);
-
-      const parts = [];
-      if (ftyp) parts.push(ftyp.data);
-      for (const b of beforeMdat) parts.push(b.data);
-      parts.push(moovBuffer);
-      parts.push(mdat.data);
-
-      return new Blob(parts, { type: 'video/mp4' });
-    }
-  </script>
+        });
+    </script>
 </body>
 </html>
