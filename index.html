@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX | Universal Hybrid Engine</title>
+  <title>BINOX | Universal Engine</title>
+  
+  <script src="https://unpkg.com/coi-serviceworker/coi-serviceworker.min.js"></script>
+  
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
+  
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -30,7 +34,7 @@
 <body>
   <div class="container">
     <h1 class="title">BINOX ENGINE</h1>
-    <div class="info-box">⚡ <b>Compatible Universal:</b> Motor local optimizado sin bloqueos de navegador. Renderiza estructura nativa para TikTok Studio.</div>
+    <div class="info-box">⚡ <b>Motor Local Activo:</b> Renderiza la estructura nativa MP4 H.264 para TikTok Studio directamente en tu navegador.</div>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
@@ -76,10 +80,7 @@
 
       try {
         if(!ffmpeg){
-          ffmpeg = createFFmpeg({ 
-            log: false,
-            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
-          });
+          ffmpeg = createFFmpeg({ log: false });
           
           ffmpeg.setProgress(({ ratio }) => {
             const pct = Math.round(ratio * 100);
@@ -91,12 +92,11 @@
           await ffmpeg.load();
         }
 
-        status.innerText = 'Leyendo archivo de entrada...';
+        status.innerText = 'Leyendo archivo...';
         ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(selectedFile));
 
-        status.innerText = 'Reconstruyendo estructura nativa H.264...';
+        status.innerText = 'Renderizando versión para TikTok Studio...';
         
-        // Ejecución de comandos nativos
         await ffmpeg.run(
           '-i', 'input.mp4',
           '-c:v', 'libx264',
@@ -117,7 +117,7 @@
         dl.style.display = 'block';
         
         status.className = 'status success';
-        status.innerText = '¡Procesamiento completo! Listo para subir a TikTok Studio.';
+        status.innerText = '¡Renderizado exitoso! Video listo para subir.';
       } catch(err) {
         status.className = 'status error';
         status.innerText = 'Error: ' + err.message;
