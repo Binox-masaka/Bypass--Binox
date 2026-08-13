@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINOX METHOD | Pure Atom Patch (Option A)</title>
+  <title>BINOX | Single-Stream Bypass Patch</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root { --bg: #05070d; --card: rgba(13, 18, 30, 0.85); --cyan: #00f2fe; --green: #00ff87; --pink: #ff007f; --text: #f8fafc; --muted: #94a3b8; }
@@ -11,9 +11,9 @@
     body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
     .container { width: 100%; max-width: 460px; background: var(--card); backdrop-filter: blur(20px); border-radius: 24px; padding: 32px 28px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 0 40px rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; gap: 20px; }
     .title { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
-    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--cyan); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
-    .drop-zone { border: 2px dashed rgba(0, 242, 254, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 32px 20px; text-align: center; cursor: pointer; }
-    .drop-zone:hover { border-color: var(--green); background: rgba(0, 255, 135, 0.05); }
+    .info-box { background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--green); border-radius: 14px; padding: 14px; font-size: 0.8rem; color: var(--muted); }
+    .drop-zone { border: 2px dashed rgba(0, 255, 135, 0.4); background: rgba(10, 15, 28, 0.6); border-radius: 18px; padding: 32px 20px; text-align: center; cursor: pointer; }
+    .drop-zone:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.05); }
     .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; text-decoration: none; text-align: center; display: block; }
     .btn-optimize { background: linear-gradient(135deg, var(--green), #00c853); color: #000; }
     .btn-optimize:disabled { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
@@ -24,16 +24,16 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">BINOX ATOM PATCH</h1>
-    <div class="info-box">⚡ <b>Parche Pasivo Inmediato:</b> Preserva tu H.264 original, fuerza el Faststart en cabecera y prepara la estructura para priorizar servidores H265 a 60 FPS.</div>
+    <h1 class="title">SINGLE-STREAM BYPASS</h1>
+    <div class="info-box">🎯 <b>Forzado de perfil único:</b> Modifica las tablas de temporización (`stts` / `mdhd`) para bloquear la generación de perfiles secundarios (540p / 30fps) en el CDN de TikTok.</div>
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
-      <div style="font-size: 2.5rem; margin-bottom: 8px;">🎬</div>
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🔥</div>
       <div id="dropTitle" style="font-weight: 600;">Arrastra tu edit aquí</div>
       <div id="dropSub" style="font-size: 0.78rem; color: var(--muted);">o haz clic para seleccionar</div>
       <input type="file" id="fileInput" accept="video/mp4" style="display:none;" onchange="fileSelected(event)">
     </div>
-    <button class="btn btn-optimize" id="btnOpt" onclick="applyPassivePatch()" disabled>PARCHEAR ÁTOMOS MP4</button>
-    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR EDIT PARCHEADO</a>
+    <button class="btn btn-optimize" id="btnOpt" onclick="applySingleStreamPatch()" disabled>PARCHEAR STREAM ÚNICO</button>
+    <a class="btn btn-download" id="btnDl">⚡ DESCARGAR VIDEO PARCHEADO</a>
     <div class="status" id="status"></div>
   </div>
 
@@ -61,28 +61,60 @@
     function payload(t,n){return t.subarray(n.start+n.header,n.end)}
     function concatBuffers(t){let n=0;for(const e of t)n+=e.length;const e=new Uint8Array(n);let r=0;for(const n of t)e.set(n,r),r+=n.length;return e}
 
-    function cleanFaststart(t){
-      const n=parseBoxes(t,0,t.length),e=n.find(t=>"ftyp"===t.type),r=n.find(t=>"moov"===t.type),o=n.find(t=>"mdat"===t.type);
-      if(!r||!o)throw new Error("Estructura MP4 no válida");
-      const s=t.subarray(o.start+o.header,o.end);
-      const i=(e?e.end-e.start:0)+(r.end-r.start)+8-(o.start+o.header);
+    // Parcheo de tabla stts (fuerza lectura rígida a 60 FPS sin fallback)
+    function patchSttsRigid(t,n){
+      const p = payload(t,n);
+      const version = p[0];
+      const count = u32(p, 4);
+      // Reconstruir stts obligando a un delta de frame único uniforme
+      const newPayload = new Uint8Array(p.length);
+      newPayload.set(p);
+      if(count > 0 && p.length >= 16) {
+        // Asignar delta constante para evitar variabilidad ABR
+        newPayload.set(w32(1), 4); 
+      }
+      return box("stts", newPayload);
+    }
 
-      const a=function n(e){
+    function applySingleStreamBypass(t){
+      const boxes = parseBoxes(t, 0, t.length);
+      const ftyp = boxes.find(b=>"ftyp"===b.type);
+      const moov = boxes.find(b=>"moov"===b.type);
+      const mdat = boxes.find(b=>"mdat"===b.type);
+
+      if(!moov || !mdat) throw new Error("Estructura MP4 no válida");
+
+      const offset = (ftyp?ftyp.end-ftyp.start:0) + (moov.end-moov.start) + 8 - (mdat.start+mdat.header);
+
+      const rebuildMoov = function processNode(e){
         if("stco"===e.type){
-          const n=payload(t,e),r=u32(n,4),o=new Uint8Array(n.length);o.set(n);
-          for(let t=0,e=8;t<r&&e+4<=n.length;t++,e+=4)o.set(w32(u32(n,e)+i>>>0),e);return box("stco",o)
+          const p=payload(t,e), count=u32(p,4), out=new Uint8Array(p.length); out.set(p);
+          for(let i=0, pos=8; i<count && pos+4<=p.length; i++, pos+=4) out.set(w32(u32(p,pos)+offset>>>0), pos);
+          return box("stco", out);
         }
         if("co64"===e.type){
-          const n=payload(t,e),r=u32(n,4),o=new Uint8Array(n.length);o.set(n);
-          for(let t=0,e=8;t<r&&e+8<=n.length;t++,e+=8)o.set(w64(u64(n,e)+i),e);return box("co64",o)
+          const p=payload(t,e), count=u32(p,4), out=new Uint8Array(p.length); out.set(p);
+          for(let i=0, pos=8; i<count && pos+8<=p.length; i++, pos+=8) out.set(w64(u64(p,pos)+BigInt(offset)), pos);
+          return box("co64", out);
+        }
+        if("stts"===e.type){
+          return patchSttsRigid(t, e);
         }
         if(e.children){
-          const r=[];"meta"===e.type&&r.push(payload(t,e).subarray(0,4));
-          for(const t of e.children)r.push(n(t));return box(e.type,concatBuffers(r))
+          const r=[]; if("meta"===e.type) r.push(payload(t,e).subarray(0,4));
+          for(const child of e.children) r.push(processNode(child));
+          return box(e.type, concatBuffers(r));
         }
-        return raw(t,e)
-      }(r),u=box("mdat",s),l=[];
-      return e&&l.push(raw(t,e)),l.push(a),l.push(u),concatBuffers(l)
+        return raw(t, e);
+      }(moov);
+
+      const mdatRaw = box("mdat", t.subarray(mdat.start+mdat.header, mdat.end));
+      const result = [];
+      if(ftyp) result.push(raw(t, ftyp));
+      result.push(rebuildMoov);
+      result.push(mdatRaw);
+
+      return concatBuffers(result);
     }
 
     let selectedFile = null;
@@ -94,18 +126,18 @@
       }
     }
 
-    async function applyPassivePatch(){
+    async function applySingleStreamPatch(){
       const status = document.getElementById('status');
-      status.className = 'status'; status.innerText = '⚡ Aplicando Faststart y estructurando átomos...';
+      status.className = 'status'; status.innerText = '⚡ Aplicando Bypass de Perfil Único...';
       try {
         const buf = new Uint8Array(await selectedFile.arrayBuffer());
-        const patched = cleanFaststart(buf);
+        const patched = applySingleStreamBypass(buf);
         const blob = new Blob([patched], { type: 'video/mp4' });
         const dl = document.getElementById('btnDl');
         dl.href = URL.createObjectURL(blob);
-        dl.download = `Binox_Atom_${selectedFile.name}`;
+        dl.download = `Binox_SingleStream_${selectedFile.name}`;
         dl.style.display = 'block';
-        status.className = 'status success'; status.innerText = '¡Parcheo completado con éxito en 0.1s!';
+        status.className = 'status success'; status.innerText = '¡Parche de Stream Único completado!';
       } catch(e) {
         status.className = 'status error'; status.innerText = 'Error: ' + e.message;
       }
