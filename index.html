@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX METHOD</title>
+    <title>BINOX METHOD (Local Engine)</title>
+    <!-- Carga del Motor FFmpeg.wasm para procesamiento $100\%$ Local -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Background Glow */
         body::before {
             content: '';
             position: absolute;
@@ -44,7 +45,6 @@
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* Main Container Card (Coincide con la imagen + Neon Glow) */
         .card {
             position: relative;
             z-index: 10;
@@ -61,7 +61,6 @@
             text-align: center;
         }
 
-        /* Title */
         h1 {
             font-size: 2.1rem;
             font-weight: 900;
@@ -76,10 +75,8 @@
             font-size: 0.9rem;
             color: #94a3b8;
             margin-bottom: 28px;
-            font-weight: 400;
         }
 
-        /* Feature Info Box (El recuadro con la barra lateral verde) */
         .info-box {
             background: rgba(20, 26, 41, 0.7);
             border-left: 4px solid #00ffaa;
@@ -87,7 +84,6 @@
             padding: 18px 20px;
             text-align: left;
             margin-bottom: 28px;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
         }
 
         .info-title {
@@ -95,9 +91,6 @@
             font-size: 1rem;
             font-weight: 700;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .info-desc {
@@ -106,23 +99,19 @@
             line-height: 1.5;
         }
 
-        /* Drop Zone (Zona con borde punteado de la imagen) */
         .drop-zone {
             border: 2px dashed rgba(0, 255, 170, 0.5);
             border-radius: 16px;
             padding: 35px 20px;
             background: rgba(16, 22, 36, 0.5);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .drop-zone:hover, .drop-zone.dragover {
+        .drop-zone:hover {
             border-color: #00ffaa;
             background: rgba(22, 31, 50, 0.8);
             box-shadow: 0 0 25px rgba(0, 255, 170, 0.25);
-            transform: translateY(-2px);
         }
 
         .icon-box {
@@ -135,19 +124,12 @@
             background: rgba(0, 255, 170, 0.1);
             border-radius: 12px;
             border: 1px solid rgba(0, 255, 170, 0.2);
-            animation: float 3s ease-in-out infinite;
         }
 
         .icon-box svg {
             width: 28px;
             height: 28px;
             fill: #00ffaa;
-            filter: drop-shadow(0 0 8px rgba(0, 255, 170, 0.8));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
         }
 
         .drop-title {
@@ -170,7 +152,6 @@
             word-break: break-all;
         }
 
-        /* Action & Progress Area */
         .action-area {
             margin-top: 24px;
         }
@@ -191,18 +172,12 @@
             text-transform: uppercase;
         }
 
-        .btn-main:hover:not(:disabled) {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.7);
-        }
-
         .btn-main:disabled {
             opacity: 0.35;
             cursor: not-allowed;
             box-shadow: none;
         }
 
-        /* Progress Bar */
         .progress-box {
             display: none;
             margin-top: 20px;
@@ -230,10 +205,9 @@
             background: #00ffaa;
             box-shadow: 0 0 12px #00ffaa;
             border-radius: 10px;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
 
-        /* Manual Download Button */
         .btn-download {
             display: none;
             width: 100%;
@@ -245,20 +219,9 @@
             color: #060911;
             font-weight: 900;
             font-size: 0.95rem;
-            letter-spacing: 1px;
             cursor: pointer;
             box-shadow: 0 0 25px rgba(0, 255, 170, 0.6);
             transition: all 0.3s ease;
-            animation: pulseBtn 2s infinite alternate;
-        }
-
-        @keyframes pulseBtn {
-            0% { box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
-            100% { box-shadow: 0 0 35px rgba(0, 255, 170, 0.8); }
-        }
-
-        .btn-download:hover {
-            transform: scale(1.03);
         }
 
         input[type="file"] { display: none; }
@@ -268,20 +231,17 @@
 
 <div class="card">
     <h1>BINOX METHOD</h1>
-    <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
+    <p class="subtitle">Procesamiento Local $100\%$ Privado en Dispositivo</p>
 
-    <!-- Info Box exacto a la imagen -->
     <div class="info-box">
         <div class="info-title">¿Cómo funciona?</div>
         <div class="info-desc">
-            Sube tu edit directo desde tu render. Nuestra herramienta ajusta la tasa de bits, aplica el enfoque necesario y re-codifica el archivo a 1080p exactos para optimizar la calidad final en TikTok.
+            Sube tu edit directo desde tu render. La herramienta procesa el video en la memoria RAM de tu dispositivo, re-codifica los metadatos y aplica enfoque fino sin depender de ningún servidor.
         </div>
     </div>
 
-    <!-- Drop Zone exacto a la imagen -->
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <div class="icon-box">
-            <!-- Movie Clapper Icon -->
             <svg viewBox="0 0 24 24">
                 <path d="M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V4H18M4,18V10H20V18H4Z"/>
             </svg>
@@ -294,10 +254,10 @@
     <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this.files[0])">
 
     <div class="action-area">
-        <button id="startBtn" class="btn-main" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
+        <button id="startBtn" class="btn-main" onclick="processVideoLocal()" disabled>OPTIMIZAR EDIT LOCALMENTE</button>
 
         <div id="progressBox" class="progress-box">
-            <div id="statusText" class="status-text">Procesando... 0%</div>
+            <div id="statusText" class="status-text">Inicializando motor de procesamiento...</div>
             <div class="progress-bar-bg">
                 <div id="progressBar" class="progress-bar-fill"></div>
             </div>
@@ -308,48 +268,25 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://binox-backend-production.up.railway.app/bypass";
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    let ffmpeg = null;
     let selectedFile = null;
-    let preparedBlobUrl = null;
+    let outputBlobUrl = null;
     let outputName = "";
-
-    const dropZone = document.getElementById('dropZone');
-
-    // Manejo de Drag and Drop
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        }, false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-        }, false);
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        if (files.length > 0) handleFile(files[0]);
-    });
 
     function handleFile(file) {
         if (!file) return;
         selectedFile = file;
-        document.getElementById('dropTitle').innerText = "Archivo listo para procesar";
+        document.getElementById('dropTitle').innerText = "Archivo cargado en memoria";
         document.getElementById('dropSub').innerText = "Haz clic si deseas cambiarlo";
         document.getElementById('fileName').innerText = file.name;
         document.getElementById('startBtn').disabled = false;
 
-        // Reset interfaces
         document.getElementById('progressBox').style.display = 'none';
         document.getElementById('downloadBtn').style.display = 'none';
     }
 
-    function processVideo() {
+    async function processVideoLocal() {
         if (!selectedFile) return;
 
         const startBtn = document.getElementById('startBtn');
@@ -362,58 +299,68 @@
         downloadBtn.style.display = 'none';
         progressBox.style.display = 'block';
         progressBar.style.width = '0%';
-        statusText.innerText = "Subiendo archivo al servidor... 0%";
 
-        const formData = new FormData();
-        formData.append("file", selectedFile);
+        // 1. Inicializar FFmpeg.wasm en la memoria RAM del navegador
+        if (!ffmpeg) {
+            statusText.innerText = "Cargando motor FFmpeg en el dispositivo...";
+            ffmpeg = createFFmpeg({ log: true });
+            
+            ffmpeg.setProgress(({ ratio }) => {
+                const percent = Math.round(ratio * 100);
+                if (percent >= 0 && percent <= 100) {
+                    progressBar.style.width = percent + "%";
+                    statusText.innerText = "Procesando edit localmente... " + percent + "%";
+                }
+            });
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", BACKEND_URL, true);
-        xhr.responseType = "blob";
+            await ffmpeg.load();
+        }
 
-        xhr.upload.onprogress = function(e) {
-            if (e.lengthComputable) {
-                const percent = Math.round((e.loaded / e.total) * 50);
-                progressBar.style.width = percent + "%";
-                statusText.innerText = "Subiendo video... " + percent + "%";
-            }
-        };
+        statusText.innerText = "Escribiendo archivo en memoria virtual...";
+        const inputName = "input_" + selectedFile.name;
+        outputName = "binox_" + selectedFile.name;
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                progressBar.style.width = "100%";
-                statusText.innerText = "¡Procesamiento finalizado con éxito!";
+        // Cargar el archivo en el sistema de archivos en memoria del navegador
+        ffmpeg.FS('writeFile', inputName, await fetchFile(selectedFile));
 
-                const blob = xhr.response;
-                if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
-                preparedBlobUrl = window.URL.createObjectURL(blob);
-                outputName = "binox_" + selectedFile.name;
+        statusText.innerText = "Ejecutando re-codificación de alta fidelidad...";
 
-                // Revelar el botón de descarga manual
-                setTimeout(() => {
-                    downloadBtn.style.display = 'block';
-                    startBtn.disabled = false;
-                }, 500);
-            } else {
-                startBtn.disabled = false;
-                statusText.innerText = "Error en el servidor (" + xhr.status + ")";
-                alert("Ocurrió un error en el servidor al procesar el video.");
-            }
-        };
+        // Comando FFmpeg ejecutado en la GPU/CPU de tu dispositivo (Mantiene resolución y FPS de origen)
+        await ffmpeg.run(
+            '-i', inputName,
+            '-vf', 'unsharp=3:3:0.6',
+            '-c:v', 'libx264',
+            '-preset', 'ultrafast',
+            '-crf', '17',
+            '-pix_fmt', 'yuv420p',
+            '-c:a', 'copy',
+            outputName
+        );
 
-        xhr.onerror = function() {
+        statusText.innerText = "¡Completado con éxito!";
+        progressBar.style.width = "100%";
+
+        // Obtener el archivo resultante de la memoria
+        const data = ffmpeg.FS('readFile', outputName);
+
+        if (outputBlobUrl) URL.revokeObjectURL(outputBlobUrl);
+        const blob = new Blob([data.buffer], { type: 'video/mp4' });
+        outputBlobUrl = URL.createObjectURL(blob);
+
+        // Limpiar memoria interna
+        ffmpeg.FS('unlink', inputName);
+        ffmpeg.FS('unlink', outputName);
+
+        setTimeout(() => {
+            downloadBtn.style.display = 'block';
             startBtn.disabled = false;
-            statusText.innerText = "Error de conexión";
-            alert("No se pudo conectar con el servidor.");
-        };
-
-        xhr.send(formData);
+        }, 300);
     }
 
     function downloadResult() {
-        if (!preparedBlobUrl) return;
+        if (!outputBlobUrl) return;
         const a = document.createElement("a");
-        a.href = preparedBlobUrl;
+        a.href = outputBlobUrl;
         a.download = outputName;
         document.body.appendChild(a);
         a.click();
@@ -422,5 +369,4 @@
 </script>
 
 </body>
-        </html>
-        
+</html>
