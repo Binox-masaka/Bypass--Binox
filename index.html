@@ -24,7 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Orbs animadas */
         .ambient-glow-1 {
             position: absolute;
             width: 350px;
@@ -54,7 +53,6 @@
             100% { transform: translate(30px, 30px) scale(1.1); }
         }
 
-        /* Tarjeta Principal */
         .card {
             position: relative;
             z-index: 10;
@@ -78,7 +76,6 @@
             100% { border-color: rgba(0, 255, 170, 0.6); box-shadow: 0 0 45px rgba(0, 255, 170, 0.25), 0 20px 50px rgba(0, 0, 0, 0.9); }
         }
 
-        /* Título Neón con Gradiente */
         .title-container {
             margin-bottom: 8px;
         }
@@ -108,7 +105,6 @@
             margin-bottom: 24px;
         }
 
-        /* Info Box */
         .info-box {
             background: rgba(15, 23, 38, 0.75);
             border-left: 3.5px solid #00ffaa;
@@ -138,7 +134,6 @@
             line-height: 1.5;
         }
 
-        /* Drop Zone */
         .drop-zone {
             border: 2px dashed rgba(0, 255, 170, 0.45);
             border-radius: 20px;
@@ -183,7 +178,6 @@
             color: #64748b;
         }
 
-        /* Botón Principal */
         .btn-main {
             width: 100%;
             margin-top: 24px;
@@ -199,8 +193,6 @@
             box-shadow: 0 0 25px rgba(0, 255, 170, 0.45);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-main:hover:not(:disabled) {
@@ -214,7 +206,6 @@
             box-shadow: none;
         }
 
-        /* Barra de Progreso Dinámica */
         .progress-box {
             display: none;
             margin-top: 22px;
@@ -261,7 +252,7 @@
             background: linear-gradient(90deg, #00f2fe 0%, #00ffaa 50%, #00b894 100%);
             box-shadow: 0 0 15px #00ffaa;
             border-radius: 10px;
-            transition: width 0.2s linear;
+            transition: width 0.2s ease-out;
             position: relative;
         }
 
@@ -278,7 +269,6 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Botón de Descarga */
         .btn-download {
             display: none;
             width: 100%;
@@ -345,7 +335,7 @@
 
     <div id="progressBox" class="progress-box">
         <div class="status-header">
-            <span id="statusText" class="status-text">Cargando archivo...</span>
+            <span id="statusText" class="status-text">Iniciando...</span>
             <span id="statusPercent" class="status-percent">0%</span>
         </div>
         <div class="progress-bar-bg">
@@ -363,16 +353,18 @@
     let preparedBlobUrl = null;
     let outputName = "";
     let processInterval = null;
+    let currentProgress = 0;
 
-    // Mensajes atractivos y profesionales (sin revelar secretos técnicos)
-    const processingSteps = [
-        "Iniciando tratamiento BINOX...",
-        "Aplicando algoritmo de ultra nitidez...",
-        "Optimizando fluidez y fotogramas...",
-        "Sincronizando calidad extrema...",
-        "Renderizando resultado final...",
-        "Completando optimización..."
-    ];
+    function setProgress(percent, text) {
+        if (percent > currentProgress) {
+            currentProgress = percent;
+        }
+        document.getElementById('progressBar').style.width = currentProgress + "%";
+        document.getElementById('statusPercent').innerText = Math.round(currentProgress) + "%";
+        if (text) {
+            document.getElementById('statusText').innerText = text;
+        }
+    }
 
     function handleFile(file) {
         if (!file) return;
@@ -392,20 +384,18 @@
 
         const startBtn = document.getElementById('startBtn');
         const progressBox = document.getElementById('progressBox');
-        const progressBar = document.getElementById('progressBar');
-        const statusText = document.getElementById('statusText');
-        const statusPercent = document.getElementById('statusPercent');
         const downloadBtn = document.getElementById('downloadBtn');
         const errorText = document.getElementById('errorText');
+
+        if (processInterval) clearInterval(processInterval);
+        currentProgress = 0;
 
         startBtn.disabled = true;
         downloadBtn.style.display = 'none';
         errorText.style.display = 'none';
         progressBox.style.display = 'block';
-        
-        progressBar.style.width = '0%';
-        statusPercent.innerText = '0%';
-        statusText.innerText = "Preparando archivo...";
+
+        setProgress(0, "Subiendo archivo...");
 
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -414,47 +404,30 @@
         xhr.open("POST", BACKEND_URL, true);
         xhr.responseType = "blob";
 
-        // Fase 1: Subida real del archivo (0% - 50%)
+        // FASE 1: Subida real del archivo (0% a 70%)
         xhr.upload.onprogress = function(e) {
             if (e.lengthComputable) {
-                const uploadPercent = Math.round((e.loaded / e.total) * 50);
-                progressBar.style.width = uploadPercent + "%";
-                statusPercent.innerText = uploadPercent + "%";
-                if (uploadPercent >= 50) {
-                    startProcessingAnimation();
-                }
+                const uploadPercent = (e.loaded / e.total) * 70;
+                setProgress(uploadPercent, uploadPercent < 70 ? "Subiendo archivo..." : "Aplicando parche...");
             }
         };
 
-        // Fase 2: Transición fluida paso a paso (50% - 95%)
-        let currentPercent = 50;
-        let stepIndex = 0;
-
-        function startProcessingAnimation() {
-            if (processInterval) clearInterval(processInterval);
-
+        // FASE 2: Avance suave mientras el backend procesa (70% a 98%)
+        xhr.upload.onload = function() {
+            setProgress(70, "Aplicando parche BINOX...");
             processInterval = setInterval(() => {
-                if (currentPercent < 95) {
-                    currentPercent += 1;
-                    progressBar.style.width = currentPercent + "%";
-                    statusPercent.innerText = currentPercent + "%";
-
-                    if (currentPercent % 8 === 0 && stepIndex < processingSteps.length) {
-                        statusText.innerText = processingSteps[stepIndex];
-                        stepIndex++;
-                    }
+                if (currentProgress < 98) {
+                    setProgress(currentProgress + 0.8, "Optimizando contenedor...");
                 }
-            }, 100);
-        }
+            }, 300);
+        };
 
-        // Fase 3: Éxito total (100%)
+        // FASE 3: Respuesta del Servidor (100% final)
         xhr.onload = function() {
             if (processInterval) clearInterval(processInterval);
 
             if (xhr.status === 200) {
-                progressBar.style.width = "100%";
-                statusPercent.innerText = "100%";
-                statusText.innerText = "¡Edit optimizado con éxito!";
+                setProgress(100, "¡Edit listo!");
 
                 const blob = xhr.response;
                 if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
@@ -464,11 +437,11 @@
                 setTimeout(() => {
                     downloadBtn.style.display = 'block';
                     startBtn.disabled = false;
-                }, 300);
+                }, 200);
             } else {
                 startBtn.disabled = false;
                 progressBox.style.display = 'none';
-                errorText.innerText = "Ocurrió un error al procesar el video.";
+                errorText.innerText = "Ocurrió un error en el servidor al procesar el video.";
                 errorText.style.display = 'block';
             }
         };
