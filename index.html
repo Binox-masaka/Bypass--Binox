@@ -3,281 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX | TikTok Quality Bypass</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>BINOX | Bypass Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #08090d;
-            --neon-cyan: #00f3ff;
-            --neon-pink: #ff0055;
-            --neon-purple: #9d00ff;
-            --glass-bg: rgba(18, 20, 29, 0.65);
-            --glass-border: rgba(0, 243, 255, 0.2);
+            --bg-body: #0b0f17;
+            --card-bg: #131b2e;
+            --border-color: #1e293b;
+            --border-hover: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-start: #4f46e5;
+            --accent-end: #7c3aed;
+            --accent-glow: rgba(79, 70, 229, 0.25);
+            --success-color: #10b981;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(255, 0, 85, 0.08) 0%, transparent 40%);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: #fff;
-            overflow-x: hidden;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* Contenedor principal con efecto Glassmorphism */
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 520px;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.02);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
             text-align: center;
-            position: relative;
+            margin-bottom: 24px;
         }
 
-        /* Título con Neón Animado */
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-            animation: glow 3s ease-in-out infinite alternate;
+        .brand-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
 
-        p.subtitle {
-            font-size: 1.1rem;
-            color: #a0a5c0;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            margin-top: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        /* Zona Drop / Seleccionar archivo */
-        .file-dropzone {
-            border: 2px dashed rgba(0, 243, 255, 0.4);
+        .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        /* Zona Drop File */
+        .dropzone {
+            border: 2px dashed var(--border-color);
             border-radius: 12px;
-            padding: 30px 20px;
+            padding: 28px 20px;
+            text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            background: rgba(15, 23, 42, 0.4);
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .file-dropzone:hover {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-            background: rgba(0, 243, 255, 0.03);
+        .dropzone:hover {
+            border-color: var(--border-hover);
+            background: rgba(59, 130, 246, 0.04);
         }
 
-        .file-dropzone input {
+        .dropzone input {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0;
             cursor: pointer;
         }
 
-        .icon-upload {
-            font-size: 2.5rem;
-            color: var(--neon-cyan);
-            margin-bottom: 10px;
+        .drop-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             display: block;
         }
 
-        .file-name {
-            font-size: 1rem;
-            color: var(--neon-cyan);
+        .drop-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .drop-hint {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .file-selected {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #818cf8;
             margin-top: 8px;
-            font-weight: 700;
             word-break: break-all;
         }
 
-        /* Botón de Procesar */
+        /* Botón Principal */
         .btn-submit {
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
-            border: none;
-            color: #000;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            padding: 15px 30px;
             width: 100%;
+            padding: 13px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
             border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px var(--accent-glow);
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.8), 0 0 15px rgba(255, 0, 85, 0.5);
-            color: #fff;
+            opacity: 0.92;
+            transform: translateY(-1px);
         }
 
         .btn-submit:disabled {
-            background: #222533;
-            color: #555870;
-            box-shadow: none;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        /* Barra de Progreso */
-        .progress-box {
+        /* Panel de Progreso */
+        .progress-panel {
             display: none;
-            margin-top: 25px;
-            text-align: left;
+            margin-top: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
         }
 
-        .progress-status {
+        .progress-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.825rem;
+            font-weight: 500;
             margin-bottom: 8px;
-            color: #a0a5c0;
-            font-weight: 700;
         }
 
-        .progress-bar-bg {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            height: 12px;
-            width: 100%;
+        .status-text {
+            color: var(--text-secondary);
+        }
+
+        .percent-text {
+            color: #818cf8;
+            font-weight: 600;
+        }
+
+        .bar-bg {
+            height: 7px;
+            background: #1e293b;
+            border-radius: 9999px;
             overflow: hidden;
-            border: 1px solid rgba(0, 243, 255, 0.2);
         }
 
-        .progress-bar-fill {
+        .bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
-            box-shadow: 0 0 10px var(--neon-cyan);
-            border-radius: 8px;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            border-radius: 9999px;
             transition: width 0.2s ease;
-        }
-
-        /* Estado del Procesamiento */
-        .processing-pulse {
-            animation: pulseText 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.4)); }
-            to { filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.6)); }
-        }
-
-        @keyframes pulseText {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>BINOX</h1>
-        <p class="subtitle">TIKTOK QUALITY BYPASS ENGINE</p>
+    <div class="card">
+        <div class="header">
+            <h1 class="brand-title">BINOX</h1>
+            <span class="badge">TikTok Quality Bypass v2</span>
+            <p class="subtitle">Corrige codificación y metadatos para evitar que TikTok comprima tus videos a 576p.</p>
+        </div>
 
-        <form id="uploadForm">
-            <div class="file-dropzone">
-                <span class="icon-upload">⚡</span>
-                <span id="labelSelect">Haz clic o arrastra tu video aquí</span>
-                <div class="file-name" id="fileName"></div>
+        <form id="bypassForm">
+            <div class="dropzone">
+                <span class="drop-icon">📁</span>
+                <span class="drop-text" id="dropLabel">Selecciona o arrastra tu video</span>
+                <p class="drop-hint" id="dropHint">Formatos soportados: .mp4, .mov (Max 60 FPS)</p>
+                <div class="file-selected" id="fileName"></div>
                 <input type="file" id="videoInput" accept="video/*" required>
             </div>
 
             <button type="submit" class="btn-submit" id="btnSubmit">Procesar Video</button>
         </form>
 
-        <div class="progress-box" id="progressBox">
-            <div class="progress-status">
-                <span id="statusText">Subiendo archivo...</span>
-                <span id="percentText">0%</span>
+        <div class="progress-panel" id="progressPanel">
+            <div class="progress-info">
+                <span class="status-text" id="statusText">Preparando...</span>
+                <span class="percent-text" id="percentText">0%</span>
             </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressBar"></div>
+            <div class="bar-bg">
+                <div class="bar-fill" id="barFill"></div>
             </div>
         </div>
     </div>
 
     <script>
         const videoInput = document.getElementById('videoInput');
-        const fileNameDisplay = document.getElementById('fileName');
-        const labelSelect = document.getElementById('labelSelect');
-        const uploadForm = document.getElementById('uploadForm');
+        const fileName = document.getElementById('fileName');
+        const dropLabel = document.getElementById('dropLabel');
+        const dropHint = document.getElementById('dropHint');
+        const bypassForm = document.getElementById('bypassForm');
         const btnSubmit = document.getElementById('btnSubmit');
-        const progressBox = document.getElementById('progressBox');
-        const progressBar = document.getElementById('progressBar');
+        const progressPanel = document.getElementById('progressPanel');
+        const barFill = document.getElementById('barFill');
         const percentText = document.getElementById('percentText');
         const statusText = document.getElementById('statusText');
 
-        // Mostrar el nombre del archivo seleccionado
         videoInput.addEventListener('change', () => {
             if (videoInput.files.length > 0) {
-                fileNameDisplay.textContent = "🎬 " + videoInput.files[0].name;
-                labelSelect.style.display = "none";
+                fileName.textContent = "🎬 " + videoInput.files[0].name;
+                dropLabel.style.display = 'none';
+                dropHint.style.display = 'none';
             }
         });
 
-        // Manejo del formulario y carga
-        uploadForm.addEventListener('submit', (e) => {
+        bypassForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
             if (!videoInput.files[0]) return;
 
             const formData = new FormData();
             formData.append('file', videoInput.files[0]);
 
             btnSubmit.disabled = true;
-            progressBox.style.display = 'block';
-            progressBar.style.width = '0%';
+            progressPanel.style.display = 'block';
+            barFill.style.width = '0%';
             percentText.textContent = '0%';
             statusText.textContent = 'Subiendo al servidor...';
-            statusText.classList.add('processing-pulse');
 
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/bypass', true);
 
-            // Barra de progreso de subida en tiempo real
             xhr.upload.onprogress = (event) => {
                 if (event.lengthComputable) {
                     const percent = Math.round((event.loaded / event.total) * 100);
-                    progressBar.style.width = percent + '%';
+                    barFill.style.width = percent + '%';
                     percentText.textContent = percent + '%';
                     
                     if (percent === 100) {
-                        statusText.textContent = 'Aplicando Parche BINOX (FFmpeg)...';
+                        statusText.textContent = 'Optimizando metadatos y FFmpeg...';
                     }
                 }
             };
 
-            // Respuesta recibida
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    statusText.textContent = '¡Bypass Completado! Descargando...';
-                    statusText.classList.remove('processing-pulse');
+                    statusText.textContent = '¡Completado! Descargando video...';
                     
-                    // Convertir la respuesta binaria en archivo descargable
                     const blob = xhr.response;
                     const downloadUrl = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
@@ -289,17 +294,18 @@
 
                     setTimeout(() => {
                         btnSubmit.disabled = false;
-                        statusText.textContent = '¡Listo!';
-                    }, 2000);
+                        statusText.textContent = 'Listo para otro archivo';
+                    }, 3000);
                 } else {
-                    alert('Ocurrió un error al procesar el video.');
+                    statusText.textContent = 'Error en el servidor';
+                    alert('Error al procesar el video.');
                     btnSubmit.disabled = false;
-                    statusText.textContent = 'Error';
                 }
             };
 
             xhr.onerror = () => {
-                alert('Error de conexión con el servidor.');
+                statusText.textContent = 'Error de conexión';
+                alert('No se pudo conectar con el servidor.');
                 btnSubmit.disabled = false;
             };
 
