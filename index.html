@@ -5,303 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BINOX METHOD</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-        }
-
-        body {
-            background: #04070d;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .ambient-glow-1 {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
-            top: 15%;
-            left: 5%;
-            filter: blur(50px);
-            animation: floatGlow 8s ease-in-out infinite alternate;
-            z-index: 0;
-        }
-
-        .ambient-glow-2 {
-            position: absolute;
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, rgba(255, 0, 128, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
-            bottom: 10%;
-            right: 5%;
-            filter: blur(60px);
-            animation: floatGlow 10s ease-in-out infinite alternate-reverse;
-            z-index: 0;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(0.9); }
-            100% { transform: translate(30px, 30px) scale(1.1); }
-        }
-
-        .card {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 440px;
-            background: rgba(10, 15, 26, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1.5px solid rgba(0, 255, 170, 0.35);
-            border-radius: 28px;
-            padding: 36px 26px;
-            box-shadow: 0 0 35px rgba(0, 255, 170, 0.15),
-                        0 20px 50px rgba(0, 0, 0, 0.9),
-                        inset 0 0 15px rgba(0, 255, 170, 0.05);
-            text-align: center;
-            animation: cardPulse 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes cardPulse {
-            0% { border-color: rgba(0, 255, 170, 0.3); box-shadow: 0 0 25px rgba(0, 255, 170, 0.12), 0 20px 50px rgba(0, 0, 0, 0.9); }
-            100% { border-color: rgba(0, 255, 170, 0.6); box-shadow: 0 0 45px rgba(0, 255, 170, 0.25), 0 20px 50px rgba(0, 0, 0, 0.9); }
-        }
-
-        .title-container {
-            margin-bottom: 8px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 40%, #00ffaa 70%, #ff007f 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 4s linear infinite;
-            text-transform: uppercase;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .subtitle {
-            font-size: 0.88rem;
-            color: #8fa0b5;
-            font-weight: 500;
-            margin-bottom: 24px;
-        }
-
-        .info-box {
-            background: rgba(15, 23, 38, 0.75);
-            border-left: 3.5px solid #00ffaa;
-            border-radius: 14px;
-            padding: 16px 18px;
-            text-align: left;
-            margin-bottom: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            border-right: 1px solid rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .info-title {
-            color: #00ffaa;
-            font-size: 0.95rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-
-        .info-desc {
-            color: #cbd5e1;
-            font-size: 0.82rem;
-            line-height: 1.5;
-        }
-
-        .drop-zone {
-            border: 2px dashed rgba(0, 255, 170, 0.45);
-            border-radius: 20px;
-            padding: 30px 18px;
-            background: rgba(12, 19, 32, 0.6);
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .drop-zone:hover {
-            border-color: #00ffaa;
-            background: rgba(16, 27, 46, 0.8);
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .icon-box {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            display: inline-block;
-            filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
-            animation: starPulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes starPulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5)); }
-            100% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.9)); }
-        }
-
-        .drop-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 4px;
-            word-break: break-all;
-        }
-
-        .drop-sub {
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        .btn-main {
-            width: 100%;
-            margin-top: 24px;
-            padding: 16px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #00ffaa 0%, #00b894 100%);
-            color: #04070d;
-            font-weight: 900;
-            font-size: 1rem;
-            letter-spacing: 1.2px;
-            cursor: pointer;
-            box-shadow: 0 0 25px rgba(0, 255, 170, 0.45);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .btn-main:hover:not(:disabled) {
-            box-shadow: 0 0 35px rgba(0, 255, 170, 0.75);
-            transform: scale(1.02);
-        }
-
-        .btn-main:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .progress-box {
-            display: none;
-            margin-top: 22px;
-            background: rgba(13, 20, 33, 0.8);
-            border: 1px solid rgba(0, 255, 170, 0.2);
-            border-radius: 16px;
-            padding: 16px;
-        }
-
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .status-text {
-            font-size: 0.83rem;
-            color: #00ffaa;
-            font-weight: 700;
-            text-align: left;
-            text-shadow: 0 0 10px rgba(0, 255, 170, 0.4);
-        }
-
-        .status-percent {
-            font-size: 0.85rem;
-            color: #ffffff;
-            font-weight: 800;
-        }
-
-        .progress-bar-bg {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .progress-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #00f2fe 0%, #00ffaa 50%, #00b894 100%);
-            box-shadow: 0 0 15px #00ffaa;
-            border-radius: 10px;
-            transition: width 0.2s ease-out;
-            position: relative;
-        }
-
-        .progress-bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .btn-download {
-            display: none;
-            width: 100%;
-            margin-top: 20px;
-            padding: 16px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #00f2fe 0%, #00ffaa 100%);
-            color: #04070d;
-            font-weight: 900;
-            font-size: 0.98rem;
-            letter-spacing: 1px;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            animation: pulseDownload 2s infinite alternate;
-        }
-
-        @keyframes pulseDownload {
-            0% { box-shadow: 0 0 20px rgba(0, 242, 254, 0.5); }
-            100% { box-shadow: 0 0 40px rgba(0, 255, 170, 0.8); }
-        }
-
-        .error-message {
-            display: none;
-            color: #ff4757;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 14px;
-            text-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+        body { background: #04070d; color: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .ambient-glow-1 { position: absolute; width: 350px; height: 350px; background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, rgba(0,0,0,0) 70%); top: 15%; left: 5%; filter: blur(50px); }
+        .ambient-glow-2 { position: absolute; width: 380px; height: 380px; background: radial-gradient(circle, rgba(255, 0, 128, 0.2) 0%, rgba(0,0,0,0) 70%); bottom: 10%; right: 5%; filter: blur(60px); }
+        .card { position: relative; z-index: 10; width: 100%; max-width: 440px; background: rgba(10, 15, 26, 0.85); backdrop-filter: blur(25px); border: 1.5px solid rgba(0, 255, 170, 0.35); border-radius: 28px; padding: 36px 26px; box-shadow: 0 0 35px rgba(0, 255, 170, 0.15), 0 20px 50px rgba(0, 0, 0, 0.9); text-align: center; }
+        h1 { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #00f2fe 0%, #00ffaa 50%, #ff007f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .subtitle { font-size: 0.88rem; color: #8fa0b5; margin-bottom: 20px; margin-top: 5px; }
+        .drop-zone { border: 2px dashed rgba(0, 255, 170, 0.45); border-radius: 20px; padding: 30px 18px; background: rgba(12, 19, 32, 0.6); cursor: pointer; transition: all 0.35s ease; }
+        .drop-zone:hover { border-color: #00ffaa; background: rgba(16, 27, 46, 0.8); }
+        .icon-box { font-size: 2.8rem; margin-bottom: 10px; }
+        .drop-title { font-size: 1rem; font-weight: 700; color: #ffffff; word-break: break-all; }
+        .drop-sub { font-size: 0.8rem; color: #64748b; }
+        .btn-main { width: 100%; margin-top: 24px; padding: 16px; border: none; border-radius: 16px; background: linear-gradient(135deg, #00ffaa 0%, #00b894 100%); color: #04070d; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; }
+        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; }
+        .progress-box { display: none; margin-top: 22px; background: rgba(13, 20, 33, 0.8); border: 1px solid rgba(0, 255, 170, 0.2); border-radius: 16px; padding: 16px; }
+        .status-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .status-text { font-size: 0.83rem; color: #00ffaa; font-weight: 700; }
+        .status-percent { font-size: 0.85rem; color: #ffffff; font-weight: 800; }
+        .progress-bar-bg { width: 100%; height: 10px; background: rgba(255, 255, 255, 0.06); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #00f2fe 0%, #00ffaa 100%); border-radius: 10px; transition: width 0.2s ease-out; }
+        .btn-download { display: none; width: 100%; margin-top: 20px; padding: 16px; border: none; border-radius: 16px; background: linear-gradient(135deg, #00f2fe 0%, #00ffaa 100%); color: #04070d; font-weight: 900; font-size: 0.98rem; cursor: pointer; text-transform: uppercase; }
+        .error-message { display: none; color: #ff4757; font-size: 0.85rem; font-weight: 600; margin-top: 14px; }
         input[type="file"] { display: none; }
     </style>
 </head>
@@ -311,17 +36,8 @@
 <div class="ambient-glow-2"></div>
 
 <div class="card">
-    <div class="title-container">
-        <h1>BINOX METHOD</h1>
-    </div>
+    <h1>BINOX METHOD</h1>
     <p class="subtitle">Bypass de compresión para TikTok en un solo clic.</p>
-
-    <div class="info-box">
-        <div class="info-title">⚡ ¿Cómo funciona?</div>
-        <div class="info-desc">
-            Sube tu edit directamente desde tus archivos. Nuestra tecnología aplica un tratamiento de optimización exclusivo para mantener la máxima calidad y nitidez al publicar.
-        </div>
-    </div>
 
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <div class="icon-box" id="iconBox">✨</div>
@@ -356,14 +72,10 @@
     let currentProgress = 0;
 
     function setProgress(percent, text) {
-        if (percent > currentProgress) {
-            currentProgress = percent;
-        }
+        if (percent > currentProgress) currentProgress = percent;
         document.getElementById('progressBar').style.width = currentProgress + "%";
         document.getElementById('statusPercent').innerText = Math.round(currentProgress) + "%";
-        if (text) {
-            document.getElementById('statusText').innerText = text;
-        }
+        if (text) document.getElementById('statusText').innerText = text;
     }
 
     function handleFile(file) {
@@ -373,7 +85,6 @@
         document.getElementById('dropSub').innerText = "Archivo listo para procesar";
         document.getElementById('iconBox').innerText = "🎬";
         document.getElementById('startBtn').disabled = false;
-
         document.getElementById('progressBox').style.display = 'none';
         document.getElementById('downloadBtn').style.display = 'none';
         document.getElementById('errorText').style.display = 'none';
@@ -404,7 +115,6 @@
         xhr.open("POST", BACKEND_URL, true);
         xhr.responseType = "blob";
 
-        // FASE 1: Subida real del archivo (0% a 70%)
         xhr.upload.onprogress = function(e) {
             if (e.lengthComputable) {
                 const uploadPercent = (e.loaded / e.total) * 70;
@@ -412,7 +122,6 @@
             }
         };
 
-        // FASE 2: Avance suave mientras el backend procesa (70% a 98%)
         xhr.upload.onload = function() {
             setProgress(70, "Aplicando parche BINOX...");
             processInterval = setInterval(() => {
@@ -422,7 +131,6 @@
             }, 300);
         };
 
-        // FASE 3: Respuesta del Servidor (100% final)
         xhr.onload = function() {
             if (processInterval) clearInterval(processInterval);
 
@@ -441,7 +149,7 @@
             } else {
                 startBtn.disabled = false;
                 progressBox.style.display = 'none';
-                errorText.innerText = "Ocurrió un error en el servidor al procesar el video.";
+                errorText.innerText = "Error en el servidor al procesar el video.";
                 errorText.style.display = 'block';
             }
         };
