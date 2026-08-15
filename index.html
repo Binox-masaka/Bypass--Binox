@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BINOX METHOD — Engine Studio</title>
+    <title>BINOX STUDIO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -40,7 +40,6 @@
             position: relative;
         }
 
-        /* Ambient Orbs with Animations */
         .glow-orb {
             position: absolute;
             border-radius: 50%;
@@ -69,22 +68,11 @@
             animation-delay: -4s;
         }
 
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--accent-pink) 0%, rgba(0,0,0,0) 70%);
-            top: 40%;
-            right: 20%;
-            opacity: 0.25;
-            animation-delay: -2s;
-        }
-
         @keyframes pulseOrb {
             0% { transform: scale(1) translate(0, 0); }
             100% { transform: scale(1.15) translate(30px, -20px); }
         }
 
-        /* Card Container */
         .card {
             position: relative;
             z-index: 10;
@@ -107,7 +95,6 @@
             border-color: rgba(0, 255, 170, 0.45);
         }
 
-        /* Branding Header */
         .title-wrapper {
             margin-bottom: 24px;
         }
@@ -155,48 +142,47 @@
             line-height: 1.4;
         }
 
-        /* Method Selector Switch */
         .method-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             background: rgba(3, 7, 18, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 5px;
+            border-radius: 18px;
+            padding: 6px;
             margin-bottom: 22px;
         }
 
         .method-btn {
-            padding: 10px 12px;
-            border-radius: 12px;
-            border: none;
+            padding: 12px 10px;
+            border-radius: 14px;
+            border: 1px solid transparent;
             background: transparent;
             color: var(--text-sub);
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 3px;
         }
 
         .method-btn.active {
             background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(0, 255, 170, 0.15) 100%);
-            border: 1px solid rgba(0, 255, 170, 0.3);
+            border: 1px solid rgba(0, 255, 170, 0.35);
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 255, 170, 0.15);
         }
 
         .method-btn span.tag {
-            font-size: 0.65rem;
-            opacity: 0.6;
-            font-weight: 600;
+            font-size: 0.68rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            letter-spacing: 0.3px;
         }
 
-        /* Drop Zone Area */
         .drop-zone {
             position: relative;
             border: 2px dashed rgba(0, 255, 170, 0.3);
@@ -239,7 +225,6 @@
             margin-top: 4px;
         }
 
-        /* Main Buttons */
         .btn-main {
             width: 100%;
             margin-top: 22px;
@@ -263,17 +248,12 @@
             filter: brightness(1.1);
         }
 
-        .btn-main:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
         .btn-main:disabled {
             opacity: 0.25;
             cursor: not-allowed;
             box-shadow: none;
         }
 
-        /* Progress Engine Section */
         .progress-box {
             display: none;
             margin-top: 22px;
@@ -296,9 +276,6 @@
             font-size: 0.82rem;
             color: var(--accent-green);
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .status-percent {
@@ -314,7 +291,6 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
 
         .progress-bar-fill {
@@ -369,7 +345,6 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* Footer Credits */
         .footer-credits {
             margin-top: 24px;
             font-size: 0.72rem;
@@ -383,7 +358,7 @@
 
         .footer-credits strong {
             color: var(--text-main);
-            font-weight: 700;
+            font-weight: 800;
         }
 
         input[type="file"] { display: none; }
@@ -398,7 +373,6 @@
 
 <div class="glow-orb orb-1"></div>
 <div class="glow-orb orb-2"></div>
-<div class="glow-orb orb-3"></div>
 
 <div class="card">
     <div class="title-wrapper">
@@ -407,15 +381,15 @@
         <p class="subtitle">Bypass de compresión HD para TikTok en segundos.</p>
     </div>
 
-    <!-- Switch Selector para ambos Métodos -->
+    <!-- Switch Selector -->
     <div class="method-selector">
         <button id="btnMethodFast" class="method-btn active" onclick="selectMethod('fast')">
-            ⚡ Bypass Native
-            <span class="tag">Inyección Ultra Rápida</span>
+            ⚡ Bypass
+            <span class="tag">Ultra HD · 1080p 120 FPS</span>
         </button>
         <button id="btnMethodFfmpeg" class="method-btn" onclick="selectMethod('ffmpeg')">
-            ⚙️ FFmpeg Engine
-            <span class="tag">Conversión Pura 1080p</span>
+            ⚙️ FFmpeg
+            <span class="tag">Standard · 720p 60 FPS</span>
         </button>
     </div>
 
@@ -442,17 +416,15 @@
     <button id="downloadBtn" class="btn-download" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
     <div id="errorText" class="error-message">Error al procesar el video. Reintenta de nuevo.</div>
 
-    <!-- Sutil mención del creador del bypass -->
     <div class="footer-credits">
-        Powered by BINOX Engine · Bypass por <strong>Aleyxz</strong>
+        Powered by BINOX Engine · <strong>BINOX</strong>
     </div>
 </div>
 
 <script>
-    // URL Backend Railway (Cambia a la URL de tu proyecto en Railway)
     const BASE_BACKEND_URL = "https://binox-backend-production.up.railway.app";
     
-    let currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`; // Por defecto Método Nativo
+    let currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`;
     let selectedFile = null;
     let preparedBlobUrl = null;
     let outputName = "";
@@ -526,7 +498,7 @@
         };
 
         xhr.upload.onload = function() {
-            setProgress(60, "Aplicando bypass Aleyxz...");
+            setProgress(60, "Aplicando optimización BINOX...");
             processInterval = setInterval(() => {
                 if (currentProgress < 98) {
                     setProgress(currentProgress + 1.2, "Optimizando contenedor MP4...");
@@ -578,7 +550,6 @@
         a.remove();
     }
 
-    // Drag & Drop visual feedback
     const dropZone = document.getElementById('dropZone');
     ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
