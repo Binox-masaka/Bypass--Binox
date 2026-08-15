@@ -432,6 +432,7 @@
 
 <script>
     const BASE_BACKEND_URL = "https://binox-backend-production.up.railway.app";
+    const BINOX_KEY = "my_binox_super_bypass_123";
     
     let currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`;
     let selectedFile = null;
@@ -469,7 +470,6 @@
         const MAX_SIZE_MB = 150;
         const maxSizeBytes = MAX_SIZE_MB * 1024 * 1024;
 
-        // Comprobación de peso máximo (150 MB)
         if (file.size > maxSizeBytes) {
             errorText.innerText = `El archivo supera el límite de ${MAX_SIZE_MB} MB. Elige un video más liviano.`;
             errorText.style.display = 'block';
@@ -510,6 +510,10 @@
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", currentEndpoint, true);
+        
+        // Firma de seguridad para el backend en Railway
+        xhr.setRequestHeader("X-BINOX-KEY", BINOX_KEY);
+        
         xhr.responseType = "blob";
 
         xhr.upload.onprogress = function(e) {
@@ -537,7 +541,9 @@
                 const blob = xhr.response;
                 if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
                 preparedBlobUrl = window.URL.createObjectURL(blob);
-                outputName = "binox_" + selectedFile.name;
+                
+                // Nombre asignado con el prefijo solicitado
+                outputName = "binox_bypass_" + selectedFile.name;
 
                 setTimeout(() => {
                     downloadBtn.style.display = 'block';
@@ -546,8 +552,19 @@
             } else {
                 startBtn.disabled = false;
                 progressBox.style.display = 'none';
-                errorText.innerText = "Error en el servidor al procesar el video.";
-                errorText.style.display = 'block';
+                
+                // Intentar leer el mensaje devuelto por el servidor
+                const reader = new FileReader();
+                reader.onload = function() {
+                    try {
+                        const res = JSON.parse(reader.result);
+                        errorText.innerText = res.detail || res.error || "Error al procesar el archivo.";
+                    } catch(e) {
+                        errorText.innerText = "Error en el servidor al procesar el video.";
+                    }
+                    errorText.style.display = 'block';
+                };
+                reader.readAsText(xhr.response);
             }
         };
 
@@ -555,7 +572,7 @@
             if (processInterval) clearInterval(processInterval);
             startBtn.disabled = false;
             progressBox.style.display = 'none';
-            errorText.innerText = "Error de conexión con el servidor backend.";
+            errorText.innerText = "Error de conexión o bloqueo de acceso con el servidor.";
             errorText.style.display = 'block';
         };
 
@@ -585,16 +602,4 @@
         dropZone.addEventListener(eventName, (e) => {
             e.preventDefault();
             dropZone.style.borderColor = 'rgba(0, 255, 170, 0.3)';
-            dropZone.style.background = 'rgba(15, 23, 42, 0.4)';
-        }, false);
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        if (files.length > 0) handleFile(files[0]);
-    });
-</script>
-
-</body>
-</html>
+            d
