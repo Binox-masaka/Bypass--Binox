@@ -391,11 +391,11 @@
     </div>
 
     <div class="method-selector">
-        <button id="btnMethodFast" class="method-btn active" onclick="selectMethod('fast')">
+        <button id="btnMethodFast" class="method-btn active" type="button" onclick="selectMethod('fast')">
             ⚡ Bypass
             <span class="tag">Ultra HD · 1080p 120 FPS</span>
         </button>
-        <button id="btnMethodFfmpeg" class="method-btn" onclick="selectMethod('ffmpeg')">
+        <button id="btnMethodFfmpeg" class="method-btn" type="button" onclick="selectMethod('ffmpeg')">
             ⚙️ FFmpeg
             <span class="tag">Standard · 720p 60 FPS</span>
         </button>
@@ -410,7 +410,7 @@
 
     <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this.files[0])">
 
-    <button id="startBtn" class="btn-main" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
+    <button id="startBtn" class="btn-main" type="button" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
 
     <div id="progressBox" class="progress-box">
         <div class="status-header">
@@ -422,7 +422,7 @@
         </div>
     </div>
 
-    <button id="downloadBtn" class="btn-download" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
+    <button id="downloadBtn" class="btn-download" type="button" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
     <div id="errorText" class="error-message">Error al procesar el video. Reintenta de nuevo.</div>
 
     <div class="footer-credits">
@@ -449,7 +449,7 @@
             currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`;
             btnFast.classList.add('active');
             btnFfmpeg.classList.remove('active');
-        } else {
+        } else if (method === 'ffmpeg') {
             currentEndpoint = `${BASE_BACKEND_URL}/bypass`;
             btnFfmpeg.classList.add('active');
             btnFast.classList.remove('active');
@@ -511,7 +511,6 @@
         const xhr = new XMLHttpRequest();
         xhr.open("POST", currentEndpoint, true);
         
-        // Firma de seguridad para el backend en Railway
         xhr.setRequestHeader("X-BINOX-KEY", BINOX_KEY);
         
         xhr.responseType = "blob";
@@ -542,7 +541,6 @@
                 if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
                 preparedBlobUrl = window.URL.createObjectURL(blob);
                 
-                // Nombre asignado con el prefijo solicitado
                 outputName = "binox_bypass_" + selectedFile.name;
 
                 setTimeout(() => {
@@ -553,7 +551,6 @@
                 startBtn.disabled = false;
                 progressBox.style.display = 'none';
                 
-                // Intentar leer el mensaje devuelto por el servidor
                 const reader = new FileReader();
                 reader.onload = function() {
                     try {
@@ -602,4 +599,8 @@
         dropZone.addEventListener(eventName, (e) => {
             e.preventDefault();
             dropZone.style.borderColor = 'rgba(0, 255, 170, 0.3)';
-            d
+            dropZone.style.background = 'rgba(15, 23, 42, 0.4)';
+        }, false);
+    });
+
+    dropZone.addEventListe
