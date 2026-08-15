@@ -225,15 +225,6 @@
             margin-top: 4px;
         }
 
-        .drop-limit {
-            font-size: 0.72rem;
-            color: var(--accent-green);
-            margin-top: 8px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            opacity: 0.9;
-        }
-
         .btn-main {
             width: 100%;
             margin-top: 22px;
@@ -390,12 +381,13 @@
         <p class="subtitle">Bypass de compresión HD para TikTok en segundos.</p>
     </div>
 
+    <!-- Switch Selector -->
     <div class="method-selector">
-        <button id="btnMethodFast" class="method-btn active" type="button" onclick="selectMethod('fast')">
+        <button id="btnMethodFast" class="method-btn active" onclick="selectMethod('fast')">
             ⚡ Bypass
             <span class="tag">Ultra HD · 1080p 120 FPS</span>
         </button>
-        <button id="btnMethodFfmpeg" class="method-btn" type="button" onclick="selectMethod('ffmpeg')">
+        <button id="btnMethodFfmpeg" class="method-btn" onclick="selectMethod('ffmpeg')">
             ⚙️ FFmpeg
             <span class="tag">Standard · 720p 60 FPS</span>
         </button>
@@ -404,13 +396,12 @@
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <div class="icon-box" id="iconBox">✨</div>
         <div class="drop-title" id="dropTitle">Arrastra tu edit aquí</div>
-        <div class="drop-sub" id="dropSub">o haz clic para explorar en tus archivos</div>
-        <div class="drop-limit">⚡ TAMAÑO MÁXIMO: 150 MB</div>
+        <div class="drop-sub" id="dropSub">o haz clic para explorar en tus archivos (Máx. 150 MB)</div>
     </div>
 
     <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this.files[0])">
 
-    <button id="startBtn" class="btn-main" type="button" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
+    <button id="startBtn" class="btn-main" onclick="processVideo()" disabled>OPTIMIZAR EDIT</button>
 
     <div id="progressBox" class="progress-box">
         <div class="status-header">
@@ -422,7 +413,7 @@
         </div>
     </div>
 
-    <button id="downloadBtn" class="btn-download" type="button" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
+    <button id="downloadBtn" class="btn-download" onclick="downloadResult()">⬇ DESCARGAR EDIT OPTIMIZADO</button>
     <div id="errorText" class="error-message">Error al procesar el video. Reintenta de nuevo.</div>
 
     <div class="footer-credits">
@@ -431,8 +422,9 @@
 </div>
 
 <script>
+    // Configuración base de comunicación directa
     const BASE_BACKEND_URL = "https://binox-backend-production.up.railway.app";
-    const BINOX_KEY = "my_binox_super_bypass_123";
+    const MAX_FILE_SIZE = 150 * 1024 * 1024; // 150 MB
     
     let currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`;
     let selectedFile = null;
@@ -440,6 +432,14 @@
     let outputName = "";
     let processInterval = null;
     let currentProgress = 0;
+
+    // Medidas de seguridad adicionales en la interfaz
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'U')) {
+            e.preventDefault();
+        }
+    });
 
     function selectMethod(method) {
         const btnFast = document.getElementById('btnMethodFast');
@@ -449,7 +449,7 @@
             currentEndpoint = `${BASE_BACKEND_URL}/bypass-fast`;
             btnFast.classList.add('active');
             btnFfmpeg.classList.remove('active');
-        } else if (method === 'ffmpeg') {
+        } else {
             currentEndpoint = `${BASE_BACKEND_URL}/bypass`;
             btnFfmpeg.classList.add('active');
             btnFast.classList.remove('active');
@@ -464,16 +464,17 @@
     }
 
     function handleFile(file) {
+        const errorText = document.getElementById('errorText');
+        errorText.style.display = 'none';
+
         if (!file) return;
 
-        const errorText = document.getElementById('errorText');
-        const MAX_SIZE_MB = 150;
-        const maxSizeBytes = MAX_SIZE_MB * 1024 * 1024;
-
-        if (file.size > maxSizeBytes) {
-            errorText.innerText = `El archivo supera el límite de ${MAX_SIZE_MB} MB. Elige un video más liviano.`;
+        // Validación de tamaño maximo (150 MB)
+        if (file.size > MAX_FILE_SIZE) {
+            errorText.innerText = "El archivo excede el límite permitido de 150 MB.";
             errorText.style.display = 'block';
             document.getElementById('startBtn').disabled = true;
+            document.getElementById('fileInput').value = "";
             return;
         }
 
@@ -484,7 +485,6 @@
         document.getElementById('startBtn').disabled = false;
         document.getElementById('progressBox').style.display = 'none';
         document.getElementById('downloadBtn').style.display = 'none';
-        errorText.style.display = 'none';
     }
 
     function processVideo() {
@@ -510,9 +510,6 @@
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", currentEndpoint, true);
-        
-        xhr.setRequestHeader("X-BINOX-KEY", BINOX_KEY);
-        
         xhr.responseType = "blob";
 
         xhr.upload.onprogress = function(e) {
@@ -540,8 +537,7 @@
                 const blob = xhr.response;
                 if (preparedBlobUrl) window.URL.revokeObjectURL(preparedBlobUrl);
                 preparedBlobUrl = window.URL.createObjectURL(blob);
-                
-                outputName = "binox_bypass_" + selectedFile.name;
+                outputName = "binox_" + selectedFile.name;
 
                 setTimeout(() => {
                     downloadBtn.style.display = 'block';
@@ -550,18 +546,8 @@
             } else {
                 startBtn.disabled = false;
                 progressBox.style.display = 'none';
-                
-                const reader = new FileReader();
-                reader.onload = function() {
-                    try {
-                        const res = JSON.parse(reader.result);
-                        errorText.innerText = res.detail || res.error || "Error al procesar el archivo.";
-                    } catch(e) {
-                        errorText.innerText = "Error en el servidor al procesar el video.";
-                    }
-                    errorText.style.display = 'block';
-                };
-                reader.readAsText(xhr.response);
+                errorText.innerText = "Error en el servidor al procesar el video.";
+                errorText.style.display = 'block';
             }
         };
 
@@ -569,7 +555,7 @@
             if (processInterval) clearInterval(processInterval);
             startBtn.disabled = false;
             progressBox.style.display = 'none';
-            errorText.innerText = "Error de conexión o bloqueo de acceso con el servidor.";
+            errorText.innerText = "Error de conexión con el servidor backend.";
             errorText.style.display = 'block';
         };
 
@@ -603,4 +589,13 @@
         }, false);
     });
 
-    dropZone.addEventListe
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) handleFile(files[0]);
+    });
+</script>
+
+</body>
+</html>
+
