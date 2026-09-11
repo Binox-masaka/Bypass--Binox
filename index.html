@@ -1,1 +1,755 @@
-<!doctypehtml><html lang=es><meta charset=UTF-8><meta content="width=device-width,initial-scale=1"name=viewport><title>BINOX STUDIO</title><link href=https://fonts.googleapis.com rel=preconnect><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap"rel=stylesheet><style>:root{--bg-color:#030712;--card-bg:rgba(15, 23, 42, 0.65);--accent-cyan:#00f2fe;--accent-green:#00ffaa;--accent-pink:#ff007f;--accent-purple:#7928ca;--text-main:#f8fafc;--text-sub:#94a3b8;--border-glow:rgba(0, 255, 170, 0.25)}*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;user-select:none}body{background-color:var(--bg-color);color:var(--text-main);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:24px;overflow-x:hidden;position:relative}.glow-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:1;animation:pulseOrb 8s infinite alternate cubic-bezier(.4,0,.2,1)}.orb-1{width:420px;height:420px;background:radial-gradient(circle,var(--accent-cyan) 0,rgba(0,0,0,0) 70%);top:-10%;left:-10%;opacity:.45}.orb-2{width:450px;height:450px;background:radial-gradient(circle,var(--accent-purple) 0,rgba(0,0,0,0) 70%);bottom:-15%;right:-10%;opacity:.5;animation-delay:-4s}@keyframes pulseOrb{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.15) translate(30px,-20px)}}.card{position:relative;z-index:10;width:100%;max-width:460px;background:var(--card-bg);backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);border:1px solid var(--border-glow);border-radius:32px;padding:40px 30px 32px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 40px rgba(0,255,170,.08),inset 0 1px 0 rgba(255,255,255,.1);text-align:center;transition:transform .3s ease,border-color .3s ease}.card:hover{border-color:rgba(0,255,170,.45)}.title-wrapper{margin-bottom:24px}.badge-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(0,255,170,.1);border:1px solid rgba(0,255,170,.25);font-size:.72rem;font-weight:700;color:var(--accent-green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}.badge-tag span{width:6px;height:6px;background-color:var(--accent-green);border-radius:50%;box-shadow:0 0 8px var(--accent-green)}h1{font-size:2.4rem;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,#fff 0,var(--accent-cyan) 50%,var(--accent-green) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;line-height:1.1}.subtitle{font-size:.88rem;color:var(--text-sub);margin-top:8px;font-weight:500;line-height:1.4}.method-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(3,7,18,.6);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:6px;margin-bottom:22px}.method-btn{padding:12px 10px;border-radius:14px;border:1px solid transparent;background:0 0;color:var(--text-sub);font-size:.85rem;font-weight:800;cursor:pointer;transition:all .3s cubic-bezier(.4, 0, .2, 1);display:flex;flex-direction:column;align-items:center;gap:3px}.method-btn.active{background:linear-gradient(135deg,rgba(0,242,254,.15) 0,rgba(0,255,170,.15) 100%);border:1px solid rgba(0,255,170,.35);color:#fff;box-shadow:0 4px 20px rgba(0,255,170,.15)}.method-btn span.tag{font-size:.68rem;color:var(--accent-cyan);font-weight:700;letter-spacing:.3px}.drop-zone{position:relative;border:2px dashed rgba(0,255,170,.3);border-radius:24px;padding:36px 20px;background:rgba(15,23,42,.4);cursor:pointer;transition:all .35s cubic-bezier(.4, 0, .2, 1);overflow:hidden}.drop-zone:hover{border-color:var(--accent-green);background:rgba(0,255,170,.03);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,255,170,.08)}.icon-box{font-size:2.5rem;margin-bottom:12px;transition:transform .3s ease;display:inline-block}.drop-zone:hover .icon-box{transform:scale(1.15) rotate(-5deg)}.drop-title{font-size:.98rem;font-weight:700;color:#fff;word-break:break-all}.drop-sub{font-size:.78rem;color:var(--text-sub);margin-top:4px}.btn-main{width:100%;margin-top:22px;padding:18px;border:none;border-radius:18px;background:linear-gradient(135deg,var(--accent-cyan) 0,var(--accent-green) 100%);color:#030712;font-weight:800;font-size:.95rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;box-shadow:0 10px 25px rgba(0,255,170,.25);transition:all .3s ease}.btn-main:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 15px 35px rgba(0,255,170,.4);filter:brightness(1.1)}.btn-main:disabled{opacity:.25;cursor:not-allowed;box-shadow:none}.progress-box{display:none;margin-top:22px;background:rgba(3,7,18,.8);border:1px solid rgba(0,255,170,.2);border-radius:20px;padding:20px;text-align:left;animation:fadeIn .4s ease}.status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.status-text{font-size:.82rem;color:var(--accent-green);font-weight:700}.status-percent{font-size:.9rem;color:#fff;font-weight:800;font-family:monospace}.progress-bar-bg{width:100%;height:10px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden}.progress-bar-fill{width:0%;height:100%;background:linear-gradient(90deg,var(--accent-cyan) 0,var(--accent-green) 50%,var(--accent-pink) 100%);background-size:200% 100%;border-radius:10px;transition:width .25s ease-out;animation:gradientMove 2s linear infinite}@keyframes gradientMove{0%{background-position:0 50%}100%{background-position:200% 50%}}.btn-download{display:none;width:100%;margin-top:20px;padding:18px;border:none;border-radius:18px;background:linear-gradient(135deg,#00f2fe 0,#ff007f 100%);color:#fff;font-weight:800;font-size:.95rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;box-shadow:0 10px 30px rgba(255,0,127,.3);transition:all .3s ease;animation:fadeIn .4s ease}.btn-download:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(255,0,127,.45)}.error-message{display:none;color:#ff4757;font-size:.82rem;font-weight:700;margin-top:16px;background:rgba(255,71,87,.1);padding:12px;border-radius:12px;border:1px solid rgba(255,71,87,.2);animation:fadeIn .3s ease}.footer-credits{margin-top:24px;font-size:.72rem;color:var(--text-sub);opacity:.75;display:flex;align-items:center;justify-content:center;gap:6px}.footer-credits strong{color:var(--text-main);font-weight:800}input[type=file]{display:none}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}</style><div class="glow-orb orb-1"></div><div class="glow-orb orb-2"></div><div class=card><div class=title-wrapper><div class=badge-tag><span></span> Bypass System v2.4</div><h1>BINOX STUDIO</h1><p class=subtitle>Bypass de compresión HD para TikTok en segundos.</div><div class=method-selector><button class="method-btn active"id=btnMethodFast onclick='selectMethod("fast")'>⚡ Bypass <span class=tag>Ultra HD · 1080p 120 FPS</span></button> <button class=method-btn id=btnMethodFfmpeg onclick='selectMethod("ffmpeg")'>⚙️ FFmpeg <span class=tag>Standard · 720p 60 FPS</span></button></div><div class=drop-zone id=dropZone onclick='document.getElementById("fileInput").click()'><div class=icon-box id=iconBox>✨</div><div class=drop-title id=dropTitle>Arrastra tu edit aquí</div><div class=drop-sub id=dropSub>o haz clic para explorar en tus archivos (Máx. 150 MB)</div></div><input accept=video/* id=fileInput onchange=handleFile(this.files[0]) type=file> <button class=btn-main id=startBtn onclick=processVideo() disabled>OPTIMIZAR EDIT</button><div class=progress-box id=progressBox><div class=status-header><span class=status-text id=statusText>Iniciando motor...</span> <span class=status-percent id=statusPercent>0%</span></div><div class=progress-bar-bg><div class=progress-bar-fill id=progressBar></div></div></div><button class=btn-download id=downloadBtn onclick=downloadResult()>⬇ DESCARGAR EDIT OPTIMIZADO</button><div class=error-message id=errorText>Error al procesar el video. Reintenta de nuevo.</div><div class=footer-credits>Powered by BINOX Engine · <strong>BINOX</strong></div></div><script>const BASE_BACKEND_URL="https://binox-backend-production.up.railway.app",MAX_FILE_SIZE=157286400;let currentEndpoint=`${BASE_BACKEND_URL}/bypass-fast`,selectedFile=null,preparedBlobUrl=null,outputName="",processInterval=null,currentProgress=0;function selectMethod(e){const t=document.getElementById("btnMethodFast"),n=document.getElementById("btnMethodFfmpeg");"fast"===e?(currentEndpoint=`${BASE_BACKEND_URL}/bypass-fast`,t.classList.add("active"),n.classList.remove("active")):(currentEndpoint=`${BASE_BACKEND_URL}/bypass`,n.classList.add("active"),t.classList.remove("active"))}function setProgress(e,t){e>currentProgress&&(currentProgress=e),document.getElementById("progressBar").style.width=currentProgress+"%",document.getElementById("statusPercent").innerText=Math.round(currentProgress)+"%",t&&(document.getElementById("statusText").innerText=t)}function handleFile(e){const t=document.getElementById("errorText");if(t.style.display="none",e){if(e.size>MAX_FILE_SIZE)return t.innerText="El archivo excede el límite permitido de 150 MB.",t.style.display="block",document.getElementById("startBtn").disabled=!0,void(document.getElementById("fileInput").value="");selectedFile=e,document.getElementById("dropTitle").innerText=e.name,document.getElementById("dropSub").innerText=`${(e.size/1048576).toFixed(2)} MB · Listo para procesar`,document.getElementById("iconBox").innerText="🎬",document.getElementById("startBtn").disabled=!1,document.getElementById("progressBox").style.display="none",document.getElementById("downloadBtn").style.display="none"}}function processVideo(){if(selectedFile){const t=document.getElementById("startBtn"),n=document.getElementById("progressBox"),r=document.getElementById("downloadBtn"),o=document.getElementById("errorText");processInterval&&clearInterval(processInterval),currentProgress=0,t.disabled=!0,r.style.display="none",o.style.display="none",n.style.display="block",setProgress(0,"Subiendo al servidor...");const e=new FormData;e.append("file",selectedFile);const d=new XMLHttpRequest;d.open("POST",currentEndpoint,!0),d.responseType="blob",d.upload.onprogress=function(e){e.lengthComputable&&setProgress(e=e.loaded/e.total*60,e<60?"Subiendo archivo...":"Iniciando procesamiento...")},d.upload.onload=function(){setProgress(60,"Aplicando optimización BINOX..."),processInterval=setInterval(()=>{currentProgress<98&&setProgress(currentProgress+1.2,"Optimizando contenedor MP4...")},250)},d.onload=function(){var e;processInterval&&clearInterval(processInterval),200===d.status?(setProgress(100,"¡Edit optimizado con éxito!"),e=d.response,preparedBlobUrl&&window.URL.revokeObjectURL(preparedBlobUrl),preparedBlobUrl=window.URL.createObjectURL(e),outputName="binox_"+selectedFile.name,setTimeout(()=>{r.style.display="block",t.disabled=!1},200)):(t.disabled=!1,n.style.display="none",o.innerText="Error en el servidor al procesar el video.",o.style.display="block")},d.onerror=function(){processInterval&&clearInterval(processInterval),t.disabled=!1,n.style.display="none",o.innerText="Error de conexión con el servidor backend.",o.style.display="block"},d.send(e)}}function downloadResult(){if(preparedBlobUrl){const e=document.createElement("a");e.href=preparedBlobUrl,e.download=outputName,document.body.appendChild(e),e.click(),e.remove()}}document.addEventListener("contextmenu",e=>e.preventDefault()),document.addEventListener("keydown",e=>{("F12"===e.key||e.ctrlKey&&e.shiftKey&&("I"===e.key||"J"===e.key)||e.ctrlKey&&"U"===e.key)&&e.preventDefault()});const dropZone=document.getElementById("dropZone");["dragenter","dragover"].forEach(e=>{dropZone.addEventListener(e,e=>{e.preventDefault(),dropZone.style.borderColor="var(--accent-green)",dropZone.style.background="rgba(0, 255, 170, 0.08)"},!1)}),["dragleave","drop"].forEach(e=>{dropZone.addEventListener(e,e=>{e.preventDefault(),dropZone.style.borderColor="rgba(0, 255, 170, 0.3)",dropZone.style.background="rgba(15, 23, 42, 0.4)"},!1)}),dropZone.addEventListener("drop",e=>{e=e.dataTransfer.files;0<e.length&&handleFile(e[0])})</script>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080612"><title>BINOX STUDIO — Aurora</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><style>:root{--bg:#080612;--bg2:#0d0919;--surface:rgba(22,17,39,.72);--surface2:rgba(31,24,52,.72);--surface3:rgba(255,255,255,.045);--violet:#9b5cff;--purple:#743cff;--blue:#4c8dff;--pink:#ff4fa3;--orange:#ff8a4c;--text:#faf8ff;--muted:#9189a8;--muted2:#625a78;--border:rgba(255,255,255,.085);--shadow:0 35px 100px rgba(0,0,0,.55);--font:"DM Sans",sans-serif;--display:"Space Grotesk",sans-serif}*{box-sizing:border-box;margin:0;padding:0}html{min-height:100%;background:var(--bg)}body{min-height:100vh;font-family:var(--font);color:var(--text);background:radial-gradient(circle at 8% 8%,rgba(116,60,255,.18),transparent 28%),radial-gradient(circle at 90% 15%,rgba(255,79,163,.12),transparent 26%),radial-gradient(circle at 50% 100%,rgba(76,141,255,.1),transparent 32%),linear-gradient(145deg,#07050e,#0a0712 45%,#090613);overflow-x:hidden}.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}.bg-grid{position:absolute;inset:-100px;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse at center,#000 0,transparent 75%)}.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.18;animation:blobMove 16s ease-in-out infinite alternate}.blob-a{width:420px;height:420px;background:#743cff;top:-220px;left:-180px}.blob-b{width:360px;height:360px;background:#ff4fa3;right:-180px;top:25%;animation-delay:-5s}.blob-c{width:400px;height:400px;background:#4c8dff;bottom:-250px;left:30%;animation-delay:-9s}@keyframes blobMove{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(45px,-35px,0) scale(1.15)}}.app{position:relative;z-index:2;width:min(94%,620px);margin:0 auto;padding:35px 0 30px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(145deg,#9b5cff,#4c8dff);box-shadow:0 8px 25px rgba(116,60,255,.3);font-family:var(--display);font-weight:700;font-size:15px}.brand-name{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.3px}.brand-name span{color:#9b5cff}.live{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:100px;background:rgba(255,255,255,.035);border:1px solid var(--border);color:#a69dbd;font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase}.live-dot{width:6px;height:6px;border-radius:50%;background:#7dffb2;box-shadow:0 0 10px #7dffb2;animation:livePulse 1.8s infinite}@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}.hero{margin-bottom:25px}.eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;color:#9b7cff;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.eyebrow-line{width:18px;height:1px;background:#9b5cff}.hero h1{font-family:var(--display);font-size:clamp(2.7rem,11vw,4.3rem);line-height:.94;letter-spacing:-3px;font-weight:700}.hero h1 .gradient{background:linear-gradient(100deg,#fff 0,#b18aff 38%,#ff65ad 75%,#ff9c67 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{max-width:470px;margin-top:14px;color:var(--muted);font-size:12px;line-height:1.65}.panel{position:relative;padding:18px;border-radius:29px;background:linear-gradient(145deg,rgba(28,22,48,.82),rgba(11,8,20,.82));border:1px solid var(--border);backdrop-filter:blur(35px);-webkit-backdrop-filter:blur(35px);box-shadow:var(--shadow);overflow:hidden}.panel::after{content:"";position:absolute;width:250px;height:250px;top:-190px;right:-100px;border-radius:50%;background:#8b5cff;filter:blur(100px);opacity:.08;pointer-events:none}.section-head{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 11px}.section-title{display:flex;align-items:center;gap:8px;font-size:9px;font-weight:800;color:#8f87a5;text-transform:uppercase;letter-spacing:1.1px}.section-number{color:#504963;font-size:9px;font-weight:700}.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:21px}.mode{position:relative;min-height:105px;padding:14px;border-radius:19px;border:1px solid var(--border);background:rgba(255,255,255,.025);color:#fff;text-align:left;cursor:pointer;overflow:hidden;transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease}.mode:hover{transform:translateY(-2px);border-color:rgba(155,92,255,.3)}.mode.active{border-color:rgba(155,92,255,.48);background:linear-gradient(145deg,rgba(116,60,255,.2),rgba(255,79,163,.07));box-shadow:0 12px 35px rgba(116,60,255,.1)}.mode::before{content:"";position:absolute;top:0;left:0;width:35%;height:2px;background:linear-gradient(90deg,transparent,#9b5cff,transparent);opacity:0;transition:opacity .25s}.mode.active::before{opacity:1}.mode-icon{width:31px;height:31px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;border-radius:10px;background:rgba(255,255,255,.06);font-size:15px}.mode.active .mode-icon{background:linear-gradient(135deg,rgba(155,92,255,.28),rgba(255,79,163,.16))}.mode-name{display:block;font-size:11px;font-weight:800}.mode-desc{display:block;margin-top:3px;color:#6f6784;font-size:8px;font-weight:600}.mode-badge{position:absolute;top:12px;right:12px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.045);color:#766d8d;font-size:7px;font-weight:800}.mode.active .mode-badge{color:#c1a9ff;background:rgba(155,92,255,.1)}.upload{position:relative;min-height:230px;display:flex;align-items:center;justify-content:center;border-radius:23px;border:1px dashed rgba(155,92,255,.25);background:radial-gradient(circle at center,rgba(116,60,255,.07),transparent 65%),rgba(0,0,0,.13);cursor:pointer;transition:border-color .3s,background .3s,transform .3s,box-shadow .3s}.upload.dragging,.upload:hover{transform:translateY(-2px);border-color:rgba(255,79,163,.65);background:radial-gradient(circle at center,rgba(255,79,163,.09),transparent 65%),rgba(255,255,255,.018);box-shadow:0 20px 50px rgba(116,60,255,.1)}.upload-content{width:100%;text-align:center;padding:25px}.upload-orb{position:relative;width:76px;height:76px;display:flex;align-items:center;justify-content:center;margin:0 auto 15px;border-radius:24px;background:linear-gradient(145deg,rgba(155,92,255,.16),rgba(255,79,163,.08));border:1px solid rgba(155,92,255,.18);box-shadow:0 15px 35px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.08);font-size:28px;transition:transform .3s}.upload:hover .upload-orb{transform:translateY(-5px) rotate(-3deg)}.upload-title{max-width:90%;margin:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--display);font-size:14px;font-weight:700}.upload-subtitle{margin-top:7px;color:#716981;font-size:9px;line-height:1.6}.file-meta{display:none;width:max-content;max-width:90%;align-items:center;gap:7px;margin:12px auto 0;padding:6px 9px;border-radius:9px;background:rgba(155,92,255,.08);border:1px solid rgba(155,92,255,.15);color:#ba9fff;font-size:8px;font-weight:700}.file-meta.show{display:flex}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.stat{padding:10px;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.045)}.stat-label{display:block;color:#5e566f;font-size:7px;font-weight:800;text-transform:uppercase;letter-spacing:.8px}.stat-value{display:block;margin-top:4px;color:#b9b1c9;font-size:9px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.action{position:relative;width:100%;margin-top:17px;padding:17px;border:0;border-radius:18px;color:#fff;background:linear-gradient(100deg,#743cff,#9b5cff 45%,#ff4fa3);font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.6px;cursor:pointer;box-shadow:0 15px 35px rgba(116,60,255,.2);overflow:hidden;transition:transform .25s,box-shadow .25s,filter .25s,opacity .25s}.action::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.24),transparent 80%);transform:translateX(-120%);transition:transform .7s}.action:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 20px 45px rgba(116,60,255,.28);filter:brightness(1.08)}.action:hover:not(:disabled)::before{transform:translateX(120%)}.action:disabled{opacity:.25;cursor:not-allowed;box-shadow:none}.progress{display:none;margin-top:15px;padding:16px;border-radius:18px;background:rgba(0,0,0,.22);border:1px solid var(--border);animation:fadeUp .35s ease}.progress.show{display:block}.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.progress-state{display:flex;align-items:center;gap:8px;color:#c1a9ff;font-size:9px;font-weight:800}.loader{width:9px;height:9px;border:2px solid rgba(155,92,255,.18);border-top-color:#9b5cff;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.progress-percent{font-family:var(--display);font-size:11px;font-weight:700}.progress-track{height:8px;overflow:hidden;border-radius:20px;background:rgba(255,255,255,.055)}.progress-fill{width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#743cff,#9b5cff,#ff4fa3);box-shadow:0 0 18px rgba(155,92,255,.45);transition:width .2s ease;background-size:200% 100%;animation:flow 2s linear infinite}@keyframes flow{from{background-position:0 0}to{background-position:200% 0}}.download{display:none;position:relative;width:100%;margin-top:12px;padding:15px;border:1px solid rgba(125,255,178,.15);border-radius:16px;background:linear-gradient(100deg,rgba(125,255,178,.08),rgba(76,141,255,.08));color:#c9ffe0;font-size:9px;font-weight:800;cursor:pointer;transition:transform .25s,border-color .25s,background .25s}.download.show{display:block;animation:fadeUp .35s ease}.download:hover{transform:translateY(-2px);border-color:rgba(125,255,178,.35);background:linear-gradient(100deg,rgba(125,255,178,.12),rgba(76,141,255,.12))}.error{display:none;margin-top:12px;padding:12px;border-radius:13px;color:#ff91aa;background:rgba(255,79,105,.06);border:1px solid rgba(255,79,105,.14);font-size:9px;font-weight:700;line-height:1.5}.error.show{display:block}.info-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:#504961;font-size:8px;font-weight:600}.info-pill{padding:5px 8px;border:1px solid rgba(255,255,255,.045);border-radius:8px;background:rgba(255,255,255,.018)}.footer{text-align:center;margin-top:18px;color:#474054;font-size:8px}.footer strong{color:#746a86}@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:600px){.app{padding-top:22px}.hero h1{letter-spacing:-2.5px}.panel{padding:14px;border-radius:25px}.upload{min-height:205px}}@media(max-width:380px){.brand-name{display:none}.modes{gap:6px}.mode{padding:11px}.stats{gap:5px}}</style></head><body><div class="bg"><div class="bg-grid"></div><div class="blob blob-a"></div><div class="blob blob-b"></div><div class="blob blob-c"></div></div><main class="app"><div class="topbar"><div class="brand"><div class="brand-mark">B</div><div class="brand-name">BINOX<span>STUDIO</span></div></div><div class="live"><span class="live-dot"></span>Engine Online</div></div><section class="hero"><div class="eyebrow"><span class="eyebrow-line"></span>VIDEO OPTIMIZATION</div><h1>Make your edits<span class="gradient">shine.</span></h1><p>Procesa tus vídeos con BINOX Studio y prepáralos para una reproducción limpia, fluida y optimizada.</p></section><section class="panel"><div class="section-head"><div class="section-title"><span>Modo de procesamiento</span></div><div class="section-number">01</div></div><div class="modes"><button class="mode active" id="btnMethodFast" type="button"><span class="mode-badge">RECOMMENDED</span><span class="mode-icon">✦</span><span class="mode-name">Bypass Ultra</span><span class="mode-desc">Máxima calidad · 1080p · 120 FPS</span></button><button class="mode" id="btnMethodFfmpeg" type="button"><span class="mode-badge">STANDARD</span><span class="mode-icon">◈</span><span class="mode-name">FFmpeg</span><span class="mode-desc">Procesamiento estándar · 720p · 60 FPS</span></button></div><div class="section-head"><div class="section-title"><span>Tu archivo</span></div><div class="section-number">02</div></div><div class="upload" id="dropZone"><div class="upload-content"><div class="upload-orb" id="iconBox">✦</div><div class="upload-title" id="dropTitle">Suelta tu edit aquí</div><div class="upload-subtitle" id="dropSub">Arrastra un vídeo o toca para seleccionar desde tu dispositivo<br>MP4 · MOV · WEBM · Máximo 150 MB</div><div class="file-meta" id="fileMeta"><span>◆</span><span id="fileSize">0 MB</span><span>·</span><span>READY</span></div></div></div><input type="file" id="fileInput" accept="video/*" hidden><div class="stats"><div class="stat"><span class="stat-label">Formato</span><span class="stat-value" id="formatStat">—</span></div><div class="stat"><span class="stat-label">Tamaño</span><span class="stat-value" id="sizeStat">—</span></div><div class="stat"><span class="stat-label">Estado</span><span class="stat-value" id="stateStat">Esperando</span></div></div><button class="action" id="startBtn" type="button" disabled="disabled">✦ &nbsp; OPTIMIZAR MI EDIT</button><div class="progress" id="progressBox"><div class="progress-head"><div class="progress-state"><span class="loader"></span><span id="statusText">Preparando...</span></div><span class="progress-percent" id="statusPercent">0%</span></div><div class="progress-track"><div class="progress-fill" id="progressBar"></div></div></div><button class="download" id="downloadBtn" type="button">↓ &nbsp; DESCARGAR EDIT OPTIMIZADO</button><div class="error" id="errorText">Error al procesar el vídeo.</div><div class="info-row"><span class="info-pill">150 MB MAX</span><span class="info-pill">SECURE</span><span class="info-pill">BINOX ENGINE</span></div></section><footer class="footer">Crafted with ✦ by<strong>BINOX</strong>· Studio Aurora</footer></main><script>/* =========================================================
+   BINOX ENGINE
+========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const BASE_BACKEND_URL =
+    "https://binox-backend-production.up.railway.app";
+
+const MAX_FILE_SIZE =
+    150 * 1024 * 1024;
+
+
+let currentEndpoint =
+    `${BASE_BACKEND_URL}/bypass-fast`;
+
+let selectedFile =
+    null;
+
+let preparedBlobUrl =
+    null;
+
+let outputName =
+    "";
+
+let processInterval =
+    null;
+
+let currentProgress =
+    0;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const dropZone =
+    document.getElementById("dropZone");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
+const progressBox =
+    document.getElementById("progressBox");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const statusText =
+    document.getElementById("statusText");
+
+const statusPercent =
+    document.getElementById("statusPercent");
+
+const errorText =
+    document.getElementById("errorText");
+
+const dropTitle =
+    document.getElementById("dropTitle");
+
+const dropSub =
+    document.getElementById("dropSub");
+
+const iconBox =
+    document.getElementById("iconBox");
+
+const fileMeta =
+    document.getElementById("fileMeta");
+
+const fileSize =
+    document.getElementById("fileSize");
+
+const formatStat =
+    document.getElementById("formatStat");
+
+const sizeStat =
+    document.getElementById("sizeStat");
+
+const stateStat =
+    document.getElementById("stateStat");
+
+const btnMethodFast =
+    document.getElementById("btnMethodFast");
+
+const btnMethodFfmpeg =
+    document.getElementById("btnMethodFfmpeg");
+
+
+/* =========================================================
+   METHOD
+========================================================= */
+
+function selectMethod(method){
+
+    if(method === "fast"){
+
+        currentEndpoint =
+            `${BASE_BACKEND_URL}/bypass-fast`;
+
+        btnMethodFast.classList.add(
+            "active"
+        );
+
+        btnMethodFfmpeg.classList.remove(
+            "active"
+        );
+
+    }else{
+
+        currentEndpoint =
+            `${BASE_BACKEND_URL}/bypass`;
+
+        btnMethodFfmpeg.classList.add(
+            "active"
+        );
+
+        btnMethodFast.classList.remove(
+            "active"
+        );
+    }
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function setProgress(value,message){
+
+    if(value > currentProgress){
+
+        currentProgress =
+            value;
+    }
+
+    currentProgress =
+        Math.min(
+            100,
+            currentProgress
+        );
+
+    progressBar.style.width =
+        `${currentProgress}%`;
+
+    statusPercent.textContent =
+        `${Math.round(currentProgress)}%`;
+
+    if(message){
+
+        statusText.textContent =
+            message;
+    }
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message){
+
+    errorText.textContent =
+        message;
+
+    errorText.classList.add(
+        "show"
+    );
+
+    stateStat.textContent =
+        "Error";
+}
+
+
+function hideError(){
+
+    errorText.classList.remove(
+        "show"
+    );
+}
+
+
+/* =========================================================
+   FILE
+========================================================= */
+
+function handleFile(file){
+
+    hideError();
+
+    if(!file){
+        return;
+    }
+
+
+    if(!file.type.startsWith("video/")){
+
+        showError(
+            "Selecciona un archivo de vídeo válido."
+        );
+
+        fileInput.value =
+            "";
+
+        startBtn.disabled =
+            true;
+
+        return;
+    }
+
+
+    if(file.size > MAX_FILE_SIZE){
+
+        showError(
+            "El archivo supera el límite de 150 MB."
+        );
+
+        fileInput.value =
+            "";
+
+        startBtn.disabled =
+            true;
+
+        return;
+    }
+
+
+    selectedFile =
+        file;
+
+
+    const size =
+        file.size / 1048576;
+
+
+    const extension =
+        file.name.includes(".")
+            ? file.name
+                .split(".")
+                .pop()
+                .toUpperCase()
+            : "VIDEO";
+
+
+    dropTitle.textContent =
+        file.name;
+
+
+    dropSub.textContent =
+        "Archivo preparado · listo para optimizar";
+
+
+    iconBox.textContent =
+        "◆";
+
+
+    fileSize.textContent =
+        `${size.toFixed(2)} MB`;
+
+
+    formatStat.textContent =
+        extension;
+
+
+    sizeStat.textContent =
+        `${size.toFixed(2)} MB`;
+
+
+    stateStat.textContent =
+        "Listo";
+
+
+    fileMeta.classList.add(
+        "show"
+    );
+
+
+    startBtn.disabled =
+        false;
+
+
+    progressBox.classList.remove(
+        "show"
+    );
+
+
+    downloadBtn.classList.remove(
+        "show"
+    );
+
+
+    currentProgress =
+        0;
+}
+
+
+/* =========================================================
+   PROCESS
+========================================================= */
+
+function processVideo(){
+
+    if(!selectedFile){
+        return;
+    }
+
+
+    if(processInterval){
+
+        clearInterval(
+            processInterval
+        );
+
+        processInterval =
+            null;
+    }
+
+
+    currentProgress =
+        0;
+
+
+    startBtn.disabled =
+        true;
+
+
+    downloadBtn.classList.remove(
+        "show"
+    );
+
+
+    progressBox.classList.add(
+        "show"
+    );
+
+
+    hideError();
+
+
+    stateStat.textContent =
+        "Procesando";
+
+
+    setProgress(
+        0,
+        "Subiendo archivo..."
+    );
+
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "file",
+        selectedFile
+    );
+
+
+    const xhr =
+        new XMLHttpRequest();
+
+
+    xhr.open(
+        "POST",
+        currentEndpoint,
+        true
+    );
+
+
+    xhr.responseType =
+        "blob";
+
+
+    /* -----------------------------
+       UPLOAD
+    ----------------------------- */
+
+    xhr.upload.onprogress =
+        function(event){
+
+            if(!event.lengthComputable){
+                return;
+            }
+
+
+            const progress =
+                event.loaded /
+                event.total *
+                60;
+
+
+            setProgress(
+                progress,
+                progress < 60
+                    ? "Subiendo archivo..."
+                    : "Iniciando procesamiento..."
+            );
+        };
+
+
+    /* -----------------------------
+       PROCESSING
+    ----------------------------- */
+
+    xhr.upload.onload =
+        function(){
+
+            setProgress(
+                60,
+                "Optimizando con BINOX..."
+            );
+
+
+            processInterval =
+                setInterval(
+                    function(){
+
+                        if(
+                            currentProgress <
+                            98
+                        ){
+
+                            setProgress(
+                                currentProgress +
+                                1.2,
+                                "Optimizando contenedor MP4..."
+                            );
+                        }
+
+                    },
+                    250
+                );
+        };
+
+
+    /* -----------------------------
+       SUCCESS
+    ----------------------------- */
+
+    xhr.onload =
+        function(){
+
+            if(processInterval){
+
+                clearInterval(
+                    processInterval
+                );
+
+                processInterval =
+                    null;
+            }
+
+
+            if(xhr.status === 200){
+
+                setProgress(
+                    100,
+                    "¡Optimización completada!"
+                );
+
+
+                const blob =
+                    xhr.response;
+
+
+                if(preparedBlobUrl){
+
+                    URL.revokeObjectURL(
+                        preparedBlobUrl
+                    );
+                }
+
+
+                preparedBlobUrl =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                outputName =
+                    `binox_${selectedFile.name}`;
+
+
+                stateStat.textContent =
+                    "Completado";
+
+
+                setTimeout(
+                    function(){
+
+                        downloadBtn.classList.add(
+                            "show"
+                        );
+
+                        startBtn.disabled =
+                            false;
+
+                    },
+                    250
+                );
+
+
+            }else{
+
+                progressBox.classList.remove(
+                    "show"
+                );
+
+
+                startBtn.disabled =
+                    false;
+
+
+                showError(
+                    "El servidor no pudo procesar el vídeo."
+                );
+            }
+        };
+
+
+    /* -----------------------------
+       CONNECTION
+    ----------------------------- */
+
+    xhr.onerror =
+        function(){
+
+            if(processInterval){
+
+                clearInterval(
+                    processInterval
+                );
+
+                processInterval =
+                    null;
+            }
+
+
+            progressBox.classList.remove(
+                "show"
+            );
+
+
+            startBtn.disabled =
+                false;
+
+
+            showError(
+                "No se pudo conectar con el backend."
+            );
+        };
+
+
+    xhr.send(
+        formData
+    );
+}
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+function downloadResult(){
+
+    if(!preparedBlobUrl){
+        return;
+    }
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        preparedBlobUrl;
+
+
+    link.download =
+        outputName;
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+btnMethodFast.addEventListener(
+    "click",
+    function(){
+
+        selectMethod(
+            "fast"
+        );
+    }
+);
+
+
+btnMethodFfmpeg.addEventListener(
+    "click",
+    function(){
+
+        selectMethod(
+            "ffmpeg"
+        );
+    }
+);
+
+
+dropZone.addEventListener(
+    "click",
+    function(){
+
+        fileInput.click();
+    }
+);
+
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        handleFile(
+            this.files[0]
+        );
+    }
+);
+
+
+startBtn.addEventListener(
+    "click",
+    processVideo
+);
+
+
+downloadBtn.addEventListener(
+    "click",
+    downloadResult
+);
+
+
+/* =========================================================
+   DRAG & DROP
+========================================================= */
+
+[
+    "dragenter",
+    "dragover"
+].forEach(
+    eventName => {
+
+        dropZone.addEventListener(
+            eventName,
+            event => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                dropZone.classList.add(
+                    "dragging"
+                );
+            }
+        );
+    }
+);
+
+
+[
+    "dragleave",
+    "drop"
+].forEach(
+    eventName => {
+
+        dropZone.addEventListener(
+            eventName,
+            event => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                dropZone.classList.remove(
+                    "dragging"
+                );
+            }
+        );
+    }
+);
+
+
+dropZone.addEventListener(
+    "drop",
+    function(event){
+
+        const files =
+            event.dataTransfer.files;
+
+
+        if(files.length){
+
+            handleFile(
+                files[0]
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   CLEANUP
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    function(){
+
+        if(preparedBlobUrl){
+
+            URL.revokeObjectURL(
+                preparedBlobUrl
+            );
+        }
+
+
+        if(processInterval){
+
+            clearInterval(
+                processInterval
+            );
+        }
+    }
+);</script></body></html>
