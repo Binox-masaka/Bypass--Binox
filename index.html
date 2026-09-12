@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080612">
-
-<title>BINOX STUDIO — Aurora</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="theme-color" content="#080612"><title>BINOX STUDIO</title><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================================================
-   BINOX STUDIO — AURORA SYSTEM
-========================================================= */
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
 
 :root{
     --bg:#080612;
@@ -87,6 +76,15 @@ body{
     overflow-x:hidden;
 }
 
+button,
+input{
+    font:inherit;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
 /* =========================================================
    BACKGROUND
 ========================================================= */
@@ -115,6 +113,13 @@ body{
         );
 
     background-size:55px 55px;
+
+    -webkit-mask-image:
+        radial-gradient(
+            ellipse at center,
+            black 0%,
+            transparent 75%
+        );
 
     mask-image:
         radial-gradient(
@@ -159,7 +164,6 @@ body{
 }
 
 @keyframes blobMove{
-
     from{
         transform:translate3d(0,0,0) scale(1);
     }
@@ -273,7 +277,6 @@ body{
 }
 
 @keyframes livePulse{
-
     0%,100%{
         opacity:1;
         transform:scale(1);
@@ -361,7 +364,6 @@ body{
 ========================================================= */
 
 .panel{
-
     position:relative;
 
     padding:18px;
@@ -488,8 +490,14 @@ body{
         rgba(155,92,255,.3);
 }
 
-.mode.active{
+.mode:focus-visible,
+.action:focus-visible,
+.download:focus-visible{
+    outline:2px solid rgba(155,92,255,.7);
+    outline-offset:3px;
+}
 
+.mode.active{
     border-color:
         rgba(155,92,255,.48);
 
@@ -635,7 +643,6 @@ body{
 
 .upload:hover,
 .upload.dragging{
-
     transform:translateY(-2px);
 
     border-color:
@@ -850,7 +857,6 @@ body{
 }
 
 .action::before{
-
     content:"";
 
     position:absolute;
@@ -1089,12 +1095,15 @@ body{
     display:block;
 }
 
+.error.show::before{
+    content:"⚠ ";
+}
+
 /* =========================================================
    BOTTOM INFO
 ========================================================= */
 
 .info-row{
-
     display:flex;
     align-items:center;
     justify-content:center;
@@ -1137,7 +1146,6 @@ body{
 ========================================================= */
 
 @keyframes fadeUp{
-
     from{
         opacity:0;
         transform:translateY(8px);
@@ -1194,422 +1202,361 @@ body{
 
 }
 
-</style>
-</head>
+@media(prefers-reduced-motion:reduce){
 
-<body>
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+}
 
-<!-- =======================================================
-     BACKGROUND
-======================================================= -->
+</style></head><body><div class="bg"><div class="bg-grid"></div>
 
-<div class="bg">
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+<div class="blob blob-c"></div>
 
-    <div class="bg-grid"></div>
+</div><main class="app"><div class="topbar">
 
-    <div class="blob blob-a"></div>
-    <div class="blob blob-b"></div>
-    <div class="blob blob-c"></div>
+    <div class="brand">
+
+        <div class="brand-mark">
+            B
+        </div>
+
+        <div class="brand-name">
+            BINOX <span>STUDIO</span>
+        </div>
+
+    </div>
+
+    <div class="live">
+
+        <span class="live-dot"></span>
+
+        Engine Online
+
+    </div>
 
 </div>
 
+<section class="hero">
 
-<!-- =======================================================
-     APP
-======================================================= -->
+    <div class="eyebrow">
 
-<main class="app">
+        <span class="eyebrow-line"></span>
 
+        VIDEO OPTIMIZATION
 
-    <!-- TOP BAR -->
+    </div>
 
-    <div class="topbar">
+    <h1>
+        Make your edits
+        <span class="gradient">
+            shine.
+        </span>
+    </h1>
 
-        <div class="brand">
+    <p>
+        Procesa tus vídeos con BINOX Studio y
+        prepáralos para una reproducción limpia,
+        fluida y optimizada.
+    </p>
 
-            <div class="brand-mark">
-                B
-            </div>
+</section>
 
-            <div class="brand-name">
-                BINOX <span>STUDIO</span>
-            </div>
+<section class="panel">
 
+    <div class="section-head">
+
+        <div class="section-title">
+            <span>Modo de procesamiento</span>
         </div>
 
+        <div class="section-number">
+            01
+        </div>
 
-        <div class="live">
+    </div>
 
-            <span class="live-dot"></span>
+    <div class="modes">
 
-            Engine Online
+        <button
+            class="mode active"
+            id="btnMethodFast"
+            type="button"
+            aria-pressed="true"
+        >
+
+            <span class="mode-badge">
+                RECOMMENDED
+            </span>
+
+            <span class="mode-icon">
+                ✦
+            </span>
+
+            <span class="mode-name">
+                Bypass
+            </span>
+
+            <span class="mode-desc">
+                Máxima calidad · 1080p · 120 FPS
+            </span>
+
+        </button>
+
+        <button
+            class="mode"
+            id="btnMethodFfmpeg"
+            type="button"
+            aria-pressed="false"
+        >
+
+            <span class="mode-badge">
+                STANDARD
+            </span>
+
+            <span class="mode-icon">
+                ◈
+            </span>
+
+            <span class="mode-name">
+                FFmpeg
+            </span>
+
+            <span class="mode-desc">
+                Procesamiento estándar · 720p · 60 FPS
+            </span>
+
+        </button>
+
+    </div>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            <span>Tu archivo</span>
+        </div>
+
+        <div class="section-number">
+            02
+        </div>
+
+    </div>
+
+    <div
+        class="upload"
+        id="dropZone"
+        role="button"
+        tabindex="0"
+        aria-label="Seleccionar vídeo"
+    >
+
+        <div class="upload-content">
+
+            <div
+                class="upload-orb"
+                id="iconBox"
+            >
+                ✦
+            </div>
+
+            <div
+                class="upload-title"
+                id="dropTitle"
+            >
+                Suelta tu edit aquí
+            </div>
+
+            <div
+                class="upload-subtitle"
+                id="dropSub"
+            >
+                Arrastra un vídeo o toca para
+                seleccionar desde tu dispositivo
+                <br>
+                MP4 · MOV · WEBM · Máximo 150 MB
+            </div>
+
+            <div
+                class="file-meta"
+                id="fileMeta"
+            >
+
+                <span>◆</span>
+
+                <span id="fileSize">
+                    0 MB
+                </span>
+
+                <span>·</span>
+
+                <span>
+                    READY
+                </span>
+
+            </div>
 
         </div>
 
     </div>
 
+    <input
+        type="file"
+        id="fileInput"
+        accept="video/*"
+        hidden
+    >
 
-    <!-- HERO -->
+    <div class="stats">
 
-    <section class="hero">
+        <div class="stat">
 
-        <div class="eyebrow">
-
-            <span class="eyebrow-line"></span>
-
-            VIDEO OPTIMIZATION
-
-        </div>
-
-
-        <h1>
-            Make your edits
-            <span class="gradient">
-                shine.
+            <span class="stat-label">
+                Formato
             </span>
-        </h1>
 
-
-        <p>
-            Procesa tus vídeos con BINOX Studio y
-            prepáralos para una reproducción limpia,
-            fluida y optimizada.
-        </p>
-
-    </section>
-
-
-    <!-- MAIN PANEL -->
-
-    <section class="panel">
-
-
-        <!-- METHOD -->
-
-        <div class="section-head">
-
-            <div class="section-title">
-                <span>Modo de procesamiento</span>
-            </div>
-
-            <div class="section-number">
-                01
-            </div>
-
-        </div>
-
-
-        <div class="modes">
-
-
-            <button
-                class="mode active"
-                id="btnMethodFast"
-                type="button"
+            <span
+                class="stat-value"
+                id="formatStat"
             >
+                —
+            </span>
 
-                <span class="mode-badge">
-                    RECOMMENDED
-                </span>
+        </div>
 
-                <span class="mode-icon">
-                    ✦
-                </span>
+        <div class="stat">
 
-                <span class="mode-name">
-                    Bypass Ultra
-                </span>
+            <span class="stat-label">
+                Tamaño
+            </span>
 
-                <span class="mode-desc">
-                    Máxima calidad · 1080p · 120 FPS
-                </span>
-
-            </button>
-
-
-            <button
-                class="mode"
-                id="btnMethodFfmpeg"
-                type="button"
+            <span
+                class="stat-value"
+                id="sizeStat"
             >
-
-                <span class="mode-badge">
-                    STANDARD
-                </span>
-
-                <span class="mode-icon">
-                    ◈
-                </span>
-
-                <span class="mode-name">
-                    FFmpeg
-                </span>
-
-                <span class="mode-desc">
-                    Procesamiento estándar · 720p · 60 FPS
-                </span>
-
-            </button>
-
-
-        </div>
-
-
-        <!-- FILE -->
-
-        <div class="section-head">
-
-            <div class="section-title">
-                <span>Tu archivo</span>
-            </div>
-
-            <div class="section-number">
-                02
-            </div>
-
-        </div>
-
-
-        <div
-            class="upload"
-            id="dropZone"
-        >
-
-            <div class="upload-content">
-
-                <div
-                    class="upload-orb"
-                    id="iconBox"
-                >
-                    ✦
-                </div>
-
-
-                <div
-                    class="upload-title"
-                    id="dropTitle"
-                >
-                    Suelta tu edit aquí
-                </div>
-
-
-                <div
-                    class="upload-subtitle"
-                    id="dropSub"
-                >
-                    Arrastra un vídeo o toca para
-                    seleccionar desde tu dispositivo
-                    <br>
-                    MP4 · MOV · WEBM · Máximo 150 MB
-                </div>
-
-
-                <div
-                    class="file-meta"
-                    id="fileMeta"
-                >
-
-                    <span>◆</span>
-
-                    <span id="fileSize">
-                        0 MB
-                    </span>
-
-                    <span>·</span>
-
-                    <span>
-                        READY
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <input
-            type="file"
-            id="fileInput"
-            accept="video/*"
-            hidden
-        >
-
-
-        <!-- STATS -->
-
-        <div class="stats">
-
-            <div class="stat">
-
-                <span class="stat-label">
-                    Formato
-                </span>
-
-                <span
-                    class="stat-value"
-                    id="formatStat"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="stat">
-
-                <span class="stat-label">
-                    Tamaño
-                </span>
-
-                <span
-                    class="stat-value"
-                    id="sizeStat"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="stat">
-
-                <span class="stat-label">
-                    Estado
-                </span>
-
-                <span
-                    class="stat-value"
-                    id="stateStat"
-                >
-                    Esperando
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- ACTION -->
-
-        <button
-            class="action"
-            id="startBtn"
-            type="button"
-            disabled
-        >
-            ✦ &nbsp; OPTIMIZAR MI EDIT
-        </button>
-
-
-        <!-- PROGRESS -->
-
-        <div
-            class="progress"
-            id="progressBox"
-        >
-
-            <div class="progress-head">
-
-                <div class="progress-state">
-
-                    <span class="loader"></span>
-
-                    <span id="statusText">
-                        Preparando...
-                    </span>
-
-                </div>
-
-                <span
-                    class="progress-percent"
-                    id="statusPercent"
-                >
-                    0%
-                </span>
-
-            </div>
-
-
-            <div class="progress-track">
-
-                <div
-                    class="progress-fill"
-                    id="progressBar"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOWNLOAD -->
-
-        <button
-            class="download"
-            id="downloadBtn"
-            type="button"
-        >
-            ↓ &nbsp; DESCARGAR EDIT OPTIMIZADO
-        </button>
-
-
-        <!-- ERROR -->
-
-        <div
-            class="error"
-            id="errorText"
-        >
-            Error al procesar el vídeo.
-        </div>
-
-
-        <!-- INFO -->
-
-        <div class="info-row">
-
-            <span class="info-pill">
-                150 MB MAX
-            </span>
-
-            <span class="info-pill">
-                SECURE
-            </span>
-
-            <span class="info-pill">
-                BINOX ENGINE
+                —
             </span>
 
         </div>
 
-    </section>
+        <div class="stat">
 
+            <span class="stat-label">
+                Estado
+            </span>
 
-    <!-- FOOTER -->
+            <span
+                class="stat-value"
+                id="stateStat"
+            >
+                Esperando
+            </span>
 
-    <footer class="footer">
+        </div>
 
-        Crafted with ✦ by
-        <strong>
-            BINOX
-        </strong>
+    </div>
 
-        · Studio Aurora
+    <button
+        class="action"
+        id="startBtn"
+        type="button"
+        disabled
+    >
+        ✦ &nbsp; OPTIMIZAR MI EDIT
+    </button>
 
-    </footer>
+    <div
+        class="progress"
+        id="progressBox"
+        aria-live="polite"
+    >
 
+        <div class="progress-head">
 
-</main>
+            <div class="progress-state">
 
+                <span class="loader"></span>
 
-<script>
+                <span id="statusText">
+                    Preparando...
+                </span>
 
-/* =========================================================
-   BINOX ENGINE
-========================================================= */
+            </div>
+
+            <span
+                class="progress-percent"
+                id="statusPercent"
+            >
+                0%
+            </span>
+
+        </div>
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="progressBar"
+            ></div>
+
+        </div>
+
+    </div>
+
+    <button
+        class="download"
+        id="downloadBtn"
+        type="button"
+    >
+        ↓ &nbsp; DESCARGAR EDIT OPTIMIZADO
+    </button>
+
+    <div
+        class="error"
+        id="errorText"
+        role="alert"
+    >
+        Error al procesar el vídeo.
+    </div>
+
+    <div class="info-row">
+
+        <span class="info-pill">
+            150 MB MAX
+        </span>
+
+        <span class="info-pill">
+            SECURE
+        </span>
+
+        <span class="info-pill">
+            BINOX ENGINE
+        </span>
+
+    </div>
+
+</section>
+
+<footer class="footer">
+
+    Crafted with ✦ by
+    <strong>
+        BINOX
+    </strong>
+
+    · Studio Aurora
+
+</footer>
+
+</main><script>
 
 "use strict";
-
 
 /* =========================================================
    CONFIG
@@ -1621,6 +1568,19 @@ const BASE_BACKEND_URL =
 const MAX_FILE_SIZE =
     150 * 1024 * 1024;
 
+const VIDEO_EXTENSIONS = [
+    "mp4",
+    "mov",
+    "webm",
+    "m4v",
+    "avi",
+    "mkv"
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
 
 let currentEndpoint =
     `${BASE_BACKEND_URL}/bypass-fast`;
@@ -1639,6 +1599,12 @@ let processInterval =
 
 let currentProgress =
     0;
+
+let activeRequest =
+    null;
+
+let isProcessing =
+    false;
 
 
 /* =========================================================
@@ -1704,10 +1670,110 @@ const btnMethodFfmpeg =
 
 
 /* =========================================================
+   UTILITIES
+========================================================= */
+
+function clearProcessInterval(){
+
+    if(processInterval !== null){
+
+        clearInterval(
+            processInterval
+        );
+
+        processInterval =
+            null;
+    }
+}
+
+
+function releaseBlobUrl(){
+
+    if(preparedBlobUrl){
+
+        try{
+
+            URL.revokeObjectURL(
+                preparedBlobUrl
+            );
+
+        }catch(error){
+
+            console.warn(
+                "No se pudo liberar el Blob URL:",
+                error
+            );
+        }
+
+        preparedBlobUrl =
+            null;
+    }
+}
+
+
+function getFileExtension(file){
+
+    if(!file || !file.name){
+        return "";
+    }
+
+    const parts =
+        file.name.split(".");
+
+    if(parts.length < 2){
+        return "";
+    }
+
+    return parts
+        .pop()
+        .toLowerCase();
+}
+
+
+function isVideoFile(file){
+
+    if(!file){
+        return false;
+    }
+
+    if(
+        typeof file.type === "string" &&
+        file.type.toLowerCase().startsWith("video/")
+    ){
+
+        return true;
+    }
+
+    const extension =
+        getFileExtension(file);
+
+    return VIDEO_EXTENSIONS.includes(
+        extension
+    );
+}
+
+
+function formatFileSize(bytes){
+
+    if(!Number.isFinite(bytes)){
+        return "0 MB";
+    }
+
+    return `${(
+        bytes / 1048576
+    ).toFixed(2)} MB`;
+}
+
+
+/* =========================================================
    METHOD
 ========================================================= */
 
 function selectMethod(method){
+
+    if(isProcessing){
+        return;
+    }
 
     if(method === "fast"){
 
@@ -1722,6 +1788,16 @@ function selectMethod(method){
             "active"
         );
 
+        btnMethodFast.setAttribute(
+            "aria-pressed",
+            "true"
+        );
+
+        btnMethodFfmpeg.setAttribute(
+            "aria-pressed",
+            "false"
+        );
+
     }else{
 
         currentEndpoint =
@@ -1734,6 +1810,16 @@ function selectMethod(method){
         btnMethodFast.classList.remove(
             "active"
         );
+
+        btnMethodFfmpeg.setAttribute(
+            "aria-pressed",
+            "true"
+        );
+
+        btnMethodFast.setAttribute(
+            "aria-pressed",
+            "false"
+        );
     }
 }
 
@@ -1744,16 +1830,26 @@ function selectMethod(method){
 
 function setProgress(value,message){
 
-    if(value > currentProgress){
+    const numericValue =
+        Number(value);
+
+    if(!Number.isFinite(numericValue)){
+        return;
+    }
+
+    if(numericValue > currentProgress){
 
         currentProgress =
-            value;
+            numericValue;
     }
 
     currentProgress =
-        Math.min(
-            100,
-            currentProgress
+        Math.max(
+            0,
+            Math.min(
+                100,
+                currentProgress
+            )
         );
 
     progressBar.style.width =
@@ -1776,8 +1872,12 @@ function setProgress(value,message){
 
 function showError(message){
 
+    const safeMessage =
+        message ||
+        "Error al procesar el vídeo.";
+
     errorText.textContent =
-        message;
+        safeMessage;
 
     errorText.classList.add(
         "show"
@@ -1797,6 +1897,70 @@ function hideError(){
 
 
 /* =========================================================
+   RESET UI
+========================================================= */
+
+function resetProcessingUI(){
+
+    clearProcessInterval();
+
+    progressBox.classList.remove(
+        "show"
+    );
+
+    currentProgress =
+        0;
+
+    progressBar.style.width =
+        "0%";
+
+    statusPercent.textContent =
+        "0%";
+
+    statusText.textContent =
+        "Preparando...";
+}
+
+
+function resetFileUI(){
+
+    selectedFile =
+        null;
+
+    fileMeta.classList.remove(
+        "show"
+    );
+
+    dropTitle.textContent =
+        "Suelta tu edit aquí";
+
+    dropSub.innerHTML =
+        `Arrastra un vídeo o toca para
+        seleccionar desde tu dispositivo
+        <br>
+        MP4 · MOV · WEBM · Máximo 150 MB`;
+
+    iconBox.textContent =
+        "✦";
+
+    fileSize.textContent =
+        "0 MB";
+
+    formatStat.textContent =
+        "—";
+
+    sizeStat.textContent =
+        "—";
+
+    stateStat.textContent =
+        "Esperando";
+
+    startBtn.disabled =
+        true;
+}
+
+
+/* =========================================================
    FILE
 ========================================================= */
 
@@ -1804,12 +1968,22 @@ function handleFile(file){
 
     hideError();
 
+    if(isProcessing){
+
+        showError(
+            "Espera a que termine el procesamiento actual."
+        );
+
+        return;
+    }
+
     if(!file){
+
         return;
     }
 
 
-    if(!file.type.startsWith("video/")){
+    if(!isVideoFile(file)){
 
         showError(
             "Selecciona un archivo de vídeo válido."
@@ -1818,8 +1992,7 @@ function handleFile(file){
         fileInput.value =
             "";
 
-        startBtn.disabled =
-            true;
+        resetFileUI();
 
         return;
     }
@@ -1834,11 +2007,13 @@ function handleFile(file){
         fileInput.value =
             "";
 
-        startBtn.disabled =
-            true;
+        resetFileUI();
 
         return;
     }
+
+
+    releaseBlobUrl();
 
 
     selectedFile =
@@ -1850,12 +2025,20 @@ function handleFile(file){
 
 
     const extension =
-        file.name.includes(".")
-            ? file.name
-                .split(".")
-                .pop()
-                .toUpperCase()
-            : "VIDEO";
+        getFileExtension(file);
+
+
+    const displayExtension =
+        extension
+            ? extension.toUpperCase()
+            : (
+                file.type
+                    ? file.type
+                        .split("/")
+                        .pop()
+                        .toUpperCase()
+                    : "VIDEO"
+            );
 
 
     dropTitle.textContent =
@@ -1871,11 +2054,13 @@ function handleFile(file){
 
 
     fileSize.textContent =
-        `${size.toFixed(2)} MB`;
+        formatFileSize(
+            file.size
+        );
 
 
     formatStat.textContent =
-        extension;
+        displayExtension;
 
 
     sizeStat.textContent =
@@ -1895,9 +2080,7 @@ function handleFile(file){
         false;
 
 
-    progressBox.classList.remove(
-        "show"
-    );
+    resetProcessingUI();
 
 
     downloadBtn.classList.remove(
@@ -1905,8 +2088,74 @@ function handleFile(file){
     );
 
 
-    currentProgress =
-        0;
+    outputName =
+        "";
+}
+
+
+/* =========================================================
+   SERVER ERROR MESSAGE
+========================================================= */
+
+async function getServerError(xhr){
+
+    try{
+
+        const response =
+            xhr.response;
+
+        if(
+            response &&
+            response instanceof Blob
+        ){
+
+            const text =
+                await response.text();
+
+            if(text){
+
+                try{
+
+                    const json =
+                        JSON.parse(text);
+
+                    if(
+                        json &&
+                        typeof json.message === "string"
+                    ){
+
+                        return json.message;
+                    }
+
+                    if(
+                        json &&
+                        typeof json.error === "string"
+                    ){
+
+                        return json.error;
+                    }
+
+                }catch(parseError){
+
+                    /* La respuesta no era JSON. */
+                }
+
+                if(text.length <= 300){
+
+                    return text;
+                }
+            }
+        }
+
+    }catch(error){
+
+        console.warn(
+            "No se pudo leer el error del servidor:",
+            error
+        );
+    }
+
+    return "El servidor no pudo procesar el vídeo.";
 }
 
 
@@ -1917,26 +2166,49 @@ function handleFile(file){
 function processVideo(){
 
     if(!selectedFile){
+
+        showError(
+            "Selecciona un vídeo antes de continuar."
+        );
+
         return;
     }
 
 
-    if(processInterval){
+    if(isProcessing){
 
-        clearInterval(
-            processInterval
+        return;
+    }
+
+
+    if(selectedFile.size > MAX_FILE_SIZE){
+
+        showError(
+            "El archivo supera el límite de 150 MB."
         );
 
-        processInterval =
-            null;
+        return;
     }
+
+
+    clearProcessInterval();
 
 
     currentProgress =
         0;
 
+    isProcessing =
+        true;
+
 
     startBtn.disabled =
+        true;
+
+
+    btnMethodFast.disabled =
+        true;
+
+    btnMethodFfmpeg.disabled =
         true;
 
 
@@ -1969,7 +2241,8 @@ function processVideo(){
 
     formData.append(
         "file",
-        selectedFile
+        selectedFile,
+        selectedFile.name
     );
 
 
@@ -1977,11 +2250,45 @@ function processVideo(){
         new XMLHttpRequest();
 
 
-    xhr.open(
-        "POST",
-        currentEndpoint,
-        true
-    );
+    activeRequest =
+        xhr;
+
+
+    try{
+
+        xhr.open(
+            "POST",
+            currentEndpoint,
+            true
+        );
+
+    }catch(error){
+
+        activeRequest =
+            null;
+
+        isProcessing =
+            false;
+
+        btnMethodFast.disabled =
+            false;
+
+        btnMethodFfmpeg.disabled =
+            false;
+
+        startBtn.disabled =
+            false;
+
+        progressBox.classList.remove(
+            "show"
+        );
+
+        showError(
+            "La dirección del servidor no es válida."
+        );
+
+        return;
+    }
 
 
     xhr.responseType =
@@ -1995,32 +2302,38 @@ function processVideo(){
     xhr.upload.onprogress =
         function(event){
 
+            if(!isProcessing){
+                return;
+            }
+
             if(!event.lengthComputable){
                 return;
             }
 
 
-            const progress =
-                event.loaded /
-                event.total *
-                60;
+            const uploadProgress =
+                (
+                    event.loaded /
+                    event.total
+                ) * 60;
 
 
             setProgress(
-                progress,
-                progress < 60
+                uploadProgress,
+                uploadProgress < 59.9
                     ? "Subiendo archivo..."
                     : "Iniciando procesamiento..."
             );
         };
 
 
-    /* -----------------------------
-       PROCESSING
-    ----------------------------- */
-
     xhr.upload.onload =
         function(){
+
+            if(!isProcessing){
+                return;
+            }
+
 
             setProgress(
                 60,
@@ -2028,9 +2341,22 @@ function processVideo(){
             );
 
 
+            clearProcessInterval();
+
+
             processInterval =
                 setInterval(
                     function(){
+
+                        if(
+                            !isProcessing
+                        ){
+
+                            clearProcessInterval();
+
+                            return;
+                        }
+
 
                         if(
                             currentProgress <
@@ -2038,8 +2364,7 @@ function processVideo(){
                         ){
 
                             setProgress(
-                                currentProgress +
-                                1.2,
+                                currentProgress + 1.2,
                                 "Optimizando contenedor MP4..."
                             );
                         }
@@ -2051,41 +2376,63 @@ function processVideo(){
 
 
     /* -----------------------------
-       SUCCESS
+       SUCCESS / RESPONSE
     ----------------------------- */
 
     xhr.onload =
-        function(){
+        async function(){
 
-            if(processInterval){
+            clearProcessInterval();
 
-                clearInterval(
-                    processInterval
-                );
 
-                processInterval =
+            if(
+                activeRequest === xhr
+            ){
+
+                activeRequest =
                     null;
             }
 
 
-            if(xhr.status === 200){
-
-                setProgress(
-                    100,
-                    "¡Optimización completada!"
-                );
-
+            if(
+                xhr.status >= 200 &&
+                xhr.status < 300
+            ){
 
                 const blob =
                     xhr.response;
 
 
-                if(preparedBlobUrl){
+                if(
+                    !(blob instanceof Blob) ||
+                    blob.size === 0
+                ){
 
-                    URL.revokeObjectURL(
-                        preparedBlobUrl
+                    isProcessing =
+                        false;
+
+                    btnMethodFast.disabled =
+                        false;
+
+                    btnMethodFfmpeg.disabled =
+                        false;
+
+                    startBtn.disabled =
+                        false;
+
+                    progressBox.classList.remove(
+                        "show"
                     );
+
+                    showError(
+                        "El servidor devolvió un archivo vacío."
+                    );
+
+                    return;
                 }
+
+
+                releaseBlobUrl();
 
 
                 preparedBlobUrl =
@@ -2098,16 +2445,38 @@ function processVideo(){
                     `binox_${selectedFile.name}`;
 
 
+                setProgress(
+                    100,
+                    "¡Optimización completada!"
+                );
+
+
                 stateStat.textContent =
                     "Completado";
+
+
+                isProcessing =
+                    false;
+
+
+                btnMethodFast.disabled =
+                    false;
+
+                btnMethodFfmpeg.disabled =
+                    false;
 
 
                 setTimeout(
                     function(){
 
-                        downloadBtn.classList.add(
-                            "show"
-                        );
+                        if(
+                            preparedBlobUrl
+                        ){
+
+                            downloadBtn.classList.add(
+                                "show"
+                            );
+                        }
 
                         startBtn.disabled =
                             false;
@@ -2117,21 +2486,38 @@ function processVideo(){
                 );
 
 
-            }else{
-
-                progressBox.classList.remove(
-                    "show"
-                );
-
-
-                startBtn.disabled =
-                    false;
-
-
-                showError(
-                    "El servidor no pudo procesar el vídeo."
-                );
+                return;
             }
+
+
+            isProcessing =
+                false;
+
+
+            btnMethodFast.disabled =
+                false;
+
+            btnMethodFfmpeg.disabled =
+                false;
+
+            startBtn.disabled =
+                false;
+
+
+            progressBox.classList.remove(
+                "show"
+            );
+
+
+            const serverMessage =
+                await getServerError(
+                    xhr
+                );
+
+
+            showError(
+                serverMessage
+            );
         };
 
 
@@ -2142,15 +2528,20 @@ function processVideo(){
     xhr.onerror =
         function(){
 
-            if(processInterval){
+            clearProcessInterval();
 
-                clearInterval(
-                    processInterval
-                );
 
-                processInterval =
+            if(
+                activeRequest === xhr
+            ){
+
+                activeRequest =
                     null;
             }
+
+
+            isProcessing =
+                false;
 
 
             progressBox.classList.remove(
@@ -2158,14 +2549,105 @@ function processVideo(){
             );
 
 
+            btnMethodFast.disabled =
+                false;
+
+            btnMethodFfmpeg.disabled =
+                false;
+
             startBtn.disabled =
                 false;
 
 
             showError(
-                "No se pudo conectar con el backend."
+                "No se pudo conectar con el backend. Comprueba tu conexión o que el servidor esté disponible."
             );
         };
+
+
+    xhr.onabort =
+        function(){
+
+            clearProcessInterval();
+
+
+            if(
+                activeRequest === xhr
+            ){
+
+                activeRequest =
+                    null;
+            }
+
+
+            isProcessing =
+                false;
+
+
+            progressBox.classList.remove(
+                "show"
+            );
+
+
+            btnMethodFast.disabled =
+                false;
+
+            btnMethodFfmpeg.disabled =
+                false;
+
+            startBtn.disabled =
+                false;
+
+
+            stateStat.textContent =
+                selectedFile
+                    ? "Listo"
+                    : "Esperando";
+        };
+
+
+    xhr.ontimeout =
+        function(){
+
+            clearProcessInterval();
+
+
+            if(
+                activeRequest === xhr
+            ){
+
+                activeRequest =
+                    null;
+            }
+
+
+            isProcessing =
+                false;
+
+
+            progressBox.classList.remove(
+                "show"
+            );
+
+
+            btnMethodFast.disabled =
+                false;
+
+            btnMethodFfmpeg.disabled =
+                false;
+
+            startBtn.disabled =
+                false;
+
+
+            showError(
+                "El servidor tardó demasiado en responder."
+            );
+        };
+
+
+    xhr.timeout =
+        15 * 60 * 1000;
 
 
     xhr.send(
@@ -2180,39 +2662,65 @@ function processVideo(){
 
 function downloadResult(){
 
-    if(!preparedBlobUrl){
+    if(
+        !preparedBlobUrl ||
+        !outputName
+    ){
+
+        showError(
+            "El resultado todavía no está disponible."
+        );
+
         return;
     }
 
 
-    const link =
-        document.createElement(
-            "a"
+    try{
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            preparedBlobUrl;
+
+
+        link.download =
+            outputName;
+
+
+        link.style.display =
+            "none";
+
+
+        document.body.appendChild(
+            link
         );
 
 
-    link.href =
-        preparedBlobUrl;
+        link.click();
 
 
-    link.download =
-        outputName;
+        link.remove();
 
+    }catch(error){
 
-    document.body.appendChild(
-        link
-    );
+        console.error(
+            "Error durante la descarga:",
+            error
+        );
 
-
-    link.click();
-
-
-    link.remove();
+        showError(
+            "No se pudo iniciar la descarga."
+        );
+    }
 }
 
 
 /* =========================================================
-   EVENTS
+   EVENTS — METHOD
 ========================================================= */
 
 btnMethodFast.addEventListener(
@@ -2237,11 +2745,40 @@ btnMethodFfmpeg.addEventListener(
 );
 
 
+/* =========================================================
+   EVENTS — FILE PICKER
+========================================================= */
+
 dropZone.addEventListener(
     "click",
     function(){
 
+        if(isProcessing){
+            return;
+        }
+
         fileInput.click();
+    }
+);
+
+
+dropZone.addEventListener(
+    "keydown",
+    function(event){
+
+        if(isProcessing){
+            return;
+        }
+
+        if(
+            event.key === "Enter" ||
+            event.key === " "
+        ){
+
+            event.preventDefault();
+
+            fileInput.click();
+        }
     }
 );
 
@@ -2250,9 +2787,25 @@ fileInput.addEventListener(
     "change",
     function(){
 
+        const file =
+            this.files &&
+            this.files.length
+                ? this.files[0]
+                : null;
+
+
         handleFile(
-            this.files[0]
+            file
         );
+
+
+        /*
+         * Permite seleccionar nuevamente
+         * el mismo archivo después de haberlo
+         * procesado o rechazado.
+         */
+        this.value =
+            "";
     }
 );
 
@@ -2281,7 +2834,11 @@ downloadBtn.addEventListener(
 
         dropZone.addEventListener(
             eventName,
-            event => {
+            function(event){
+
+                if(isProcessing){
+                    return;
+                }
 
                 event.preventDefault();
                 event.stopPropagation();
@@ -2303,7 +2860,7 @@ downloadBtn.addEventListener(
 
         dropZone.addEventListener(
             eventName,
-            event => {
+            function(event){
 
                 event.preventDefault();
                 event.stopPropagation();
@@ -2321,11 +2878,20 @@ dropZone.addEventListener(
     "drop",
     function(event){
 
+        if(isProcessing){
+            return;
+        }
+
+
         const files =
+            event.dataTransfer &&
             event.dataTransfer.files;
 
 
-        if(files.length){
+        if(
+            files &&
+            files.length
+        ){
 
             handleFile(
                 files[0]
@@ -2343,24 +2909,28 @@ window.addEventListener(
     "beforeunload",
     function(){
 
-        if(preparedBlobUrl){
+        clearProcessInterval();
 
-            URL.revokeObjectURL(
-                preparedBlobUrl
-            );
+
+        if(activeRequest){
+
+            try{
+
+                activeRequest.abort();
+
+            }catch(error){
+
+                console.warn(
+                    "No se pudo cancelar la solicitud:",
+                    error
+                );
+            }
         }
 
 
-        if(processInterval){
-
-            clearInterval(
-                processInterval
-            );
-        }
+        releaseBlobUrl();
     }
 );
 
-</script>
-
-</body>
+</script></body>
 </html>
